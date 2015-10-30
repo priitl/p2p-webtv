@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('maurusApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
-               'ui.bootstrap', // for modal dialogs
+    'ui.bootstrap', 'ngAnimate', 'ngTouch',
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
@@ -22,16 +22,16 @@ angular.module('maurusApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
 
         });
 
-        $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
-            var titleKey = 'global.title' ;
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            var titleKey = 'global.title';
 
             // Remember previous state unless we've been redirected to login or we've just
             // reset the state memory after logout. If we're redirected to login, our
             // previousState is already set in the authExpiredInterceptor. If we're going
             // to login directly, we don't want to be sent to some previous state anyway
             if (toState.name != 'login' && $rootScope.previousStateName) {
-              $rootScope.previousStateName = fromState.name;
-              $rootScope.previousStateParams = fromParams;
+                $rootScope.previousStateName = fromState.name;
+                $rootScope.previousStateParams = fromParams;
             }
 
             // Set the page title key to the one configured in state or use default one
@@ -46,7 +46,7 @@ angular.module('maurusApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
 
         });
 
-        $rootScope.back = function() {
+        $rootScope.back = function () {
             // If previous state is 'activate' or do not exist go to 'home'
             if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
                 $state.go('home');
@@ -71,6 +71,14 @@ angular.module('maurusApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
                 'navbar@': {
                     templateUrl: 'scripts/components/navbar/navbar.html',
                     controller: 'NavbarController'
+                },
+                'header@': {
+                    templateUrl: 'scripts/components/header/header.html',
+                    controller: 'HeaderController'
+                },
+                'footer@': {
+                    templateUrl: 'scripts/components/footer/footer.html',
+                    controller: 'FooterController'
                 }
             },
             resolve: {
@@ -104,13 +112,22 @@ angular.module('maurusApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
     })
-    .config(['$urlMatcherFactoryProvider', function($urlMatcherFactory) {
+    .config(['$urlMatcherFactoryProvider', function ($urlMatcherFactory) {
         $urlMatcherFactory.type('boolean', {
-            name : 'boolean',
-            decode: function(val) { return val == true ? true : val == "true" ? true : false },
-            encode: function(val) { return val ? 1 : 0; },
-            equals: function(a, b) { return this.is(a) && a === b; },
-            is: function(val) { return [true,false,0,1].indexOf(val) >= 0 },
+            name: 'boolean',
+            decode: function (val) {
+                return val == true ? true : val == "true" ? true : false
+            },
+            encode: function (val) {
+                return val ? 1 : 0;
+            },
+            equals: function (a, b) {
+                return this.is(a) && a === b;
+            },
+            is: function (val) {
+                return [true, false, 0, 1].indexOf(val) >= 0
+            },
             pattern: /bool|true|0|1/
         });
-    }]);;
+    }]);
+;

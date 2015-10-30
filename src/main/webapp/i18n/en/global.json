@@ -13,8 +13,8 @@
                 "settings": "Settings",
                 "password": "Password",
                 "sessions": "Sessions",
-                "login": "Sign in",
-                "logout": "Sign out",
+                "login": "Log in",
+                "logout": "Log out",
                 "register": "Register"
             },
             "admin": {

@@ -1,40 +1,36 @@
 'use strict';
 
 angular.module('maurusApp')
-    .directive('activeMenu', function($translate, $locale, tmhDynamicLocale) {
+    .directive('sideNavigation', function ($timeout) {
         return {
             restrict: 'A',
-            link: function (scope, element, attrs) {
-                var language = attrs.activeMenu;
-
-                scope.$watch(function() {
-                    return $translate.use();
-                }, function(selectedLanguage) {
-                    if (language === selectedLanguage) {
-                        tmhDynamicLocale.set(language);
-                        element.addClass('active');
-                    } else {
-                        element.removeClass('active');
-                    }
+            link: function (scope, element) {
+                $timeout(function () {
+                    element.metisMenu();
                 });
+
             }
         };
     })
-    .directive('activeLink', function(location) {
+    .directive('minimalizaSidebar', function ($timeout) {
         return {
             restrict: 'A',
-            link: function (scope, element, attrs) {
-                var clazz = attrs.activeLink;
-                var path = attrs.href;
-                path = path.substring(1); //hack because path does bot return including hashbang
-                scope.location = location;
-                scope.$watch('location.path()', function(newPath) {
-                    if (path === newPath) {
-                        element.addClass(clazz);
+            template: '<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="" ng-click="minimalize()"><i class="fa fa-bars"></i></a>',
+            controller: function ($scope, $element) {
+                $scope.minimalize = function () {
+                    angular.element('body').toggleClass('mini-navbar');
+                    if (!angular.element('body').hasClass('mini-navbar') || angular.element('body').hasClass('body-small')) {
+                        // Hide menu in order to smoothly turn on when maximize menu
+                        angular.element('#side-menu').hide();
+                        // For smoothly turn on menu
+                        $timeout(function () {
+                            angular.element('#side-menu').fadeIn(500);
+                        }, 100);
                     } else {
-                        element.removeClass(clazz);
+                        // Remove all inline style from jquery fadeIn function to reset menu state
+                        angular.element('#side-menu').removeAttr('style');
                     }
-                });
+                };
             }
         };
     });

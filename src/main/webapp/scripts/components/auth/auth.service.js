@@ -78,9 +78,9 @@ angular.module('maurusApp')
 
             updateAccount: function (account, callback) {
                 var cb = callback || angular.noop;
-
                 return Account.save(account,
                     function () {
+                        $rootScope.$emit('::userUpdated', account);
                         return cb(account);
                     },
                     function (err) {
