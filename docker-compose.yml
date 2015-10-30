@@ -1,0 +1,11 @@
+jhipster-dev-postgresql:
+  container_name: maurus-dev-postgresql
+  image: postgres
+  # volumes:
+  # - ~/volumes/jhipster/maurus/dev-postgresql/:/var/lib/postgresql/
+  environment:
+  - POSTGRES_USER=maurus
+  - POSTGRES_PASSWORD=
+  ports:
+  - "5432:5432"
+

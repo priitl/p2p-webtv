@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "maurus",
+    "packageName": "com.priitlaht.maurus",
+    "packageFolder": "com/priitlaht/maurus",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "useSass": false,
+    "buildTool": "gradle",
+    "frontendBuilder": "gulp",
+    "enableTranslation": true,
+    "enableSocialSignIn": true,
+    "rememberMeKey": "84e18ef0d8c845cf8226cd13a75c269ed78fff04",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}
