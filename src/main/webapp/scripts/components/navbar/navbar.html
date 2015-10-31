@@ -32,11 +32,9 @@
       <!-- Entities -->
       <li ui-sref-active="active" ng-switch-when="true">
         <a href="">
-                        <span>
-                            <i class="glyphicon glyphicon-th-list"></i>
-                            <span class="nav-label" translate="global.menu.entities.main">Entities</span>
-                            <span class="fa arrow"></span>
-                        </span>
+          <i class="glyphicon glyphicon-th-list"></i>
+          <span class="nav-label" translate="global.menu.entities.main">Entities</span>
+          <span class="fa arrow"></span>
         </a>
         <ul class="nav nav-second-level collapse">
           <!-- JHipster will add entities to the menu here -->
@@ -54,37 +52,37 @@
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="settings">
               <i class="glyphicon glyphicon-wrench"></i>
-              <span translate="global.menu.account.settings">Settings</span>
+              {{'global.menu.account.settings' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="password">
               <i class="glyphicon glyphicon-lock"></i>
-              <span translate="global.menu.account.password">Password</span>
+              {{'global.menu.account.password' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="sessions">
               <i class="glyphicon glyphicon-cloud"></i>
-              <span translate="global.menu.account.sessions">Sessions</span>
+              {{'global.menu.account.sessions' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a href="" ng-click="logout()">
               <i class="glyphicon glyphicon-log-out"></i>
-              <span translate="global.menu.account.logout">Sign out</span>
+              {{'global.menu.account.logout' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="false">
             <a ui-sref="login">
               <i class="glyphicon glyphicon-log-in"></i>
-              <span translate="global.menu.account.login">Sign in</span>
+              {{'global.menu.account.login' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="false">
             <a ui-sref="register">
               <i class="glyphicon glyphicon-plus-sign"></i>
-              <span translate="global.menu.account.register">Register</span>
+              {{'global.menu.account.register' | translate}}
             </a>
           </li>
         </ul>
@@ -92,59 +90,57 @@
       <!-- Administration -->
       <li ng-class="{active: $state.includes('admin')}" ng-show="isAdmin">
         <a href="">
-                        <span>
-                            <i class="glyphicon glyphicon-tower"></i>
-                            <span class="nav-label" translate="global.menu.admin.main">Administration</span>
-                            <span class="fa arrow"></span>
-                        </span>
+          <i class="glyphicon glyphicon-tower"></i>
+          <span class="nav-label" translate="global.menu.admin.main">Administration</span>
+          <span class="fa arrow"></span>
         </a>
         <ul class="nav nav-second-level collapse">
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="user-management">
               <i class="glyphicon glyphicon-user"></i>
-              <span translate="global.menu.admin.user-management">User management</span>
+              {{'global.menu.admin.user-management' | translate}}
             </a>
           </li>
           <li ui-sref-active="active">
             <a ui-sref="tracker" ng-switch-when="true">
               <i class="glyphicon glyphicon-eye-open"></i>
-              <span translate="global.menu.admin.tracker">User tracker</span>
+              {{'global.menu.admin.tracker' | translate}}
             </a>
           </li>
           <li ui-sref-active="active">
             <a ui-sref="metrics" ng-switch-when="true">
               <i class="glyphicon glyphicon-dashboard"></i>
-              <span translate="global.menu.admin.metrics">Metrics</span>
+              {{'global.menu.admin.metrics' | translate}}
             </a>
           </li>
           <li ui-sref-active="active">
             <a ui-sref="health" ng-switch-when="true">
               <i class="glyphicon glyphicon-heart"></i>
-              <span translate="global.menu.admin.health">Health</span>
+              {{'global.menu.admin.health' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="configuration">
               <i class="glyphicon glyphicon-list-alt"></i>
-              <span translate="global.menu.admin.configuration">Configuration</span>
+              {{'global.menu.admin.configuration' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="audits">
               <i class="glyphicon glyphicon-bell"></i>
-              <span translate="global.menu.admin.audits">Audits</span>
+              {{'global.menu.admin.audits' | translate}}
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="logs">
               <i class="glyphicon glyphicon-tasks"></i>
-              <span translate="global.menu.admin.logs">Logs</span>
+              {{'global.menu.admin.logs' | translate}}
             </a>
           </li>
           <li ng-hide="inProduction" ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="docs">
               <i class="glyphicon glyphicon-book"></i>
-              <span translate="global.menu.admin.apidocs">API</span>
+              {{'global.menu.admin.apidocs' | translate}}
             </a>
           </li>
         </ul>
