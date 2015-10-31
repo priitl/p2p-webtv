@@ -7,6 +7,8 @@
       "lastname": "Nom",
       "lastname.placeholder": "Votre nom",
       "language": "Langue",
+      "picture": "Photo de profil",
+      "addImage": "Ajouter image",
       "button": "Sauvegarder"
     },
     "messages": {

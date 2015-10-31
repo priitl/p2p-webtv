@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -81,6 +82,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
   @Column(name = "reset_date", nullable = true)
   private ZonedDateTime resetDate = null;
+
+  @Lob
+  @Column(name = "picture")
+  private byte[] picture;
+
+  @Column(name = "picture_content_type")
+  private String pictureContentType;
 
   @JsonIgnore
   @ManyToMany
@@ -200,6 +208,22 @@ public class User extends AbstractAuditingEntity implements Serializable {
     this.persistentTokens = persistentTokens;
   }
 
+  public byte[] getPicture() {
+    return picture;
+  }
+
+  public void setPicture(byte[] picture) {
+    this.picture = picture;
+  }
+
+  public String getPictureContentType() {
+    return pictureContentType;
+  }
+
+  public void setPictureContentType(String pictureContentType) {
+    this.pictureContentType = pictureContentType;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -233,6 +257,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
       ", activated='" + activated + '\'' +
       ", langKey='" + langKey + '\'' +
       ", activationKey='" + activationKey + '\'' +
+      ", pictureContentType='" + pictureContentType + "'" +
       "}";
   }
 }

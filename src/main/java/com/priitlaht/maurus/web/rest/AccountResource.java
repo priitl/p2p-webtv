@@ -133,7 +133,7 @@ public class AccountResource {
       .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentUserLogin()))
       .map(u -> {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
-          userDTO.getLangKey());
+          userDTO.getLangKey(), userDTO.getPictureContentType(), userDTO.getPicture());
         return new ResponseEntity<String>(HttpStatus.OK);
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));

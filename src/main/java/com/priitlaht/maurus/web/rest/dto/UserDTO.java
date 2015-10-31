@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Email;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -46,6 +47,11 @@ public class UserDTO {
 
   private Set<String> authorities;
 
+  @Lob
+  private byte[] picture;
+
+  private String pictureContentType;
+
   public UserDTO() {
   }
 
@@ -53,11 +59,12 @@ public class UserDTO {
     this(user.getLogin(), null, user.getFirstName(), user.getLastName(),
       user.getEmail(), user.getActivated(), user.getLangKey(),
       user.getAuthorities().stream().map(Authority::getName)
-        .collect(Collectors.toSet()));
+        .collect(Collectors.toSet()), user.getPictureContentType(), user.getPicture());
   }
 
   public UserDTO(String login, String password, String firstName, String lastName,
-                 String email, boolean activated, String langKey, Set<String> authorities) {
+                 String email, boolean activated, String langKey, Set<String> authorities,
+                 String pictureContentType, byte[] picture) {
 
     this.login = login;
     this.password = password;
@@ -67,6 +74,8 @@ public class UserDTO {
     this.activated = activated;
     this.langKey = langKey;
     this.authorities = authorities;
+    this.pictureContentType = pictureContentType;
+    this.picture = picture;
   }
 
   public String getPassword() {
@@ -99,6 +108,22 @@ public class UserDTO {
 
   public Set<String> getAuthorities() {
     return authorities;
+  }
+
+  public byte[] getPicture() {
+    return picture;
+  }
+
+  public void setPicture(byte[] picture) {
+    this.picture = picture;
+  }
+
+  public String getPictureContentType() {
+    return pictureContentType;
+  }
+
+  public void setPictureContentType(String pictureContentType) {
+    this.pictureContentType = pictureContentType;
   }
 
   @Override

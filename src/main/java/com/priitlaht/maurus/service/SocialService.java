@@ -16,10 +16,14 @@ import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 @Service
@@ -48,12 +52,13 @@ public class SocialService {
     }
     UserProfile userProfile = connection.fetchUserProfile();
     String providerId = connection.getKey().getProviderId();
-    User user = createUserIfNotExist(userProfile, langKey, providerId);
+    String imageUrl = connection.getImageUrl();
+    User user = createUserIfNotExist(userProfile, langKey, providerId, imageUrl);
     createSocialConnection(user.getLogin(), connection);
     mailService.sendSocialRegistrationValidationEmail(user, providerId);
   }
 
-  private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId) {
+  private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId, String imageUrl) {
     String email = userProfile.getEmail();
     String userName = userProfile.getUsername();
     if (StringUtils.isBlank(email) && StringUtils.isBlank(userName)) {
@@ -85,6 +90,12 @@ public class SocialService {
     newUser.setAuthorities(authorities);
     newUser.setLangKey(langKey);
 
+    byte[] image = getImageFromUrl(imageUrl);
+    if (image != null) {
+      newUser.setPicture(image);
+      newUser.setPictureContentType("image/jpeg");
+    }
+
     return userRepository.save(newUser);
   }
 
@@ -104,5 +115,20 @@ public class SocialService {
   private void createSocialConnection(String login, Connection<?> connection) {
     ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(login);
     connectionRepository.addConnection(connection);
+  }
+
+  private byte[] getImageFromUrl(String imageUrl) {
+    try {
+      URL url = new URL(imageUrl);
+      BufferedImage image = ImageIO.read(url);
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      ImageIO.write(image, "jpg", outputStream);
+      outputStream.flush();
+      return outputStream.toByteArray();
+    } catch (Exception e) {
+      log.error("Error getting social image");
+      e.printStackTrace();
+    }
+    return null;
   }
 }

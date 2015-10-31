@@ -6,7 +6,8 @@
         <!-- Profile -->
         <div class="dropdown profile-element" dropdown ng-if="isAuthenticated()">
           <img alt="image" class="img-circle" width="48" height="48"
-               src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p160x160/12072617_1263090350374399_5853137048816846615_n.jpg?oh=64fce561ed31ad37eadf33f0b27b27e7&oe=56B584A1&__gda__=1455828035_1e7434354077f27b39817708fd64642f"/>
+               data-ng-src="{{'data:' + account.pictureContentType + ';base64,' + account.picture}}"
+               ng-if="account.picture"/>
           <a class="dropdown-toggle" dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs"><strong class="font-bold">{{account.firstName + ' ' +
@@ -37,7 +38,7 @@
                             <span class="fa arrow"></span>
                         </span>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="nav nav-second-level collapse">
           <!-- JHipster will add entities to the menu here -->
         </ul>
       </li>
@@ -88,9 +89,8 @@
           </li>
         </ul>
       </li>
-
       <!-- Administration -->
-      <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN">
+      <li ng-class="{active: $state.includes('admin')}" ng-show="isAdmin">
         <a href="">
                         <span>
                             <i class="glyphicon glyphicon-tower"></i>
@@ -99,49 +99,49 @@
                         </span>
         </a>
         <ul class="nav nav-second-level collapse">
-          <li ui-sref-active="active">
+          <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="user-management">
               <i class="glyphicon glyphicon-user"></i>
               <span translate="global.menu.admin.user-management">User management</span>
             </a>
           </li>
           <li ui-sref-active="active">
-            <a ui-sref="tracker">
+            <a ui-sref="tracker" ng-switch-when="true">
               <i class="glyphicon glyphicon-eye-open"></i>
               <span translate="global.menu.admin.tracker">User tracker</span>
             </a>
           </li>
           <li ui-sref-active="active">
-            <a ui-sref="metrics">
+            <a ui-sref="metrics" ng-switch-when="true">
               <i class="glyphicon glyphicon-dashboard"></i>
               <span translate="global.menu.admin.metrics">Metrics</span>
             </a>
           </li>
           <li ui-sref-active="active">
-            <a ui-sref="health">
+            <a ui-sref="health" ng-switch-when="true">
               <i class="glyphicon glyphicon-heart"></i>
               <span translate="global.menu.admin.health">Health</span>
             </a>
           </li>
-          <li ui-sref-active="active">
+          <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="configuration">
               <i class="glyphicon glyphicon-list-alt"></i>
               <span translate="global.menu.admin.configuration">Configuration</span>
             </a>
           </li>
-          <li ui-sref-active="active">
+          <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="audits">
               <i class="glyphicon glyphicon-bell"></i>
               <span translate="global.menu.admin.audits">Audits</span>
             </a>
           </li>
-          <li ui-sref-active="active">
+          <li ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="logs">
               <i class="glyphicon glyphicon-tasks"></i>
               <span translate="global.menu.admin.logs">Logs</span>
             </a>
           </li>
-          <li ng-hide="inProduction" ui-sref-active="active">
+          <li ng-hide="inProduction" ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="docs">
               <i class="glyphicon glyphicon-book"></i>
               <span translate="global.menu.admin.apidocs">API</span>

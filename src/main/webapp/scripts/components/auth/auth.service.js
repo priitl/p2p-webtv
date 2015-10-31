@@ -14,6 +14,7 @@ angular.module('maurusApp')
                    Principal.identity(true).then(function (account) {
                      // After the login the language will be changed to
                      // the language selected by the user during his registration
+                     $rootScope.$emit('::userChanged', account);
                      $translate.use(account.langKey).then(function () {
                        $translate.refresh();
                      });
@@ -36,6 +37,7 @@ angular.module('maurusApp')
                  // Reset state memory
                  $rootScope.previousStateName = undefined;
                  $rootScope.previousStateNameParams = undefined;
+                 $rootScope.$emit('::userChanged', null);
                },
 
                authorize: function (force) {
