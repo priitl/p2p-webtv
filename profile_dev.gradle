@@ -1,11 +1,11 @@
 apply plugin: 'spring-boot'
 
 ext {
-    logbackLoglevel = "DEBUG"
+  logbackLoglevel = "DEBUG"
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: spring_boot_version
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: spring_boot_version
 }
 
 bootRun {
@@ -13,20 +13,20 @@ bootRun {
 }
 
 task setProdProperties(dependsOn: bootRun) << {
-    doFirst {
-        System.setProperty('spring.profiles.active', 'dev')
-    }
+  doFirst {
+    System.setProperty('spring.profiles.active', 'dev')
+  }
 }
 
 processResources {
-    filesMatching('**/logback.xml') {
-        filter {
-            it.replace('${logback.loglevel}', logbackLoglevel)
-        }
+  filesMatching('**/logback.xml') {
+    filter {
+      it.replace('${logback.loglevel}', logbackLoglevel)
     }
+  }
 }
 
 node {
-    download = true
-    version = '0.12.7'
+  download = true
+  version = '0.12.7'
 }

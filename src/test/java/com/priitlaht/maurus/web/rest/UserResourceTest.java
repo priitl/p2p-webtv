@@ -3,6 +3,7 @@ package com.priitlaht.maurus.web.rest;
 import com.priitlaht.maurus.Application;
 import com.priitlaht.maurus.repository.UserRepository;
 import com.priitlaht.maurus.service.UserService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Test class for the UserResource REST controller.
@@ -31,35 +34,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class UserResourceTest {
 
-    @Inject
-    private UserRepository userRepository;
+  @Inject
+  private UserRepository userRepository;
 
-    @Inject
-    private UserService userService;
+  @Inject
+  private UserService userService;
 
-    private MockMvc restUserMockMvc;
+  private MockMvc restUserMockMvc;
 
-    @Before
-    public void setup() {
-        UserResource userResource = new UserResource();
-        ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
-        ReflectionTestUtils.setField(userResource, "userService", userService);
-        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource).build();
-    }
+  @Before
+  public void setup() {
+    UserResource userResource = new UserResource();
+    ReflectionTestUtils.setField(userResource, "userRepository", userRepository);
+    ReflectionTestUtils.setField(userResource, "userService", userService);
+    this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource).build();
+  }
 
-    @Test
-    public void testGetExistingUser() throws Exception {
-        restUserMockMvc.perform(get("/api/users/admin")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.lastName").value("Administrator"));
-    }
+  @Test
+  public void testGetExistingUser() throws Exception {
+    restUserMockMvc.perform(get("/api/users/admin")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType("application/json"))
+      .andExpect(jsonPath("$.lastName").value("Administrator"));
+  }
 
-    @Test
-    public void testGetUnknownUser() throws Exception {
-        restUserMockMvc.perform(get("/api/users/unknown")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
+  @Test
+  public void testGetUnknownUser() throws Exception {
+    restUserMockMvc.perform(get("/api/users/unknown")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound());
+  }
 }

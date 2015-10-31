@@ -1,25 +1,32 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .config(function ($stateProvider) {
-        $stateProvider
-            .state('home', {
-                parent: 'site',
-                url: '/',
-                data: {
-                    authorities: []
-                },
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/main/main.html',
-                        controller: 'MainController'
-                    }
-                },
-                resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
-                        $translatePartialLoader.addPart('main');
-                        return $translate.refresh();
-                    }]
-                }
-            });
-    });
+  angular
+    .module('maurusApp')
+    .config(mainConfig);
+
+  function mainConfig($stateProvider) {
+    $stateProvider
+      .state('home', {
+        parent: 'site',
+        url: '/',
+        data: {
+          authorities: []
+        },
+        views: {
+          'content@': {
+            templateUrl: 'scripts/app/main/main.html',
+            controller: 'MainController',
+            controllerAs: 'vm'
+          }
+        },
+        resolve: {
+          mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+            $translatePartialLoader.addPart('main');
+            return $translate.refresh();
+          }]
+        }
+      });
+  }
+
+})();

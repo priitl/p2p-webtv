@@ -1,154 +1,155 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse" ng-switch="isAuthenticated()">
-        <ul side-navigation class="nav metismenu" id="side-menu">
-            <!-- Nav header -->
-            <li class="nav-header">
-                <!-- Profile -->
-                <div class="dropdown profile-element" dropdown ng-if="isAuthenticated()">
-                    <img alt="image" class="img-circle" width="48" height="48"
-                         src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p160x160/12072617_1263090350374399_5853137048816846615_n.jpg?oh=64fce561ed31ad37eadf33f0b27b27e7&oe=56B584A1&__gda__=1455828035_1e7434354077f27b39817708fd64642f"/>
-                    <a class="dropdown-toggle" dropdown-toggle href>
+  <div class="sidebar-collapse" ng-switch="isAuthenticated()">
+    <ul side-navigation class="nav metismenu" id="side-menu">
+      <!-- Nav header -->
+      <li class="nav-header">
+        <!-- Profile -->
+        <div class="dropdown profile-element" dropdown ng-if="isAuthenticated()">
+          <img alt="image" class="img-circle" width="48" height="48"
+               src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p160x160/12072617_1263090350374399_5853137048816846615_n.jpg?oh=64fce561ed31ad37eadf33f0b27b27e7&oe=56B584A1&__gda__=1455828035_1e7434354077f27b39817708fd64642f"/>
+          <a class="dropdown-toggle" dropdown-toggle href>
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold">{{account.firstName + ' ' + account.lastName}}</strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold">{{account.firstName + ' ' +
+                                  account.lastName}}</strong></span>
                             </span>
-                    </a>
-                </div>
+          </a>
+        </div>
 
-                <div class="logo-element">
-                    MAU
-                </div>
-            </li>
+        <div class="logo-element">
+          MAU
+        </div>
+      </li>
 
-            <!-- Home -->
-            <li ui-sref-active="active">
-                <a ui-sref="home">
-                    <i class="glyphicon glyphicon-home"></i>
-                    <span class="nav-label" translate="global.menu.home">Home</span>
-                </a>
-            </li>
+      <!-- Home -->
+      <li ui-sref-active="active">
+        <a ui-sref="home">
+          <i class="glyphicon glyphicon-home"></i>
+          <span class="nav-label" translate="global.menu.home">Home</span>
+        </a>
+      </li>
 
-            <!-- Entities -->
-            <li ui-sref-active="active" ng-switch-when="true">
-                <a href="">
+      <!-- Entities -->
+      <li ui-sref-active="active" ng-switch-when="true">
+        <a href="">
                         <span>
                             <i class="glyphicon glyphicon-th-list"></i>
                             <span class="nav-label" translate="global.menu.entities.main">Entities</span>
                             <span class="fa arrow"></span>
                         </span>
-                </a>
-                <ul class="dropdown-menu">
-                    <!-- JHipster will add entities to the menu here -->
-                </ul>
-            </li>
+        </a>
+        <ul class="dropdown-menu">
+          <!-- JHipster will add entities to the menu here -->
+        </ul>
+      </li>
 
-            <!-- Account -->
-            <li ng-class="{active: $state.includes('account')}">
-                <a href="">
-                    <i class="glyphicon glyphicon-user"></i>
-                    <span class="nav-label" translate="global.menu.account.main">Account</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li ui-sref-active="active" ng-switch-when="true">
-                        <a ui-sref="settings">
-                            <i class="glyphicon glyphicon-wrench"></i>
-                            <span translate="global.menu.account.settings">Settings</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active" ng-switch-when="true">
-                        <a ui-sref="password">
-                            <i class="glyphicon glyphicon-lock"></i>
-                            <span translate="global.menu.account.password">Password</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active" ng-switch-when="true">
-                        <a ui-sref="sessions">
-                            <i class="glyphicon glyphicon-cloud"></i>
-                            <span translate="global.menu.account.sessions">Sessions</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active" ng-switch-when="true">
-                        <a href="" ng-click="logout()">
-                            <i class="glyphicon glyphicon-log-out"></i>
-                            <span translate="global.menu.account.logout">Sign out</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active" ng-switch-when="false">
-                        <a ui-sref="login">
-                            <i class="glyphicon glyphicon-log-in"></i>
-                            <span translate="global.menu.account.login">Sign in</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active" ng-switch-when="false">
-                        <a ui-sref="register">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                            <span translate="global.menu.account.register">Register</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+      <!-- Account -->
+      <li ng-class="{active: $state.includes('account')}">
+        <a href="">
+          <i class="glyphicon glyphicon-user"></i>
+          <span class="nav-label" translate="global.menu.account.main">Account</span>
+          <span class="fa arrow"></span>
+        </a>
+        <ul class="nav nav-second-level collapse">
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="settings">
+              <i class="glyphicon glyphicon-wrench"></i>
+              <span translate="global.menu.account.settings">Settings</span>
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="password">
+              <i class="glyphicon glyphicon-lock"></i>
+              <span translate="global.menu.account.password">Password</span>
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="sessions">
+              <i class="glyphicon glyphicon-cloud"></i>
+              <span translate="global.menu.account.sessions">Sessions</span>
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a href="" ng-click="logout()">
+              <i class="glyphicon glyphicon-log-out"></i>
+              <span translate="global.menu.account.logout">Sign out</span>
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="false">
+            <a ui-sref="login">
+              <i class="glyphicon glyphicon-log-in"></i>
+              <span translate="global.menu.account.login">Sign in</span>
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="false">
+            <a ui-sref="register">
+              <i class="glyphicon glyphicon-plus-sign"></i>
+              <span translate="global.menu.account.register">Register</span>
+            </a>
+          </li>
+        </ul>
+      </li>
 
-            <!-- Administration -->
-            <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN">
-                <a href="">
+      <!-- Administration -->
+      <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN">
+        <a href="">
                         <span>
                             <i class="glyphicon glyphicon-tower"></i>
                             <span class="nav-label" translate="global.menu.admin.main">Administration</span>
                             <span class="fa arrow"></span>
                         </span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li ui-sref-active="active">
-                        <a ui-sref="user-management">
-                            <i class="glyphicon glyphicon-user"></i>
-                            <span translate="global.menu.admin.user-management">User management</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="tracker">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                            <span translate="global.menu.admin.tracker">User tracker</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="metrics">
-                            <i class="glyphicon glyphicon-dashboard"></i>
-                            <span translate="global.menu.admin.metrics">Metrics</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="health">
-                            <i class="glyphicon glyphicon-heart"></i>
-                            <span translate="global.menu.admin.health">Health</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="configuration">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                            <span translate="global.menu.admin.configuration">Configuration</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="audits">
-                            <i class="glyphicon glyphicon-bell"></i>
-                            <span translate="global.menu.admin.audits">Audits</span>
-                        </a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="logs">
-                            <i class="glyphicon glyphicon-tasks"></i>
-                            <span translate="global.menu.admin.logs">Logs</span>
-                        </a>
-                    </li>
-                    <li ng-hide="inProduction" ui-sref-active="active">
-                        <a ui-sref="docs">
-                            <i class="glyphicon glyphicon-book"></i>
-                            <span translate="global.menu.admin.apidocs">API</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
+        </a>
+        <ul class="nav nav-second-level collapse">
+          <li ui-sref-active="active">
+            <a ui-sref="user-management">
+              <i class="glyphicon glyphicon-user"></i>
+              <span translate="global.menu.admin.user-management">User management</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="tracker">
+              <i class="glyphicon glyphicon-eye-open"></i>
+              <span translate="global.menu.admin.tracker">User tracker</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="metrics">
+              <i class="glyphicon glyphicon-dashboard"></i>
+              <span translate="global.menu.admin.metrics">Metrics</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="health">
+              <i class="glyphicon glyphicon-heart"></i>
+              <span translate="global.menu.admin.health">Health</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="configuration">
+              <i class="glyphicon glyphicon-list-alt"></i>
+              <span translate="global.menu.admin.configuration">Configuration</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="audits">
+              <i class="glyphicon glyphicon-bell"></i>
+              <span translate="global.menu.admin.audits">Audits</span>
+            </a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="logs">
+              <i class="glyphicon glyphicon-tasks"></i>
+              <span translate="global.menu.admin.logs">Logs</span>
+            </a>
+          </li>
+          <li ng-hide="inProduction" ui-sref-active="active">
+            <a ui-sref="docs">
+              <i class="glyphicon glyphicon-book"></i>
+              <span translate="global.menu.admin.apidocs">API</span>
+            </a>
+          </li>
         </ul>
-    </div>
+      </li>
+
+    </ul>
+  </div>
 </nav>

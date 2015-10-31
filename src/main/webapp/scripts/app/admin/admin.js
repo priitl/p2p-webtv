@@ -1,10 +1,16 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .config(function ($stateProvider) {
-        $stateProvider
-            .state('admin', {
-                abstract: true,
-                parent: 'site'
-            });
-    });
+  angular
+    .module('maurusApp')
+    .config(adminConfig);
+
+  function adminConfig($stateProvider) {
+    $stateProvider
+      .state('admin', {
+        abstract: true,
+        parent: 'site'
+      });
+  }
+
+})();

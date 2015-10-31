@@ -1,36 +1,55 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('RegisterController', function ($scope, $translate, $timeout, Auth) {
-        $scope.success = null;
-        $scope.error = null;
-        $scope.doNotMatch = null;
-        $scope.errorUserExists = null;
-        $scope.registerAccount = {};
-        $timeout(function (){angular.element('[ng-model="registerAccount.login"]').focus();});
+  angular
+    .module('maurusApp')
+    .controller('RegisterController', RegisterController);
 
-        $scope.register = function () {
-            if ($scope.registerAccount.password !== $scope.confirmPassword) {
-                $scope.doNotMatch = 'ERROR';
-            } else {
-                $scope.registerAccount.langKey = $translate.use();
-                $scope.doNotMatch = null;
-                $scope.error = null;
-                $scope.errorUserExists = null;
-                $scope.errorEmailExists = null;
+  function RegisterController($translate, $timeout, Auth) {
+    var vm = this;
 
-                Auth.createAccount($scope.registerAccount).then(function () {
-                    $scope.success = 'OK';
-                }).catch(function (response) {
-                    $scope.success = null;
-                    if (response.status === 400 && response.data === 'login already in use') {
-                        $scope.errorUserExists = 'ERROR';
-                    } else if (response.status === 400 && response.data === 'e-mail address already in use') {
-                        $scope.errorEmailExists = 'ERROR';
-                    } else {
-                        $scope.error = 'ERROR';
-                    }
-                });
-            }
-        };
-    });
+    vm.register = register;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      vm.success = null;
+      vm.error = null;
+      vm.doNotMatch = null;
+      vm.errorUserExists = null;
+      vm.registerAccount = {};
+      $timeout(function () {
+        angular.element('[ng-model="registerAccount.login"]').focus();
+      });
+    }
+
+    function register() {
+      if (vm.registerAccount.password !== vm.confirmPassword) {
+        vm.doNotMatch = 'ERROR';
+      } else {
+        vm.registerAccount.langKey = $translate.use();
+        vm.doNotMatch = null;
+        vm.error = null;
+        vm.errorUserExists = null;
+        vm.errorEmailExists = null;
+
+        Auth.createAccount(vm.registerAccount).then(function () {
+          vm.success = 'OK';
+        }).catch(function (response) {
+          vm.success = null;
+          if (response.status === 400 && response.data === 'login already in use') {
+            vm.errorUserExists = 'ERROR';
+          } else if (response.status === 400 && response.data === 'e-mail address already in use') {
+            vm.errorEmailExists = 'ERROR';
+          } else {
+            vm.error = 'ERROR';
+          }
+        });
+      }
+    }
+  }
+
+})();
+

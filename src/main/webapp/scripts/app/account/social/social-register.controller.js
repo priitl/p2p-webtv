@@ -1,9 +1,24 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('SocialRegisterController', function ($scope, $filter, $stateParams) {
-        $scope.provider = $stateParams.provider;
-        $scope.providerLabel = $filter('capitalize')($scope.provider);
-        $scope.success = $stateParams.success;
-        $scope.error = !$scope.success;
-    });
+  angular
+    .module('maurusApp')
+    .controller('SocialRegisterController', SocialRegisterController);
+
+  function SocialRegisterController($filter, $stateParams) {
+    var vm = this;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      vm.provider = $stateParams.provider;
+      vm.providerLabel = $filter('capitalize')(vm.provider);
+      vm.success = $stateParams.success;
+      vm.error = !vm.success;
+    }
+  }
+
+})();
+

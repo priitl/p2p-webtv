@@ -1,59 +1,75 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('MetricsController', function ($scope, MonitoringService, $modal) {
-        $scope.metrics = {};
-        $scope.updatingMetrics = true;
+  angular
+    .module('maurusApp')
+    .controller('MetricsController', MetricsController);
 
-        $scope.refresh = function () {
-            $scope.updatingMetrics = true;
-            MonitoringService.getMetrics().then(function (promise) {
-                $scope.metrics = promise;
-                $scope.updatingMetrics = false;
-            }, function (promise) {
-                $scope.metrics = promise.data;
-                $scope.updatingMetrics = false;
-            });
-        };
+  function MetricsController($scope, MonitoringService, $modal) {
+    var vm = this;
 
-        $scope.$watch('metrics', function (newValue) {
-            $scope.servicesStats = {};
-            $scope.cachesStats = {};
-            angular.forEach(newValue.timers, function (value, key) {
-                if (key.indexOf('web.rest') !== -1 || key.indexOf('service') !== -1) {
-                    $scope.servicesStats[key] = value;
-                }
-                if (key.indexOf('net.sf.ehcache.Cache') !== -1) {
-                    // remove gets or puts
-                    var index = key.lastIndexOf('.');
-                    var newKey = key.substr(0, index);
+    vm.metrics = {};
+    vm.updatingMetrics = true;
+    vm.refresh = refresh;
+    vm.refreshThreadDumpData = refreshThreadDumpData;
 
-                    // Keep the name of the domain
-                    index = newKey.lastIndexOf('.');
-                    $scope.cachesStats[newKey] = {
-                        'name': newKey.substr(index + 1),
-                        'value': value
-                    };
-                }
-            });
+    activate();
+
+    ////////////////
+
+    function activate() {
+      refresh();
+    }
+
+    function refresh() {
+      vm.updatingMetrics = true;
+      MonitoringService.getMetrics().then(function (promise) {
+        vm.metrics = promise;
+        vm.updatingMetrics = false;
+      }, function (promise) {
+        vm.metrics = promise.data;
+        vm.updatingMetrics = false;
+      });
+    }
+
+    function refreshThreadDumpData() {
+      MonitoringService.threadDump().then(function (data) {
+        $modal.open({
+          templateUrl: 'scripts/app/admin/metrics/metrics.modal.html',
+          controller: 'MetricsModalController',
+          controllerAs: 'vm',
+          size: 'lg',
+          resolve: {
+            threadDump: function () {
+              return data.content;
+            }
+          }
         });
+      });
+    }
 
-        $scope.refresh();
+    $scope.$watch('vm.metrics', function (newValue) {
+      vm.servicesStats = {};
+      vm.cachesStats = {};
+      angular.forEach(newValue.timers, function (value, key) {
+        if (key.indexOf('web.rest') !== -1 || key.indexOf('service') !== -1) {
+          vm.servicesStats[key] = value;
+        }
+        if (key.indexOf('net.sf.ehcache.Cache') !== -1) {
+          // remove gets or puts
+          var index = key.lastIndexOf('.');
+          var newKey = key.substr(0, index);
 
-        $scope.refreshThreadDumpData = function() {
-            MonitoringService.threadDump().then(function(data) {
-
-                var modalInstance = $modal.open({
-                    templateUrl: 'scripts/app/admin/metrics/metrics.modal.html',
-                    controller: 'MetricsModalController',
-                    size: 'lg',
-                    resolve: {
-                        threadDump: function() {
-                            return data;
-                        }
-
-                    }
-                });
-            });
-        };
+          // Keep the name of the domain
+          index = newKey.lastIndexOf('.');
+          vm.cachesStats[newKey] = {
+            'name': newKey.substr(index + 1),
+            'value': value
+          };
+        }
+      });
     });
+  }
+
+})();
+

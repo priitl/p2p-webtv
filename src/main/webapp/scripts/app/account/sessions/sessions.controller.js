@@ -1,24 +1,42 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('SessionsController', function ($scope, Sessions, Principal) {
-        Principal.identity().then(function(account) {
-            $scope.account = account;
+  angular
+    .module('maurusApp')
+    .controller('SessionsController', SessionsController);
+
+  function SessionsController(Sessions, Principal) {
+    var vm = this;
+
+    vm.invalidate = invalidate;
+    vm.sessions = {};
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      Principal.identity().then(function (account) {
+        vm.account = account;
+      });
+      vm.success = null;
+      vm.error = null;
+      vm.sessions = Sessions.getAll();
+    }
+
+    function invalidate(series) {
+      Sessions.delete({series: encodeURIComponent(series)},
+        function () {
+          vm.error = null;
+          vm.success = 'OK';
+          vm.sessions = Sessions.getAll();
+        },
+        function () {
+          vm.success = null;
+          vm.error = 'ERROR';
         });
+    }
+  }
 
-        $scope.success = null;
-        $scope.error = null;
-        $scope.sessions = Sessions.getAll();
-        $scope.invalidate = function (series) {
-            Sessions.delete({series: encodeURIComponent(series)},
-                function () {
-                    $scope.error = null;
-                    $scope.success = 'OK';
-                    $scope.sessions = Sessions.getAll();
-                },
-                function () {
-                    $scope.success = null;
-                    $scope.error = 'ERROR';
-                });
-        };
-    });
+})();
+

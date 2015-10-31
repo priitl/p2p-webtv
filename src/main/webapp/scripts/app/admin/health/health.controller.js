@@ -1,150 +1,175 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('HealthController', function ($scope, MonitoringService, $modal) {
-        $scope.updatingHealth = true;
-        $scope.separator = '.';
+  angular
+    .module('maurusApp')
+    .controller('HealthController', HealthController);
 
-        $scope.refresh = function () {
-            $scope.updatingHealth = true;
-            MonitoringService.checkHealth().then(function (response) {
-                $scope.healthData = $scope.transformHealthData(response);
-                $scope.updatingHealth = false;
-            }, function (response) {
-                $scope.healthData =  $scope.transformHealthData(response.data);
-                $scope.updatingHealth = false;
-            });
-        };
+  function HealthController(MonitoringService, $modal) {
+    var vm = this;
 
-        $scope.refresh();
+    vm.addHealthObject = addHealthObject;
+    vm.baseName = baseName;
+    vm.flattenHealthData = flattenHealthData;
+    vm.getLabelClass = getLabelClass;
+    vm.getModuleName = getModuleName;
+    vm.healthData = [];
+    vm.hasSubSystem = hasSubSystem;
+    vm.isHealthObject = isHealthObject;
+    vm.refresh = refresh;
+    vm.separator = '.';
+    vm.subSystemName = subSystemName;
+    vm.showHealth = showHealth;
+    vm.transformHealthData = transformHealthData;
+    vm.updatingHealth = true;
 
-        $scope.getLabelClass = function (statusState) {
-            if (statusState === 'UP') {
-                return 'label-success';
-            } else {
-                return 'label-danger';
-            }
-        };
+    activate();
 
-        $scope.transformHealthData = function (data) {
-            var response = [];
-            $scope.flattenHealthData(response, null, data);
-            return response;
-        };
+    ////////////////
 
-        $scope.flattenHealthData = function (result, path, data) {
-            angular.forEach(data, function (value, key) {
-                if ($scope.isHealthObject(value)) {
-                    if ($scope.hasSubSystem(value)) {
-                        $scope.addHealthObject(result, false, value, $scope.getModuleName(path, key));
-                        $scope.flattenHealthData(result, $scope.getModuleName(path, key), value);
-                    } else {
-                        $scope.addHealthObject(result, true, value, $scope.getModuleName(path, key));
-                    }
-                }
-            });
-            return result;
-        };
+    function activate() {
+      refresh();
+    }
 
-        $scope.getModuleName = function (path, name) {
-            var result;
-            if (path && name) {
-                result = path + $scope.separator + name;
-            }  else if (path) {
-                result = path;
-            } else if (name) {
-                result = name;
-            } else {
-                result = '';
-            }
-            return result;
-        };
+    function refresh() {
+      vm.updatingHealth = true;
+      MonitoringService.checkHealth().then(function (response) {
+        vm.healthData = transformHealthData(response);
+        vm.updatingHealth = false;
+      }, function (response) {
+        vm.healthData = transformHealthData(response.data);
+        vm.updatingHealth = false;
+      });
+    }
 
+    function getLabelClass(statusState) {
+      if (statusState === 'UP') {
+        return 'label-success';
+      } else {
+        return 'label-danger';
+      }
+    }
 
-        $scope.showHealth = function(health) {
-            var modalInstance = $modal.open({
-                templateUrl: 'scripts/app/admin/health/health.modal.html',
-                controller: 'HealthModalController',
-                size: 'lg',
-                resolve: {
-                    currentHealth: function() {
-                        return health;
-                    },
-                    baseName: function() {
-                        return $scope.baseName;
-                    },
-                    subSystemName: function() {
-                        return $scope.subSystemName;
-                    }
+    function transformHealthData(data) {
+      var response = [];
+      flattenHealthData(response, null, data);
+      return response;
+    }
 
-                }
-            });
-        };
+    function flattenHealthData(result, path, data) {
+      angular.forEach(data, function (value, key) {
+        if (isHealthObject(value)) {
+          if (hasSubSystem(value)) {
+            addHealthObject(result, false, value, getModuleName(path, key));
+            flattenHealthData(result, getModuleName(path, key), value);
+          } else {
+            addHealthObject(result, true, value, getModuleName(path, key));
+          }
+        }
+      });
+      return result;
+    }
 
-        $scope.addHealthObject = function (result, isLeaf, healthObject, name) {
+    function getModuleName(path, name) {
+      var result;
+      if (path && name) {
+        result = path + vm.separator + name;
+      } else if (path) {
+        result = path;
+      } else if (name) {
+        result = name;
+      } else {
+        result = '';
+      }
+      return result;
+    }
 
-            var healthData = {
-                'name': name
-            };
-            var details = {};
-            var hasDetails = false;
+    function showHealth(health) {
+      $modal.open({
+        templateUrl: 'scripts/app/admin/health/health.modal.html',
+        controller: 'HealthModalController',
+        controllerAs: 'vm',
+        size: 'lg',
+        resolve: {
+          currentHealth: function () {
+            return health;
+          },
+          baseName: function () {
+            return baseName;
+          },
+          subSystemName: function () {
+            return subSystemName;
+          }
 
-            angular.forEach(healthObject, function (value, key) {
-                if (key === 'status' || key === 'error') {
-                    healthData[key] = value;
-                } else {
-                    if (!$scope.isHealthObject(value)) {
-                        details[key] = value;
-                        hasDetails = true;
-                    }
-                }
-            });
+        }
+      });
+    }
 
-            // Add the of the details
-            if (hasDetails) {
-                angular.extend(healthData, { 'details': details});
-            }
+    function addHealthObject(result, isLeaf, healthObject, name) {
+      var healthData = {'name': name};
+      var details = {};
+      var hasDetails = false;
 
-            // Only add nodes if they provide additional information
-            if (isLeaf || hasDetails || healthData.error) {
-                result.push(healthData);
-            }
-            return healthData;
-        };
+      angular.forEach(healthObject, function (value, key) {
+        if (key === 'status' || key === 'error') {
+          healthData[key] = value;
+        } else {
+          if (!isHealthObject(value)) {
+            details[key] = value;
+            hasDetails = true;
+          }
+        }
+      });
 
-        $scope.hasSubSystem = function (healthObject) {
-            var result = false;
-            angular.forEach(healthObject, function (value) {
-                if (value && value.status) {
-                    result = true;
-                }
-            });
-            return result;
-        };
+      // Add the of the details
+      if (hasDetails) {
+        angular.extend(healthData, {'details': details});
+      }
 
-        $scope.isHealthObject = function (healthObject) {
-            var result = false;
-            angular.forEach(healthObject, function (value, key) {
-                if (key === 'status') {
-                    result = true;
-                }
-            });
-            return result;
-        };
+      // Only add nodes if they provide additional information
+      if (isLeaf || hasDetails || healthData.error) {
+        result.push(healthData);
+      }
+      return healthData;
+    }
 
-        $scope.baseName = function (name) {
-            if (name) {
-              var split = name.split('.');
-              return split[0];
-            }
-        };
+    function hasSubSystem(healthObject) {
+      var result = false;
+      angular.forEach(healthObject, function (value) {
+        if (value && value.status) {
+          result = true;
+        }
+      });
+      return result;
+    }
 
-        $scope.subSystemName = function (name) {
-            if (name) {
-              var split = name.split('.');
-              split.splice(0, 1);
-              var remainder = split.join('.');
-              return remainder ? ' - ' + remainder : '';
-            }
-        };
-    });
+    function isHealthObject(healthObject) {
+      var result = false;
+      angular.forEach(healthObject, function (value, key) {
+        if (key === 'status') {
+          result = true;
+        }
+      });
+      return result;
+    }
+
+    function baseName(name) {
+      if (name) {
+        var split = name.split('.');
+        return split[0];
+      }
+    }
+
+    function subSystemName(name) {
+      if (name) {
+        var split = name.split('.');
+        split.splice(0, 1);
+        var remainder = split.join('.');
+        return remainder ? ' - ' + remainder : '';
+      }
+    }
+
+  }
+
+})();
+

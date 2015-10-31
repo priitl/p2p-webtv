@@ -1,26 +1,44 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('ResetFinishController', function ($scope, $stateParams, $timeout, Auth) {
+  angular
+    .module('maurusApp')
+    .controller('ResetFinishController', ResetFinishController);
 
-        $scope.keyMissing = $stateParams.key === undefined;
-        $scope.doNotMatch = null;
+  function ResetFinishController($stateParams, $timeout, Auth) {
+    var vm = this;
 
-        $scope.resetAccount = {};
-        $timeout(function (){angular.element('[ng-model="resetAccount.password"]').focus();});
+    vm.finishReset = finishReset;
+    vm.resetAccount = {};
+    activate();
 
-        $scope.finishReset = function() {
-            if ($scope.resetAccount.password !== $scope.confirmPassword) {
-                $scope.doNotMatch = 'ERROR';
-            } else {
-                Auth.resetPasswordFinish({key: $stateParams.key, newPassword: $scope.resetAccount.password}).then(function () {
-                    $scope.success = 'OK';
-                }).catch(function (response) {
-                    $scope.success = null;
-                    $scope.error = 'ERROR';
+    ////////////////
 
-                });
-            }
+    function activate() {
+      vm.keyMissing = $stateParams.key === undefined;
+      vm.doNotMatch = null;
+      $timeout(function () {
+        angular.element('[ng-model="resetAccount.password"]').focus();
+      });
+    }
 
-        };
-    });
+    function finishReset() {
+      if (vm.resetAccount.password !== vm.confirmPassword) {
+        vm.doNotMatch = 'ERROR';
+      } else {
+        Auth.resetPasswordFinish({
+          key: $stateParams.key,
+          newPassword: vm.resetAccount.password
+        }).then(function () {
+          vm.success = 'OK';
+        }).catch(function () {
+          vm.success = null;
+          vm.error = 'ERROR';
+        });
+      }
+    }
+  }
+
+})();
+
+

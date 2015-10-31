@@ -1,12 +1,36 @@
 'use strict';
 
 angular.module('maurusApp')
-    .controller('HealthModalController', function($scope, $modalInstance, currentHealth, baseName, subSystemName) {
+  .controller('HealthModalController', function ($scope, $modalInstance, currentHealth, baseName, subSystemName) {
 
-        $scope.currentHealth = currentHealth;
-        $scope.baseName = baseName, $scope.subSystemName = subSystemName;
+              });
 
-        $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
-        };
-    });
+(function () {
+  'use strict';
+
+  angular
+    .module('maurusApp')
+    .controller('HealthModalController', HealthModalController);
+
+  function HealthModalController($modalInstance, currentHealth, baseName, subSystemName) {
+    var vm = this;
+
+    vm.cancel = cancel;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      vm.currentHealth = currentHealth;
+      vm.baseName = baseName;
+      vm.subSystemName = subSystemName;
+    }
+
+    function cancel() {
+      $modalInstance.dismiss('cancel');
+    }
+  }
+
+})();
+

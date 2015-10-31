@@ -12,19 +12,19 @@ import java.util.Set;
  */
 public interface SocialUserConnectionRepository extends JpaRepository<SocialUserConnection, Long> {
 
-    List<SocialUserConnection> findAllByProviderIdAndProviderUserId(String providerId, String providerUserId);
+  List<SocialUserConnection> findAllByProviderIdAndProviderUserId(String providerId, String providerUserId);
 
-    List<SocialUserConnection> findAllByProviderIdAndProviderUserIdIn(String providerId, Set<String> providerUserIds);
+  List<SocialUserConnection> findAllByProviderIdAndProviderUserIdIn(String providerId, Set<String> providerUserIds);
 
-    List<SocialUserConnection> findAllByUserIdOrderByProviderIdAscRankAsc(String userId);
+  List<SocialUserConnection> findAllByUserIdOrderByProviderIdAscRankAsc(String userId);
 
-    List<SocialUserConnection> findAllByUserIdAndProviderIdOrderByRankAsc(String userId, String providerId);
+  List<SocialUserConnection> findAllByUserIdAndProviderIdOrderByRankAsc(String userId, String providerId);
 
-    List<SocialUserConnection> findAllByUserIdAndProviderIdAndProviderUserIdIn(String userId, String providerId, List<String> provideUserId);
+  List<SocialUserConnection> findAllByUserIdAndProviderIdAndProviderUserIdIn(String userId, String providerId, List<String> provideUserId);
 
-    SocialUserConnection findOneByUserIdAndProviderIdAndProviderUserId(String userId, String providerId, String providerUserId);
+  SocialUserConnection findOneByUserIdAndProviderIdAndProviderUserId(String userId, String providerId, String providerUserId);
 
-    void deleteByUserIdAndProviderId(String userId, String providerId);
+  void deleteByUserIdAndProviderId(String userId, String providerId);
 
-    void deleteByUserIdAndProviderIdAndProviderUserId(String userId, String providerId, String providerUserId);
+  void deleteByUserIdAndProviderIdAndProviderUserId(String userId, String providerId, String providerUserId);
 }

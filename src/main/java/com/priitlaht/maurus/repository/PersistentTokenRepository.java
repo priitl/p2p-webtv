@@ -2,9 +2,10 @@ package com.priitlaht.maurus.repository;
 
 import com.priitlaht.maurus.domain.PersistentToken;
 import com.priitlaht.maurus.domain.User;
-import java.time.LocalDate;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -12,8 +13,8 @@ import java.util.List;
  */
 public interface PersistentTokenRepository extends JpaRepository<PersistentToken, String> {
 
-    List<PersistentToken> findByUser(User user);
+  List<PersistentToken> findByUser(User user);
 
-    List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
+  List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
 
 }

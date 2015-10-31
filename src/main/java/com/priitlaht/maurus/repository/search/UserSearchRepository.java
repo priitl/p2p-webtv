@@ -1,6 +1,7 @@
 package com.priitlaht.maurus.repository.search;
 
 import com.priitlaht.maurus.domain.User;
+
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**

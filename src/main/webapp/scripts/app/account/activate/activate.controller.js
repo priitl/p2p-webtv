@@ -1,13 +1,23 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('ActivationController', function ($scope, $stateParams, Auth) {
-        Auth.activateAccount({key: $stateParams.key}).then(function () {
-            $scope.error = null;
-            $scope.success = 'OK';
-        }).catch(function () {
-            $scope.success = null;
-            $scope.error = 'ERROR';
-        });
+  angular
+    .module('maurusApp')
+    .controller('ActivationController', ActivationController);
+
+  function ActivationController($stateParams, Auth) {
+    var vm = this;
+
+    ////////////////
+
+    Auth.activateAccount({key: $stateParams.key}).then(function () {
+      vm.error = null;
+      vm.success = 'OK';
+    }).catch(function () {
+      vm.success = null;
+      vm.error = 'ERROR';
     });
+  }
+
+})();
 

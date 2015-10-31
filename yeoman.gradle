@@ -1,13 +1,14 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+
 apply plugin: 'com.moowork.node'
 apply plugin: 'com.moowork.gulp'
 
 task bower(type: Exec) {
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine 'cmd', '/c', 'bower', 'install'
-    }else{
-        commandLine 'bower', 'install'
-    }
+  if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    commandLine 'cmd', '/c', 'bower', 'install'
+  } else {
+    commandLine 'bower', 'install'
+  }
 }
 
 

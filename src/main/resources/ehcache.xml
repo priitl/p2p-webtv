@@ -5,39 +5,39 @@
          updateCheck="false"
          maxBytesLocalHeap="16M">
 
-    <!--
-      This is a default configuration, it is re-configured by the CacheConfiguration Spring Bean, using the
-      properties from the resources/config/*.yml files.
-    -->
+  <!--
+    This is a default configuration, it is re-configured by the CacheConfiguration Spring Bean, using the
+    properties from the resources/config/*.yml files.
+  -->
 
-    <diskStore path="java.io.tmpdir"/>
+  <diskStore path="java.io.tmpdir"/>
 
-    <defaultCache
-            eternal="false"
-            overflowToDisk="false"
-            />
+  <defaultCache
+    eternal="false"
+    overflowToDisk="false"
+    />
 
-    <cache name="com.priitlaht.maurus.domain.User"
-           timeToLiveSeconds="3600">
-    </cache>
+  <cache name="com.priitlaht.maurus.domain.User"
+         timeToLiveSeconds="3600">
+  </cache>
 
-    <cache name="com.priitlaht.maurus.domain.Authority"
-           timeToLiveSeconds="3600">
-    </cache>
+  <cache name="com.priitlaht.maurus.domain.Authority"
+         timeToLiveSeconds="3600">
+  </cache>
 
-    <cache name="com.priitlaht.maurus.domain.User.authorities"
-           timeToLiveSeconds="3600">
-    </cache>
+  <cache name="com.priitlaht.maurus.domain.User.authorities"
+         timeToLiveSeconds="3600">
+  </cache>
 
-    <cache name="com.priitlaht.maurus.domain.PersistentToken"
-           timeToLiveSeconds="3600">
-    </cache>
+  <cache name="com.priitlaht.maurus.domain.PersistentToken"
+         timeToLiveSeconds="3600">
+  </cache>
 
-    <cache name="com.priitlaht.maurus.domain.User.persistentTokens"
-           timeToLiveSeconds="3600">
-    </cache>
-    
-    <cache name="com.priitlaht.maurus.social.SocialUserConnection"
-           timeToLiveSeconds="3600">
-    </cache>
+  <cache name="com.priitlaht.maurus.domain.User.persistentTokens"
+         timeToLiveSeconds="3600">
+  </cache>
+
+  <cache name="com.priitlaht.maurus.social.SocialUserConnection"
+         timeToLiveSeconds="3600">
+  </cache>
 </ehcache>

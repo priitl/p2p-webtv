@@ -1,15 +1,14 @@
-import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: 'spring-boot'
 apply plugin: 'com.moowork.node'
 apply plugin: 'com.moowork.gulp'
 
 
 ext {
-    logbackLoglevel = "INFO"
+  logbackLoglevel = "INFO"
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: spring_boot_version
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: spring_boot_version
 }
 
 bootRun {
@@ -17,22 +16,22 @@ bootRun {
 }
 
 processResources {
-    filesMatching('**/logback.xml') {
-        filter {
-            it.replace('${logback.loglevel}', logbackLoglevel)
-        }
+  filesMatching('**/logback.xml') {
+    filter {
+      it.replace('${logback.loglevel}', logbackLoglevel)
     }
+  }
 }
 
 task setProdProperties(dependsOn: bootRun) << {
-    doFirst {
-        System.setProperty('spring.profiles.active', 'prod')
-    }
+  doFirst {
+    System.setProperty('spring.profiles.active', 'prod')
+  }
 }
 
 node {
-    download = true
-    version = '0.12.7'
+  download = true
+  version = '0.12.7'
 }
 
 gulp_build.dependsOn 'npmInstall'

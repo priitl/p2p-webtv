@@ -1,29 +1,47 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('RequestResetController', function ($rootScope, $scope, $state, $timeout, Auth) {
+  angular
+    .module('maurusApp')
+    .controller('ResetRequestController', ResetRequestController);
 
-        $scope.success = null;
-        $scope.error = null;
-        $scope.errorEmailNotExists = null;
-        $scope.resetAccount = {};
-        $timeout(function (){angular.element('[ng-model="resetAccount.email"]').focus();});
+  function ResetRequestController($timeout, Auth) {
+    var vm = this;
 
-        $scope.requestReset = function () {
+    vm.resetAccount = {};
+    vm.requestReset = requestReset;
 
-            $scope.error = null;
-            $scope.errorEmailNotExists = null;
+    activate();
 
-            Auth.resetPasswordInit($scope.resetAccount.email).then(function () {
-                $scope.success = 'OK';
-            }).catch(function (response) {
-                $scope.success = null;
-                if (response.status === 400 && response.data === 'e-mail address not registered') {
-                    $scope.errorEmailNotExists = 'ERROR';
-                } else {
-                    $scope.error = 'ERROR';
-                }
-            });
+    ////////////////
+
+    function activate() {
+      vm.success = null;
+      vm.error = null;
+      vm.errorEmailNotExists = null;
+      vm.resetAccount = {};
+      $timeout(function () {
+        angular.element('[ng-model="resetAccount.email"]').focus();
+      });
+    }
+
+    function requestReset() {
+      vm.error = null;
+      vm.errorEmailNotExists = null;
+
+      Auth.resetPasswordInit(vm.resetAccount.email).then(function () {
+        vm.success = 'OK';
+      }).catch(function (response) {
+        vm.success = null;
+        if (response.status === 400 && response.data === 'e-mail address not registered') {
+          vm.errorEmailNotExists = 'ERROR';
+        } else {
+          vm.error = 'ERROR';
         }
+      });
+    }
+  }
 
-    });
+})();
+
+

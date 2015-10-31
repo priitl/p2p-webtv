@@ -1,8 +1,26 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-    .controller('ConfigurationController', function ($scope, ConfigurationService) {
-        ConfigurationService.get().then(function(configuration) {
-            $scope.configuration = configuration;
-        });
-    });
+  angular
+    .module('maurusApp')
+    .controller('ConfigurationController', ConfigurationController);
+
+  function ConfigurationController(ConfigurationService) {
+    var vm = this;
+
+    vm.configuration = [];
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      ConfigurationService.get().then(function (configuration) {
+        vm.configuration = configuration;
+      });
+    }
+  }
+
+})();
+
+

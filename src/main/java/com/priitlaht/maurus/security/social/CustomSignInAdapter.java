@@ -15,20 +15,20 @@ import javax.inject.Inject;
 
 public class CustomSignInAdapter implements SignInAdapter {
 
-    @Inject
-    private UserDetailsService userDetailsService;
+  @Inject
+  private UserDetailsService userDetailsService;
 
-    @Inject
-    private JHipsterProperties jHipsterProperties;
+  @Inject
+  private JHipsterProperties jHipsterProperties;
 
-    @Override
-    public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
-        UserDetails user = userDetailsService.loadUserByUsername(userId);
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(
-            user,
-            null,
-            user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
-        return jHipsterProperties.getSocial().getRedirectAfterSignIn();
-    }
+  @Override
+  public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
+    UserDetails user = userDetailsService.loadUserByUsername(userId);
+    Authentication newAuth = new UsernamePasswordAuthenticationToken(
+      user,
+      null,
+      user.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(newAuth);
+    return jHipsterProperties.getSocial().getRedirectAfterSignIn();
+  }
 }
