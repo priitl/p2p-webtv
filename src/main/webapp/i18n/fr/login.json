@@ -5,7 +5,10 @@
       "password": "Mot de passe",
       "password.placeholder": "Votre mot de passe",
       "rememberme": "Garder la session ouverte",
-      "button": "Connexion"
+      "button": "<strong>Connexion</strong>",
+      "account": "Connexion au compte",
+      "social": "Sociale connexion",
+      "title": "S'il vous plaît identifier au:"
     },
     "messages": {
       "error": {
@@ -13,7 +16,7 @@
       }
     },
     "password": {
-      "forgot": "Avez-vous oublié votre mot de passe?"
+      "forgot": "Oublié mot de passe?"
     }
   }
 }

@@ -1,6 +1,7 @@
 {
   "main": {
-    "title": "Welcome, Java Hipster!",
+    "title": "Welcome to maurus!",
+    "titleNamed": "Welcome, {{firstName}} {{lastName}}!",
     "subtitle": "This is your homepage",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."

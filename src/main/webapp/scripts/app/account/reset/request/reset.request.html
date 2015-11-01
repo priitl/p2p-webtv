@@ -1,7 +1,21 @@
-<div>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 translate="reset.request.title">Reset your password</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.menu.account.main">Account</a>
+      </li>
+      <li class="active">
+        <strong><a href="" translate="reset.request.form.button">Reset password</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <h1 translate="reset.request.title">Reset your password</h1>
 
       <div class="alert alert-danger" translate="reset.request.messages.notfound" ng-show="vm.errorEmailNotExists">
         <strong>E-Mail address isn't registered!</strong> Please check and try again.

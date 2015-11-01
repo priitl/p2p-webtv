@@ -1,10 +1,22 @@
-<div>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 ng-show="vm.success" translate="social.register.title" translate-values="{ label: vm.providerLabel }">Registration with</h2>
+    <h2 ng-show="vm.error" translate="social.register.errorTitle">Registration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.menu.account.main">Account</a>
+      </li>
+      <li class="active">
+        <strong><a href="" translate="global.menu.account.register">Register</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <h1 ng-show="vm.success" translate="social.register.title" translate-values="{ label: vm.providerLabel }">Registration
-        with</h1>
-
-      <h1 ng-show="vm.error" translate="social.register.errorTitle">Registration</h1>
 
       <div class="alert alert-success" ng-show="vm.success" translate="social.register.messages.success">
         <strong>Registration saved!</strong> Please check your email for confirmation.

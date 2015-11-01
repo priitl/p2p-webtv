@@ -1,6 +1,7 @@
 {
   "social": {
-    "btnLabel": "Sign in with {{ label }}",
+    "btnLabel": "Use your {{ label }} account",
+    "btnText": "Sign in with {{ label }}",
     "register": {
       "title": "Register with {{ label }}",
       "errorTitle": "Register with an external account",

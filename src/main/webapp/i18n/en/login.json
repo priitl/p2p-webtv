@@ -5,7 +5,10 @@
       "password": "Password",
       "password.placeholder": "Your password",
       "rememberme": "Remember me",
-      "button": "Sign in"
+      "button": "<strong>Sign in</strong>",
+      "account": "Account login",
+      "social": "Social login",
+      "title": "Please login in:"
     },
     "messages": {
       "error": {
@@ -13,7 +16,7 @@
       }
     },
     "password": {
-      "forgot": "Did you forget your password?"
+      "forgot": "Forgot password?"
     }
   }
 }

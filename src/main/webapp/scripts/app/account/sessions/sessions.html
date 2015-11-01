@@ -1,7 +1,21 @@
-<div>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 translate="sessions.title" translate-values="{username: '{{vm.account.login}}'}">Active sessions for
+      [<b>{{vm.account.login}}</b>]</h2>
 
-  <h2 translate="sessions.title" translate-values="{username: '{{vm.account.login}}'}">Active sessions for
-    [<b>{{vm.account.login}}</b>]</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.menu.account.main">Account</a>
+      </li>
+      <li class="active">
+        <strong><a ui-sref="session" href="#/sessions" translate="global.menu.account.sessions">Sessions</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
 
   <div class="alert alert-success" ng-show="vm.success" translate="sessions.messages.success">
     <strong>Session invalidated!</strong>
