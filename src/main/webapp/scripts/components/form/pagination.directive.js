@@ -1,9 +1,14 @@
-/* globals $ */
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .directive('maurusAppPagination', function () {
-               return {
-                 templateUrl: 'scripts/components/form/pagination.html'
-               };
-             });
+  angular
+    .module('maurusApp')
+    .directive('maurusAppPagination', maurusAppPagination);
+
+  function maurusAppPagination() {
+    return {
+      templateUrl: 'scripts/components/form/pagination.html'
+    };
+  }
+
+})();

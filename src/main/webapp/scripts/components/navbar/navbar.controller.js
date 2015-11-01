@@ -1,28 +1,43 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .controller('NavbarController', function ($rootScope, $scope, $location, $state, Auth, Principal, ENV) {
-                $scope.$state = $state;
-                $scope.inProduction = ENV === 'prod';
-                $scope.isAdmin = false;
+  angular
+    .module('maurusApp')
+    .controller('NavbarController', NavbarController);
 
-                $rootScope.$on('::userUpdated', function (event, data) {
-                  _.extend($scope.account, data);
-                });
+  function NavbarController($rootScope, $state, Auth, Principal, ENV) {
+    var vm = this;
 
-                $rootScope.$on('::userChanged', function (event, data) {
-                  _.extend($scope.account, data);
-                  $scope.isAdmin = data != null && _.contains(data.authorities, 'ROLE_ADMIN');
-                });
+    vm.account = {};
+    vm.logout = logout;
 
-                Principal.identity().then(function (account) {
-                  $scope.account = account;
-                  $scope.isAuthenticated = Principal.isAuthenticated;
-                  $scope.isAdmin = _.contains(account.authorities, 'ROLE_ADMIN');
-                });
+    activate();
 
-                $scope.logout = function () {
-                  Auth.logout();
-                  $state.go('home');
-                };
-              });
+    ////////////////
+
+    function activate() {
+      vm.state = $state;
+      vm.inProduction = ENV === 'prod';
+      Principal.identity().then(function (account) {
+        vm.account = account;
+        vm.isAuthenticated = Principal.isAuthenticated;
+        vm.isAdmin = account != null && _.contains(account.authorities, 'ROLE_ADMIN');
+      });
+    }
+
+    $rootScope.$on('::userUpdated', function (event, data) {
+      _.extend(vm.account, data);
+    });
+
+    $rootScope.$on('::userChanged', function (event, data) {
+      _.extend(vm.account, data);
+      vm.isAdmin = data != null && _.contains(data.authorities, 'ROLE_ADMIN');
+    });
+
+    function logout() {
+      Auth.logout();
+      $state.go('home');
+    }
+  }
+
+})();

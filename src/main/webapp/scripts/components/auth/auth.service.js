@@ -1,141 +1,134 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .factory('Auth',
-           function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate,
-                         Password, PasswordResetInit, PasswordResetFinish, Tracker) {
-             return {
-               login: function (credentials, callback) {
-                 var cb = callback || angular.noop;
-                 var deferred = $q.defer();
+  angular
+    .module('maurusApp')
+    .factory('Auth', Auth);
 
-                 AuthServerProvider.login(credentials).then(function (data) {
-                   // retrieve the logged account information
-                   Principal.identity(true).then(function (account) {
-                     // After the login the language will be changed to
-                     // the language selected by the user during his registration
-                     $rootScope.$emit('::userChanged', account);
-                     $translate.use(account.langKey).then(function () {
-                       $translate.refresh();
-                     });
-                     Tracker.sendActivity();
-                     deferred.resolve(data);
-                   });
-                   return cb();
-                 }).catch(function (err) {
-                   this.logout();
-                   deferred.reject(err);
-                   return cb(err);
-                 }.bind(this));
+  function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password,
+                PasswordResetInit, PasswordResetFinish, Tracker) {
+    return {
+      activateAccount: activateAccount,
+      authorize: authorize,
+      changePassword: changePassword,
+      createAccount: createAccount,
+      login: login,
+      logout: logout,
+      resetPasswordInit: resetPasswordInit,
+      resetPasswordFinish: resetPasswordFinish,
+      updateAccount: updateAccount
+    };
 
-                 return deferred.promise;
-               },
+    ////////////////
 
-               logout: function () {
-                 AuthServerProvider.logout();
-                 Principal.authenticate(null);
-                 // Reset state memory
-                 $rootScope.previousStateName = undefined;
-                 $rootScope.previousStateNameParams = undefined;
-                 $rootScope.$emit('::userChanged', null);
-               },
+    function login(credentials, callback) {
+      var cb = callback || angular.noop;
+      var deferred = $q.defer();
 
-               authorize: function (force) {
-                 return Principal.identity(force)
-                   .then(function () {
-                           var isAuthenticated = Principal.isAuthenticated();
+      AuthServerProvider.login(credentials).then(function (data) {
+        Principal.identity(true).then(function (account) {
+          $rootScope.$emit('::userChanged', account);
+          $translate.use(account.langKey).then(function () {
+            $translate.refresh();
+          });
+          Tracker.sendActivity();
+          deferred.resolve(data);
+        });
+        return cb();
+      }).catch(function (err) {
+        this.logout();
+        deferred.reject(err);
+        return cb(err);
+      }.bind(this));
 
-                           // an authenticated user can't access to login and register pages
-                           if (isAuthenticated && $rootScope.toState.parent === 'account' && ($rootScope.toState.name
-                                                                                              === 'login'
-                                                                                              || $rootScope.toState.name
-                                                                                                 === 'register')) {
-                             $state.go('home');
-                           }
+      return deferred.promise;
+    }
 
-                           if ($rootScope.toState.data.authorities && $rootScope.toState.data.authorities.length > 0
-                               && !Principal.hasAnyAuthority($rootScope.toState.data.authorities)) {
-                             if (isAuthenticated) {
-                               // user is signed in but not authorized for desired state
-                               $state.go('accessdenied');
-                             }
-                             else {
-                               // user is not authenticated. stow the state they wanted before you
-                               // send them to the signin state, so you can return them when you're done
-                               $rootScope.previousStateName = $rootScope.toState;
-                               $rootScope.previousStateNameParams = $rootScope.toStateParams;
+    function logout() {
+      AuthServerProvider.logout();
+      Principal.authenticate(null);
+      $rootScope.previousStateName = undefined;
+      $rootScope.previousStateNameParams = undefined;
+      $rootScope.$emit('::userChanged', null);
+    }
 
-                               // now, send them to the signin state so they can log in
-                               $state.go('login');
-                             }
-                           }
-                         });
-               },
-               createAccount: function (account, callback) {
-                 var cb = callback || angular.noop;
+    function authorize(force) {
+      return Principal.identity(force).then(function () {
+        var isAuthenticated = Principal.isAuthenticated();
 
-                 return Register.save(account,
-                                      function () {
-                                        return cb(account);
-                                      },
-                                      function (err) {
-                                        this.logout();
-                                        return cb(err);
-                                      }.bind(this)).$promise;
-               },
+        if (isAuthenticated && $rootScope.toState.parent === 'account' &&
+            ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register')) {
+          $state.go('home');
+        }
 
-               updateAccount: function (account, callback) {
-                 var cb = callback || angular.noop;
-                 return Account.save(account,
-                                     function () {
-                                       $rootScope.$emit('::userUpdated', account);
-                                       return cb(account);
-                                     },
-                                     function (err) {
-                                       return cb(err);
-                                     }.bind(this)).$promise;
-               },
+        if ($rootScope.toState.data.authorities && $rootScope.toState.data.authorities.length > 0
+            && !Principal.hasAnyAuthority($rootScope.toState.data.authorities)) {
+          if (isAuthenticated) {
+            $state.go('accessdenied');
+          } else {
+            $rootScope.previousStateName = $rootScope.toState;
+            $rootScope.previousStateNameParams = $rootScope.toStateParams;
+            $state.go('login');
+          }
+        }
+      });
+    }
 
-               activateAccount: function (key, callback) {
-                 var cb = callback || angular.noop;
+    function createAccount(account, callback) {
+      var cb = callback || angular.noop;
+      return Register.save(account, function () {
+        return cb(account);
+      }, function (err) {
+        this.logout();
+        return cb(err);
+      }.bind(this)).$promise;
+    }
 
-                 return Activate.get(key,
-                                     function (response) {
-                                       return cb(response);
-                                     },
-                                     function (err) {
-                                       return cb(err);
-                                     }.bind(this)).$promise;
-               },
+    function updateAccount(account, callback) {
+      var cb = callback || angular.noop;
+      return Account.save(account, function () {
+        $rootScope.$emit('::userUpdated', account);
+        return cb(account);
+      }, function (err) {
+        return cb(err);
+      }.bind(this)).$promise;
+    }
 
-               changePassword: function (newPassword, callback) {
-                 var cb = callback || angular.noop;
+    function activateAccount(key, callback) {
+      var cb = callback || angular.noop;
+      return Activate.get(key, function (response) {
+        return cb(response);
+      }, function (err) {
+        return cb(err);
+      }.bind(this)).$promise;
+    }
 
-                 return Password.save(newPassword, function () {
-                   return cb();
-                 }, function (err) {
-                   return cb(err);
-                 }).$promise;
-               },
+    function changePassword(newPassword, callback) {
+      var cb = callback || angular.noop;
+      return Password.save(newPassword, function () {
+        return cb();
+      }, function (err) {
+        return cb(err);
+      }).$promise;
+    }
 
-               resetPasswordInit: function (mail, callback) {
-                 var cb = callback || angular.noop;
+    function resetPasswordInit(mail, callback) {
+      var cb = callback || angular.noop;
+      return PasswordResetInit.save(mail, function () {
+        return cb();
+      }, function (err) {
+        return cb(err);
+      }).$promise;
+    }
 
-                 return PasswordResetInit.save(mail, function () {
-                   return cb();
-                 }, function (err) {
-                   return cb(err);
-                 }).$promise;
-               },
+    function resetPasswordFinish(keyAndPassword, callback) {
+      var cb = callback || angular.noop;
+      return PasswordResetFinish.save(keyAndPassword, function () {
+        return cb();
+      }, function (err) {
+        return cb(err);
+      }).$promise;
+    }
+  }
 
-               resetPasswordFinish: function (keyAndPassword, callback) {
-                 var cb = callback || angular.noop;
-
-                 return PasswordResetFinish.save(keyAndPassword, function () {
-                   return cb();
-                 }, function (err) {
-                   return cb(err);
-                 }).$promise;
-               }
-             };
-           });
+})();

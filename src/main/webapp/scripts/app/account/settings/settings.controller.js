@@ -30,7 +30,6 @@
         vm.error = null;
         vm.success = 'OK';
         Principal.identity().then(function (account) {
-          console.log(account);
           vm.settingsAccount = account;
         });
         Language.getCurrent().then(function (current) {

@@ -1,17 +1,17 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-  <div class="sidebar-collapse" ng-switch="isAuthenticated()">
+  <div class="sidebar-collapse" ng-switch="vm.isAuthenticated()">
     <ul side-navigation class="nav metismenu" id="side-menu">
       <!-- Nav header -->
       <li class="nav-header">
         <!-- Profile -->
-        <div class="dropdown profile-element" dropdown ng-if="isAuthenticated()">
+        <div class="dropdown profile-element" dropdown ng-if="vm.isAuthenticated()">
           <img alt="image" class="img-circle" width="48" height="48"
-               data-ng-src="{{'data:' + account.pictureContentType + ';base64,' + account.picture}}"
-               ng-if="account.picture"/>
+               data-ng-src="{{'data:' + vm.account.pictureContentType + ';base64,' + vm.account.picture}}"
+               ng-if="vm.account.picture"/>
           <a class="dropdown-toggle" dropdown-toggle href>
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold">{{account.firstName + ' ' +
-                                  account.lastName}}</strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold">{{vm.account.firstName + ' ' +
+                                  vm.account.lastName}}</strong></span>
                             </span>
           </a>
         </div>
@@ -42,7 +42,7 @@
       </li>
 
       <!-- Account -->
-      <li ng-class="{active: $state.includes('account')}">
+      <li ng-class="{active: vm.state.includes('account')}">
         <a href="">
           <i class="glyphicon glyphicon-user"></i>
           <span class="nav-label" translate="global.menu.account.main">Account</span>
@@ -68,7 +68,7 @@
             </a>
           </li>
           <li ui-sref-active="active" ng-switch-when="true">
-            <a href="" ng-click="logout()">
+            <a href="" ng-click="vm.logout()">
               <i class="glyphicon glyphicon-log-out"></i>
               {{'global.menu.account.logout' | translate}}
             </a>
@@ -88,7 +88,7 @@
         </ul>
       </li>
       <!-- Administration -->
-      <li ng-class="{active: $state.includes('admin')}" ng-show="isAdmin">
+      <li ng-class="{active: vm.state.includes('admin')}" ng-show="vm.isAdmin">
         <a href="">
           <i class="glyphicon glyphicon-tower"></i>
           <span class="nav-label" translate="global.menu.admin.main">Administration</span>
@@ -137,7 +137,7 @@
               {{'global.menu.admin.logs' | translate}}
             </a>
           </li>
-          <li ng-hide="inProduction" ui-sref-active="active" ng-switch-when="true">
+          <li ng-hide="vm.inProduction" ui-sref-active="active" ng-switch-when="true">
             <a ui-sref="docs">
               <i class="glyphicon glyphicon-book"></i>
               {{'global.menu.admin.apidocs' | translate}}

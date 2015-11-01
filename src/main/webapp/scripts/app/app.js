@@ -78,7 +78,8 @@
       views: {
         'navbar@': {
           templateUrl: 'scripts/components/navbar/navbar.html',
-          controller: 'NavbarController'
+          controller: 'NavbarController',
+          controllerAs: 'vm'
         },
         'header@': {
           templateUrl: 'scripts/components/header/header.html',

@@ -1,24 +1,36 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .factory('MonitoringService', function ($rootScope, $http) {
-             return {
-               getMetrics: function () {
-                 return $http.get('metrics/metrics').then(function (response) {
-                   return response.data;
-                 });
-               },
+  angular
+    .module('maurusApp')
+    .factory('MonitoringService', MonitoringService);
 
-               checkHealth: function () {
-                 return $http.get('health').then(function (response) {
-                   return response.data;
-                 });
-               },
+  function MonitoringService($http) {
+    return {
+      getMetrics: getMetrics,
+      checkHealth: checkHealth,
+      threadDump: threadDump
+    };
 
-               threadDump: function () {
-                 return $http.get('dump').then(function (response) {
-                   return response.data;
-                 });
-               }
-             };
-           });
+    ////////////////
+
+    function getMetrics() {
+      return $http.get('metrics/metrics').then(function (response) {
+        return response.data;
+      });
+    }
+
+    function checkHealth() {
+      return $http.get('health').then(function (response) {
+        return response.data;
+      });
+    }
+
+    function threadDump() {
+      return $http.get('dump').then(function (response) {
+        return response.data;
+      });
+    }
+  }
+
+})();

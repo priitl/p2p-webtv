@@ -1,6 +1,12 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .controller('FooterController', function () {
+  angular
+    .module('maurusApp')
+    .controller('FooterController', FooterController);
 
-              });
+  function FooterController() {
+
+  }
+
+})();

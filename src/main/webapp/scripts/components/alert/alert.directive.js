@@ -1,100 +1,83 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .directive('jhAlert', function (AlertService) {
-               return {
-                 restrict: 'E',
-                 template: '<div class="alerts" ng-cloak="">' +
-                           '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>'
-                           +
-                           '</div>',
-                 controller: ['$scope',
-                              function ($scope) {
-                                $scope.alerts = AlertService.get();
-                                $scope.$on('$destroy', function () {
-                                  $scope.alerts = [];
-                                });
-                              }
-                 ]
-               }
-             })
-  .directive('jhAlertError', function (AlertService, $rootScope, $translate) {
-               return {
-                 restrict: 'E',
-                 template: '<div class="alerts" ng-cloak="">' +
-                           '<alert ng-cloak="" ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><pre>{{ alert.msg }}</pre></alert>'
-                           +
-                           '</div>',
-                 controller: ['$scope',
-                              function ($scope) {
-                                $scope.alerts = AlertService.get();
+  angular
+    .module('maurusApp')
+    .directive('jhAlert', jhAlert)
+    .directive('jhAlertError', jhAlertError);
 
-                                var cleanHttpErrorListener = $rootScope.$on('maurusApp.httpError',
-                                                                            function (event, httpResponse) {
-                                                                              var i;
-                                                                              event.stopPropagation();
-                                                                              switch (httpResponse.status) {
-                                                                                // connection refused, server not reachable
-                                                                                case 0:
-                                                                                  addErrorAlert("Server not reachable",
-                                                                                                'error.serverNotReachable');
-                                                                                  break;
+  function jhAlert() {
+    return {
+      bindToController: true,
+      controller: JhAlertController,
+      controllerAs: 'vm',
+      restrict: 'E',
+      templateUrl: 'scripts/components/alert/alert.directive.html'
+    };
+  }
 
-                                                                                case 400:
-                                                                                  if (httpResponse.data
-                                                                                      && httpResponse.data.fieldErrors) {
-                                                                                    for (i = 0; i
-                                                                                                < httpResponse.data.fieldErrors.length;
-                                                                                         i++) {
-                                                                                      var fieldError = httpResponse.data.fieldErrors[i];
-                                                                                      // convert 'something[14].other[4].id'
-                                                                                      // to 'something[].other[].id' so
-                                                                                      // translations can be written to it
-                                                                                      var convertedField = fieldError.field.replace(/\[\d*\]/g,
-                                                                                                                                    "[]");
-                                                                                      var fieldName = $translate.instant('maurusApp.'
-                                                                                                                         + fieldError.objectName
-                                                                                                                         + '.'
-                                                                                                                         + convertedField);
-                                                                                      addErrorAlert('Field ' + fieldName
-                                                                                                    + ' cannot be empty',
-                                                                                                    'error.'
-                                                                                                    + fieldError.message,
-                                                                                        {fieldName: fieldName});
-                                                                                    }
-                                                                                  } else if (httpResponse.data
-                                                                                             && httpResponse.data.message) {
-                                                                                    addErrorAlert(httpResponse.data.message,
-                                                                                                  httpResponse.data.message,
-                                                                                                  httpResponse.data);
-                                                                                  } else {
-                                                                                    addErrorAlert(httpResponse.data);
-                                                                                  }
-                                                                                  break;
+  function JhAlertController($scope, AlertService) {
+    var vm = this;
+    vm.alerts = AlertService.get();
+    $scope.$on('$destroy', function () {
+      vm.alerts = [];
+    });
+  }
 
-                                                                                default:
-                                                                                  if (httpResponse.data
-                                                                                      && httpResponse.data.message) {
-                                                                                    addErrorAlert(httpResponse.data.message);
-                                                                                  } else {
-                                                                                    addErrorAlert(JSON.stringify(httpResponse));
-                                                                                  }
-                                                                              }
-                                                                            });
+  function jhAlertError() {
+    return {
+      bindToController: true,
+      controller: JhAlertErrorController,
+      controllerAs: 'vm',
+      restrict: 'E',
+      templateUrl: 'scripts/components/alert/alert.directive.html'
+    };
+  }
 
-                                $scope.$on('$destroy', function () {
-                                  if (cleanHttpErrorListener !== undefined && cleanHttpErrorListener !== null) {
-                                    cleanHttpErrorListener();
-                                  }
-                                });
+  function JhAlertErrorController($scope, $rootScope, $translate, AlertService) {
+    var vm = this;
+    vm.alerts = AlertService.get();
 
-                                var addErrorAlert = function (message, key, data) {
+    var cleanHttpErrorListener = $rootScope.$on('maurusApp.httpError', function (event, httpResponse) {
+      event.stopPropagation();
+      switch (httpResponse.status) {
+        case 0:
+          addErrorAlert("Server not reachable", 'error.serverNotReachable');
+          break;
+        case 400:
+          if (httpResponse.data && httpResponse.data.fieldErrors) {
+            for (var i = 0; i < httpResponse.data.fieldErrors.length; i++) {
+              var fieldError = httpResponse.data.fieldErrors[i];
+              var convertedField = fieldError.field.replace(/\[\d*\]/g, "[]");
+              var fieldName = $translate.instant('maurusApp.' + fieldError.objectName + '.' + convertedField);
+              addErrorAlert('Field ' + fieldName + ' cannot be empty', 'error.' + fieldError.message,
+                {fieldName: fieldName});
+            }
+          } else if (httpResponse.data && httpResponse.data.message) {
+            addErrorAlert(httpResponse.data.message, httpResponse.data.message, httpResponse.data);
+          } else {
+            addErrorAlert(httpResponse.data);
+          }
+          break;
+        default:
+          if (httpResponse.data && httpResponse.data.message) {
+            addErrorAlert(httpResponse.data.message);
+          } else {
+            addErrorAlert(JSON.stringify(httpResponse));
+          }
+      }
+    });
 
-                                  key = key && key != null ? key : message;
-                                  AlertService.error(key, data);
+    $scope.$on('$destroy', function () {
+      if (cleanHttpErrorListener !== undefined && cleanHttpErrorListener !== null) {
+        cleanHttpErrorListener();
+      }
+    });
 
-                                }
-                              }
-                 ]
-               }
-             });
+    var addErrorAlert = function (message, key, data) {
+      key = key && key != null ? key : message;
+      AlertService.error(key, data);
+    }
+  }
+
+})();

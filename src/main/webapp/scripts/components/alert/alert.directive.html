@@ -1,0 +1,5 @@
+<div class="alerts" ng-cloak="">
+  <alert ng-cloak="" ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="alert.close()">
+    <pre>{{ alert.msg }}</pre>
+  </alert>
+</div>

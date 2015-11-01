@@ -1,7 +1,7 @@
 <div class="row border-bottom">
   <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
-      <span minimaliza-sidebar></span>
+      <span mini-navbar></span>
 
       <form role="search" class="navbar-form-custom" method="post" action="views/search_results.html">
         <div class="form-group">
@@ -16,16 +16,16 @@
         <a class="dropdown-toggle count-info" href dropdown-toggle>
           <span class="nav-label" translate="global.menu.language">Language</span>
         </a>
-        <ul class="dropdown-menu animated fadeInRight m-t-xs" ng-controller="LanguageController">
-          <li active-menu="{{language}}" ng-repeat="language in languages">
-            <a ng-click="changeLanguage(language)">
+        <ul class="dropdown-menu animated fadeInRight m-t-xs" ng-controller="LanguageController as lang">
+          <li active-menu="{{language}}" ng-repeat="language in lang.languages">
+            <a ng-click="lang.changeLanguage(language)">
               <span>{{language | findLanguageFromKey}}</span>
             </a>
           </li>
         </ul>
       </li>
 
-      <!-- Logout -->
+      <!-- Login -->
       <li ng-if="!isAuthenticated()">
         <a ui-sref="login">
           <i class="fa fa-sign-in"></i>

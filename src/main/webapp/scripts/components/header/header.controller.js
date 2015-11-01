@@ -1,11 +1,19 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('maurusApp')
-  .controller('HeaderController', function ($scope, $state, Auth, Principal) {
-                $scope.isAuthenticated = Principal.isAuthenticated;
+  angular
+    .module('maurusApp')
+    .controller('HeaderController', HeaderController);
 
-                $scope.logout = function () {
-                  Auth.logout();
-                  $state.go('home');
-                };
-              });
+  function HeaderController($scope, $state, Auth, Principal) {
+
+    $scope.isAuthenticated = Principal.isAuthenticated;
+
+    $scope.logout = function(){
+      Auth.logout();
+      $state.go('home');
+    }
+  }
+
+})();
+
