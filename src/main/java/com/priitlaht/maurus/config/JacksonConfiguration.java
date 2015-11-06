@@ -26,6 +26,10 @@ public class JacksonConfiguration {
     module.addSerializer(LocalDateTime.class, JSR310DateTimeSerializer.INSTANCE);
     module.addSerializer(Instant.class, JSR310DateTimeSerializer.INSTANCE);
     module.addDeserializer(LocalDate.class, JSR310LocalDateDeserializer.INSTANCE);
+    return getJacksonMapperBuilder(module);
+  }
+
+  private Jackson2ObjectMapperBuilder getJacksonMapperBuilder(JavaTimeModule module) {
     return new Jackson2ObjectMapperBuilder()
       .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
       .findModulesViaServiceLoader(true)

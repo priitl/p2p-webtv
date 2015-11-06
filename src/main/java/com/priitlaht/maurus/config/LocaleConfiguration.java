@@ -16,7 +16,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 public class LocaleConfiguration extends WebMvcConfigurerAdapter implements EnvironmentAware {
-
   private RelaxedPropertyResolver propertyResolver;
 
   @Override

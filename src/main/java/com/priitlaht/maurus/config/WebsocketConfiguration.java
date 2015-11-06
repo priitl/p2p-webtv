@@ -2,8 +2,6 @@ package com.priitlaht.maurus.config;
 
 import com.priitlaht.maurus.security.AuthoritiesConstants;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -26,10 +24,7 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
-
-  public static final String IP_ADDRESS = "IP_ADDRESS";
-  private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
+public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -38,39 +33,38 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/websocket/tracker")
-      .setHandshakeHandler(new DefaultHandshakeHandler() {
-        @Override
-        protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-          Principal principal = request.getPrincipal();
-          if (principal == null) {
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-            principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
-          }
-          return principal;
+    registry.addEndpoint("/websocket/tracker").setHandshakeHandler(getHandshakeHandler()).withSockJS().setInterceptors(getHandshakeInterceptor());
+  }
+
+  private DefaultHandshakeHandler getHandshakeHandler() {
+    return new DefaultHandshakeHandler() {
+      @Override
+      protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+        Principal principal = request.getPrincipal();
+        if (principal == null) {
+          Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+          authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+          principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
         }
-      })
-      .withSockJS()
-      .setInterceptors(httpSessionHandshakeInterceptor());
+        return principal;
+      }
+    };
   }
 
   @Bean
-  public HandshakeInterceptor httpSessionHandshakeInterceptor() {
+  public HandshakeInterceptor getHandshakeInterceptor() {
     return new HandshakeInterceptor() {
-
       @Override
       public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         if (request instanceof ServletServerHttpRequest) {
           ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-          attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress());
+          attributes.put(Constants.IP_ADDRESS, servletRequest.getRemoteAddress());
         }
         return true;
       }
 
       @Override
       public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
       }
     };
   }

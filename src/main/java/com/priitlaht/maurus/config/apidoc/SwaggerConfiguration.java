@@ -1,10 +1,8 @@
 package com.priitlaht.maurus.config.apidoc;
 
+import com.priitlaht.maurus.config.ApplicationProperties;
 import com.priitlaht.maurus.config.Constants;
-import com.priitlaht.maurus.config.JHipsterProperties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,6 +11,7 @@ import org.springframework.util.StopWatch;
 
 import java.util.Date;
 
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -21,38 +20,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
- * Springfox Swagger configuration.
- *
- * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that case, you can use a
- * specific Spring profile for this class, so that only front-end developers have access to the Swagger view.
+ * SpringFox Swagger configuration. <p> Warning! When having a lot of REST endpoints, SpringFox can become a performance issue. In that case, you can
+ * use a specific Spring profile for this class, so that only front-end developers have access to the Swagger view.
  */
+@Slf4j
 @Configuration
 @EnableSwagger2
 @Profile("!" + Constants.SPRING_PROFILE_PRODUCTION)
 public class SwaggerConfiguration {
+  private static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
 
-  public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
-  private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
-
-  /**
-   * Swagger Springfox configuration.
-   */
   @Bean
-  public Docket swaggerSpringfoxDocket(JHipsterProperties jHipsterProperties) {
+  public Docket swaggerSpringfoxDocket(ApplicationProperties applicationProperties) {
     log.debug("Starting Swagger");
     StopWatch watch = new StopWatch();
     watch.start();
-    ApiInfo apiInfo = new ApiInfo(
-      jHipsterProperties.getSwagger().getTitle(),
-      jHipsterProperties.getSwagger().getDescription(),
-      jHipsterProperties.getSwagger().getVersion(),
-      jHipsterProperties.getSwagger().getTermsOfServiceUrl(),
-      jHipsterProperties.getSwagger().getContact(),
-      jHipsterProperties.getSwagger().getLicense(),
-      jHipsterProperties.getSwagger().getLicenseUrl());
+    Docket docket = getDocket(applicationProperties);
+    watch.stop();
+    log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
+    return docket;
+  }
 
-    Docket docket = new Docket(DocumentationType.SWAGGER_2)
-      .apiInfo(apiInfo)
+  private Docket getDocket(ApplicationProperties applicationProperties) {
+    return new Docket(DocumentationType.SWAGGER_2)
+      .apiInfo(getApiInfo(applicationProperties))
       .genericModelSubstitutes(ResponseEntity.class)
       .forCodeGeneration(true)
       .genericModelSubstitutes(ResponseEntity.class)
@@ -62,8 +53,16 @@ public class SwaggerConfiguration {
       .select()
       .paths(regex(DEFAULT_INCLUDE_PATTERN))
       .build();
-    watch.stop();
-    log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
-    return docket;
+  }
+
+  private ApiInfo getApiInfo(ApplicationProperties applicationProperties) {
+    return new ApiInfo(
+      applicationProperties.getSwagger().getTitle(),
+      applicationProperties.getSwagger().getDescription(),
+      applicationProperties.getSwagger().getVersion(),
+      applicationProperties.getSwagger().getTermsOfServiceUrl(),
+      applicationProperties.getSwagger().getContact(),
+      applicationProperties.getSwagger().getLicense(),
+      applicationProperties.getSwagger().getLicenseUrl());
   }
 }

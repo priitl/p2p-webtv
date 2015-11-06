@@ -4,8 +4,6 @@ import com.priitlaht.maurus.repository.CustomSocialUsersConnectionRepository;
 import com.priitlaht.maurus.repository.SocialUserConnectionRepository;
 import com.priitlaht.maurus.security.social.CustomSignInAdapter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -25,66 +23,64 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
+
+import static java.lang.String.format;
+
 /**
- * Basic Spring Social configuration.
- *
- * <p>Creates the beans necessary to manage Connections to social services and link accounts from those services to internal
- * Users.</p>
+ * Basic Spring Social configuration. <p> <p>Creates the beans necessary to manage Connections to social services and link accounts from those
+ * services to internal Users.</p>
  */
+@Slf4j
 @Configuration
 @EnableSocial
 public class SocialConfiguration implements SocialConfigurer {
-  private final Logger log = LoggerFactory.getLogger(SocialConfiguration.class);
 
   @Inject
   private SocialUserConnectionRepository socialUserConnectionRepository;
 
   @Override
-  public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
-    // Google configuration
-    String googleClientId = environment.getProperty("spring.social.google.clientId");
-    String googleClientSecret = environment.getProperty("spring.social.google.clientSecret");
-    if (googleClientId != null && googleClientSecret != null) {
-      log.debug("Configuring GoogleConnectionFactory");
-      connectionFactoryConfigurer.addConnectionFactory(
-        new GoogleConnectionFactory(
-          googleClientId,
-          googleClientSecret
-        )
-      );
-    } else {
-      log.error("Cannot configure GoogleConnectionFactory id or secret null");
-    }
+  public void addConnectionFactories(ConnectionFactoryConfigurer configurer, Environment environment) {
+    addConfiguration(configurer, environment, SocialProvider.GOOGLE);
+    addConfiguration(configurer, environment, SocialProvider.FACEBOOK);
+    addConfiguration(configurer, environment, SocialProvider.TWITTER);
+  }
 
-    // Facebook configuration
-    String facebookClientId = environment.getProperty("spring.social.facebook.clientId");
-    String facebookClientSecret = environment.getProperty("spring.social.facebook.clientSecret");
-    if (facebookClientId != null && facebookClientSecret != null) {
-      log.debug("Configuring FacebookConnectionFactory");
-      connectionFactoryConfigurer.addConnectionFactory(
-        new FacebookConnectionFactory(
-          facebookClientId,
-          facebookClientSecret
-        )
-      );
-    } else {
-      log.error("Cannot configure FacebookConnectionFactory id or secret null");
-    }
+  private void addConfiguration(ConnectionFactoryConfigurer configurer, Environment environment, SocialProvider socialProvider) {
+    String clientId = environment.getProperty(format("spring.social.%s.clientId", socialProvider.name().toLowerCase()));
+    String clientSecret = environment.getProperty(format("spring.social.%s.clientSecret", socialProvider.name().toLowerCase()));
+    if (clientId != null && clientSecret != null) {
+      log.debug(format("Configuring %s ConnectionFactory", socialProvider));
+      switch (socialProvider) {
+        case GOOGLE:
+          addGoogleConfiguration(configurer, clientId, clientSecret);
+          break;
+        case FACEBOOK:
+          addFacebookConfiguration(configurer, clientId, clientSecret);
+          break;
+        case TWITTER:
+          addTwitterConfiguration(configurer, clientId, clientSecret);
+          break;
+      }
 
-    // Twitter configuration
-    String twitterClientId = environment.getProperty("spring.social.twitter.clientId");
-    String twitterClientSecret = environment.getProperty("spring.social.twitter.clientSecret");
-    if (twitterClientId != null && twitterClientSecret != null) {
-      log.debug("Configuring TwitterConnectionFactory");
-      connectionFactoryConfigurer.addConnectionFactory(
-        new TwitterConnectionFactory(
-          twitterClientId,
-          twitterClientSecret
-        )
-      );
     } else {
-      log.error("Cannot configure TwitterConnectionFactory id or secret null");
+      log.error(format("Cannot configure %s ConnectionFactory : id or secret is null", socialProvider));
     }
+  }
+
+  private void addGoogleConfiguration(ConnectionFactoryConfigurer configurer, String clientId, String clientSecret) {
+    GoogleConnectionFactory googleConnectionFactory = new GoogleConnectionFactory(clientId, clientSecret);
+    configurer.addConnectionFactory(googleConnectionFactory);
+  }
+
+  private void addFacebookConfiguration(ConnectionFactoryConfigurer configurer, String clientId, String clientSecret) {
+    FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(clientId, clientSecret);
+    configurer.addConnectionFactory(facebookConnectionFactory);
+  }
+
+  private void addTwitterConfiguration(ConnectionFactoryConfigurer configurer, String clientId, String clientSecret) {
+    TwitterConnectionFactory twitterConnectionFactory = new TwitterConnectionFactory(clientId, clientSecret);
+    configurer.addConnectionFactory(twitterConnectionFactory);
   }
 
   @Override
@@ -93,8 +89,8 @@ public class SocialConfiguration implements SocialConfigurer {
   }
 
   @Override
-  public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-    return new CustomSocialUsersConnectionRepository(socialUserConnectionRepository, connectionFactoryLocator);
+  public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator locator) {
+    return new CustomSocialUsersConnectionRepository(socialUserConnectionRepository, locator);
   }
 
   @Bean
@@ -103,14 +99,18 @@ public class SocialConfiguration implements SocialConfigurer {
   }
 
   @Bean
-  public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter) throws Exception {
-    ProviderSignInController providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
-    providerSignInController.setSignUpUrl("/social/signup");
-    return providerSignInController;
+  public ProviderSignInController providerSignInController(ConnectionFactoryLocator locator, UsersConnectionRepository repository, SignInAdapter adapter) throws Exception {
+    ProviderSignInController signInController = new ProviderSignInController(locator, repository, adapter);
+    signInController.setSignUpUrl("/social/signup");
+    return signInController;
   }
 
   @Bean
-  public ProviderSignInUtils getProviderSignInUtils(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
-    return new ProviderSignInUtils(connectionFactoryLocator, usersConnectionRepository);
+  public ProviderSignInUtils getProviderSignInUtils(ConnectionFactoryLocator locator, UsersConnectionRepository repository) {
+    return new ProviderSignInUtils(locator, repository);
+  }
+
+  private enum SocialProvider {
+    GOOGLE, FACEBOOK, TWITTER
   }
 }

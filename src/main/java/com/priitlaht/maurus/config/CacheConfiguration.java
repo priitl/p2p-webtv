@@ -3,8 +3,6 @@ package com.priitlaht.maurus.config;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ehcache.InstrumentedEhcache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -23,13 +21,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(value = {MetricsConfiguration.class, DatabaseConfiguration.class})
 @Profile("!" + Constants.SPRING_PROFILE_FAST)
 public class CacheConfiguration {
-
-  private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
 
   @PersistenceContext
   private EntityManager entityManager;
@@ -49,14 +48,13 @@ public class CacheConfiguration {
   }
 
   @Bean
-  public CacheManager cacheManager(JHipsterProperties jHipsterProperties) {
+  public CacheManager cacheManager(ApplicationProperties applicationProperties) {
     log.debug("Starting Ehcache");
     cacheManager = net.sf.ehcache.CacheManager.create();
-    cacheManager.getConfiguration().setMaxBytesLocalHeap(jHipsterProperties.getCache().getEhcache().getMaxBytesLocalHeap());
+    cacheManager.getConfiguration().setMaxBytesLocalHeap(applicationProperties.getCache().getEhcache().getMaxBytesLocalHeap());
     log.debug("Registering Ehcache Metrics gauges");
     Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
     for (EntityType<?> entity : entities) {
-
       String name = entity.getName();
       if (name == null || entity.getJavaType() != null) {
         name = entity.getJavaType().getName();
@@ -65,7 +63,7 @@ public class CacheConfiguration {
 
       net.sf.ehcache.Cache cache = cacheManager.getCache(name);
       if (cache != null) {
-        cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
+        cache.getCacheConfiguration().setTimeToLiveSeconds(applicationProperties.getCache().getTimeToLiveSeconds());
         net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
         cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
       }

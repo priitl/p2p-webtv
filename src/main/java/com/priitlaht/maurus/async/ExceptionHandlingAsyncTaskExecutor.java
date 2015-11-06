@@ -1,7 +1,5 @@
 package com.priitlaht.maurus.async;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -9,16 +7,13 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
-  InitializingBean, DisposableBean {
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-  private final Logger log = LoggerFactory.getLogger(ExceptionHandlingAsyncTaskExecutor.class);
-
+@Slf4j
+@RequiredArgsConstructor(staticName = "of")
+public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, InitializingBean, DisposableBean {
   private final AsyncTaskExecutor executor;
-
-  public ExceptionHandlingAsyncTaskExecutor(AsyncTaskExecutor executor) {
-    this.executor = executor;
-  }
 
   @Override
   public void execute(Runnable task) {

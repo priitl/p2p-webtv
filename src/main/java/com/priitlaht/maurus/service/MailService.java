@@ -1,12 +1,10 @@
 package com.priitlaht.maurus.service;
 
-import com.priitlaht.maurus.config.JHipsterProperties;
+import com.priitlaht.maurus.config.ApplicationProperties;
 import com.priitlaht.maurus.domain.User;
 
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,30 +18,23 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Service for sending e-mails. <p/> <p> We use the @Async annotation to send e-mails asynchronously. </p>
  */
+@Slf4j
 @Service
 public class MailService {
 
-  private final Logger log = LoggerFactory.getLogger(MailService.class);
-
   @Inject
-  private JHipsterProperties jHipsterProperties;
-
+  private ApplicationProperties applicationProperties;
   @Inject
   private JavaMailSenderImpl javaMailSender;
-
   @Inject
   private MessageSource messageSource;
-
   @Inject
   private SpringTemplateEngine templateEngine;
-
-  /**
-   * System default email address that sends the e-mails.
-   */
-  private String from;
 
   @Async
   public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
@@ -55,7 +46,7 @@ public class MailService {
     try {
       MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
       message.setTo(to);
-      message.setFrom(jHipsterProperties.getMail().getFrom());
+      message.setFrom(applicationProperties.getMail().getFrom());
       message.setSubject(subject);
       message.setText(content, isHtml);
       javaMailSender.send(mimeMessage);

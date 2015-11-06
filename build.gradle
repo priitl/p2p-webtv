@@ -138,6 +138,7 @@ dependencies {
     exclude module: 'mapstruct'
   }
 
+  compile group: 'org.projectlombok', name: 'lombok', version: lombok_version
   compile group: 'org.postgresql', name: 'postgresql', version: postgresql_version
   compile group: 'fr.ippon.spark.metrics', name: 'metrics-spark-reporter', version: metrics_spark_reporter_version
   compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: mapstruct_version

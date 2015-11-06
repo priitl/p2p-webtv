@@ -1,7 +1,7 @@
 package com.priitlaht.maurus;
 
 import com.priitlaht.maurus.config.Constants;
-import com.priitlaht.maurus.config.JHipsterProperties;
+import com.priitlaht.maurus.config.ApplicationProperties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({JHipsterProperties.class, LiquibaseProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, LiquibaseProperties.class})
 public class Application {
 
   private static final Logger log = LoggerFactory.getLogger(Application.class);

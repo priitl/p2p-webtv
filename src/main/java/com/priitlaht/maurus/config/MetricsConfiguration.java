@@ -47,7 +47,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
   private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
 
   @Inject
-  private JHipsterProperties jHipsterProperties;
+  private ApplicationProperties applicationProperties;
 
   @Override
   @Bean
@@ -69,7 +69,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     metricRegistry.register(PROP_METRIC_REG_JVM_THREADS, new ThreadStatesGaugeSet());
     metricRegistry.register(PROP_METRIC_REG_JVM_FILES, new FileDescriptorRatioGauge());
     metricRegistry.register(PROP_METRIC_REG_JVM_BUFFERS, new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
-    if (jHipsterProperties.getMetrics().getJmx().isEnabled()) {
+    if (applicationProperties.getMetrics().getJmx().isEnabled()) {
       log.debug("Initializing Metrics JMX reporting");
       JmxReporter jmxReporter = JmxReporter.forRegistry(metricRegistry).build();
       jmxReporter.start();
@@ -87,15 +87,15 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     private MetricRegistry metricRegistry;
 
     @Inject
-    private JHipsterProperties jHipsterProperties;
+    private ApplicationProperties applicationProperties;
 
     @PostConstruct
     private void init() {
-      if (jHipsterProperties.getMetrics().getGraphite().isEnabled()) {
+      if (applicationProperties.getMetrics().getGraphite().isEnabled()) {
         log.info("Initializing Metrics Graphite reporting");
-        String graphiteHost = jHipsterProperties.getMetrics().getGraphite().getHost();
-        Integer graphitePort = jHipsterProperties.getMetrics().getGraphite().getPort();
-        String graphitePrefix = jHipsterProperties.getMetrics().getGraphite().getPrefix();
+        String graphiteHost = applicationProperties.getMetrics().getGraphite().getHost();
+        Integer graphitePort = applicationProperties.getMetrics().getGraphite().getPort();
+        String graphitePrefix = applicationProperties.getMetrics().getGraphite().getPrefix();
         Graphite graphite = new Graphite(new InetSocketAddress(graphiteHost, graphitePort));
         GraphiteReporter graphiteReporter = GraphiteReporter.forRegistry(metricRegistry)
           .convertRatesTo(TimeUnit.SECONDS)
@@ -118,14 +118,14 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     private MetricRegistry metricRegistry;
 
     @Inject
-    private JHipsterProperties jHipsterProperties;
+    private ApplicationProperties applicationProperties;
 
     @PostConstruct
     private void init() {
-      if (jHipsterProperties.getMetrics().getSpark().isEnabled()) {
+      if (applicationProperties.getMetrics().getSpark().isEnabled()) {
         log.info("Initializing Metrics Spark reporting");
-        String sparkHost = jHipsterProperties.getMetrics().getSpark().getHost();
-        Integer sparkPort = jHipsterProperties.getMetrics().getSpark().getPort();
+        String sparkHost = applicationProperties.getMetrics().getSpark().getHost();
+        Integer sparkPort = applicationProperties.getMetrics().getSpark().getPort();
         SparkReporter sparkReporter = SparkReporter.forRegistry(metricRegistry)
           .convertRatesTo(TimeUnit.SECONDS)
           .convertDurationsTo(TimeUnit.MILLISECONDS)

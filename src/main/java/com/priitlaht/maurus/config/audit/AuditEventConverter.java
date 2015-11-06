@@ -38,13 +38,12 @@ public class AuditEventConverter {
   /**
    * Convert a PersistentAuditEvent to an AuditEvent
    *
-   * @param persistentAuditEvent the event to convert
+   * @param persistentEvent the persistentEvent to convert
    * @return the converted list.
    */
-  public AuditEvent convertToAuditEvent(PersistentAuditEvent persistentAuditEvent) {
-    Instant instant = persistentAuditEvent.getAuditEventDate().atZone(ZoneId.systemDefault()).toInstant();
-    return new AuditEvent(Date.from(instant), persistentAuditEvent.getPrincipal(),
-      persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
+  public AuditEvent convertToAuditEvent(PersistentAuditEvent persistentEvent) {
+    Instant instant = persistentEvent.getAuditEventDate().atZone(ZoneId.systemDefault()).toInstant();
+    return new AuditEvent(Date.from(instant), persistentEvent.getPrincipal(), persistentEvent.getAuditEventType(), convertDataToObjects(persistentEvent.getData()));
   }
 
   /**
@@ -55,7 +54,6 @@ public class AuditEventConverter {
    */
   public Map<String, Object> convertDataToObjects(Map<String, String> data) {
     Map<String, Object> results = new HashMap<>();
-
     if (data != null) {
       for (String key : data.keySet()) {
         results.put(key, data.get(key));
@@ -72,12 +70,9 @@ public class AuditEventConverter {
    */
   public Map<String, String> convertDataToStrings(Map<String, Object> data) {
     Map<String, String> results = new HashMap<>();
-
     if (data != null) {
       for (String key : data.keySet()) {
         Object object = data.get(key);
-
-        // Extract the data that will be saved.
         if (object instanceof WebAuthenticationDetails) {
           WebAuthenticationDetails authenticationDetails = (WebAuthenticationDetails) object;
           results.put("remoteAddress", authenticationDetails.getRemoteAddress());
@@ -89,7 +84,6 @@ public class AuditEventConverter {
         }
       }
     }
-
     return results;
   }
 }

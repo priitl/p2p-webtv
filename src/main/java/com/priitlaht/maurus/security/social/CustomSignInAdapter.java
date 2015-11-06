@@ -1,6 +1,6 @@
 package com.priitlaht.maurus.security.social;
 
-import com.priitlaht.maurus.config.JHipsterProperties;
+import com.priitlaht.maurus.config.ApplicationProperties;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ public class CustomSignInAdapter implements SignInAdapter {
   private UserDetailsService userDetailsService;
 
   @Inject
-  private JHipsterProperties jHipsterProperties;
+  private ApplicationProperties applicationProperties;
 
   @Override
   public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
@@ -29,6 +29,6 @@ public class CustomSignInAdapter implements SignInAdapter {
       null,
       user.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(newAuth);
-    return jHipsterProperties.getSocial().getRedirectAfterSignIn();
+    return applicationProperties.getSocial().getRedirectAfterSignIn();
   }
 }

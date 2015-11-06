@@ -31,25 +31,20 @@ import javax.inject.Inject;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Inject
-  private Environment env;
-
-  @Inject
   private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
-
   @Inject
   private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
-
   @Inject
   private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
-
   @Inject
   private Http401UnauthorizedEntryPoint authenticationEntryPoint;
-
   @Inject
   private UserDetailsService userDetailsService;
-
   @Inject
   private RememberMeServices rememberMeServices;
+
+  @Inject
+  private Environment environment;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -58,9 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-      .userDetailsService(userDetailsService)
-      .passwordEncoder(passwordEncoder());
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 
   @Override
@@ -87,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .rememberMe()
       .rememberMeServices(rememberMeServices)
       .rememberMeParameter("remember-me")
-      .key(env.getProperty("jhipster.security.rememberme.key"))
+      .key(environment.getProperty("jhipster.security.rememberme.key"))
       .and()
       .formLogin()
       .loginProcessingUrl("/api/authentication")
@@ -127,7 +120,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .antMatchers("/configprops/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/info/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/autoconfig/**").hasAuthority(AuthoritiesConstants.ADMIN)
-      .antMatchers("/env/**").hasAuthority(AuthoritiesConstants.ADMIN)
+      .antMatchers("/environment/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/mappings/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/liquibase/**").hasAuthority(AuthoritiesConstants.ADMIN)
@@ -136,7 +129,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .antMatchers("/configuration/ui").permitAll()
       .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/protected/**").authenticated();
-
   }
 
   @Bean

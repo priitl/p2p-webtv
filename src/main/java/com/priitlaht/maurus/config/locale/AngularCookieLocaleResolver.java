@@ -13,11 +13,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static java.lang.String.format;
+
 /**
- * Angular cookie saved the locale with a double quote (%22en%22). So the default CookieLocaleResolver#StringUtils.parseLocaleString(localePart)
- * is not able to parse the locale.
- *
- * This class will check if a double quote has been added, if so it will remove it.
+ * Angular cookie saved the locale with a double quote (%22en%22). So the default CookieLocaleResolver#StringUtils.parseLocaleString(localePart) is
+ * not able to parse the locale. <p> This class will check if a double quote has been added, if so it will remove it.
  */
 public class AngularCookieLocaleResolver extends CookieLocaleResolver {
 
@@ -74,15 +74,12 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
           timeZone = StringUtils.parseTimeZoneString(timeZonePart);
         }
         if (logger.isTraceEnabled()) {
-          logger.trace("Parsed cookie value [" + cookie.getValue() + "] into locale '" + locale +
-            "'" + (timeZone != null ? " and time zone '" + timeZone.getID() + "'" : ""));
+          logger.trace(format("Parsed cookie value [%s] into locale '%s'%s",
+            cookie.getValue(), locale, timeZone != null ? " and time zone '" + timeZone.getID() + "'" : ""));
         }
       }
-      request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME,
-        (locale != null ? locale : determineDefaultLocale(request)));
-
-      request.setAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME,
-        (timeZone != null ? timeZone : determineDefaultTimeZone(request)));
+      request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME, (locale != null ? locale : determineDefaultLocale(request)));
+      request.setAttribute(TIME_ZONE_REQUEST_ATTRIBUTE_NAME, (timeZone != null ? timeZone : determineDefaultTimeZone(request)));
     }
   }
 }
