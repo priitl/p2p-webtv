@@ -17,23 +17,23 @@
     overflowToDisk="false"
     />
 
-  <cache name="com.priitlaht.maurus.domain.User"
+  <cache name="com.priitlaht.maurus.backend.domain.User"
          timeToLiveSeconds="3600">
   </cache>
 
-  <cache name="com.priitlaht.maurus.domain.Authority"
+  <cache name="com.priitlaht.maurus.backend.domain.Authority"
          timeToLiveSeconds="3600">
   </cache>
 
-  <cache name="com.priitlaht.maurus.domain.User.authorities"
+  <cache name="com.priitlaht.maurus.backend.domain.User.authorities"
          timeToLiveSeconds="3600">
   </cache>
 
-  <cache name="com.priitlaht.maurus.domain.PersistentToken"
+  <cache name="com.priitlaht.maurus.backend.domain.PersistentToken"
          timeToLiveSeconds="3600">
   </cache>
 
-  <cache name="com.priitlaht.maurus.domain.User.persistentTokens"
+  <cache name="com.priitlaht.maurus.backend.domain.User.persistentTokens"
          timeToLiveSeconds="3600">
   </cache>
 

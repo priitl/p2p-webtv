@@ -52,7 +52,7 @@
       vm.servicesStats = {};
       vm.cachesStats = {};
       angular.forEach(newValue.timers, function (value, key) {
-        if (key.indexOf('web.rest') !== -1 || key.indexOf('service') !== -1) {
+        if (key.indexOf('frontend') !== -1 || key.indexOf('service') !== -1) {
           vm.servicesStats[key] = value;
         }
         if (key.indexOf('net.sf.ehcache.Cache') !== -1) {
