@@ -30,29 +30,41 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h4>Audits</h4>
+        </div>
+        <div class="ibox-content">
 
-  <table class="table table-condensed table-striped table-bordered table-responsive">
-    <thead>
-    <tr>
-      <th ng-click="predicate = 'timestamp'; reverse=!reverse"><span translate="audits.table.header.date">Date</span></th>
-      <th ng-click="predicate = 'principal'; reverse=!reverse"><span translate="audits.table.header.principal">User</span>
-      </th>
-      <th ng-click="predicate = 'type'; reverse=!reverse"><span translate="audits.table.header.status">State</span></th>
-      <th ng-click="predicate = 'data.message'; reverse=!reverse"><span
-        translate="audits.table.header.data">Extra data</span></th>
-    </tr>
-    </thead>
+          <table class="table table-condensed table-striped table-bordered table-responsive">
+            <thead>
+            <tr>
+              <th ng-click="predicate = 'timestamp'; reverse=!reverse"><span translate="audits.table.header.date">Date</span></th>
+              <th ng-click="predicate = 'principal'; reverse=!reverse"><span translate="audits.table.header.principal">User</span>
+              </th>
+              <th ng-click="predicate = 'type'; reverse=!reverse"><span translate="audits.table.header.status">State</span></th>
+              <th ng-click="predicate = 'data.message'; reverse=!reverse"><span
+                translate="audits.table.header.data">Extra data</span></th>
+            </tr>
+            </thead>
 
-    <tr ng-repeat="audit in vm.audits | filter:filter | orderBy:predicate:reverse" ng-hide="audit.filtered">
-      <td><span>{{audit.timestamp| date:'medium'}}</span></td>
-      <td>
-        <small>{{audit.principal}}</small>
-      </td>
-      <td>{{audit.type}}</td>
-      <td>
-        <span ng-show="audit.data.message">{{audit.data.message}}</span>
-        <span ng-show="audit.data.remoteAddress"><span translate="audits.table.data.remoteAddress">Remote Address</span> {{audit.data.remoteAddress}}</span>
-      </td>
-    </tr>
-  </table>
+            <tr ng-repeat="audit in vm.audits | filter:filter | orderBy:predicate:reverse" ng-hide="audit.filtered">
+              <td><span>{{audit.timestamp| date:'medium'}}</span></td>
+              <td>
+                <small>{{audit.principal}}</small>
+              </td>
+              <td>{{audit.type}}</td>
+              <td>
+                <span ng-show="audit.data.message">{{audit.data.message}}</span>
+                <span ng-show="audit.data.remoteAddress"><span translate="audits.table.data.remoteAddress">Remote Address</span> {{audit.data.remoteAddress}}</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

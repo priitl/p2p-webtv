@@ -21,29 +21,44 @@
     </button>
   </p>
 
-  <table id="healthCheck" class="table table-striped">
-    <thead>
-    <tr>
-      <th class="col-md-7" translate="health.table.service">Service Name</th>
-      <th class="col-md-2 text-center" translate="health.table.status">Status</th>
-      <th class="col-md-2 text-center" translate="health.details.details">Details</th>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h4>Service health</h4>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="health in vm.healthData">
-      <td>{{'health.indicator.' + vm.baseName(health.name) | translate}} {{vm.subSystemName(health.name)}}</td>
-      <td class="text-center">
+        </div>
+        <div class="ibox-content">
+          <div class="table-responsive">
+            <table id="healthCheck" class="table table-striped">
+              <thead>
+              <tr>
+                <th class="col-md-7" translate="health.table.service">Service Name</th>
+                <th class="col-md-2 text-center" translate="health.table.status">Status</th>
+                <th class="col-md-2 text-center" translate="health.details.details">Details</th>
+
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="health in vm.healthData">
+                <td>{{'health.indicator.' + vm.baseName(health.name) | translate}} {{vm.subSystemName(health.name)}}</td>
+                <td class="text-center">
                     <span class="label" ng-class="vm.getLabelClass(health.status)">
                         {{'health.status.' + health.status | translate}}
                     </span>
-      </td>
-      <td class="text-center">
-        <a class="hand" ng-click="vm.showHealth(health)" ng-show="health.details || health.error">
-          <i class="glyphicon glyphicon-eye-open"></i>
-        </a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+                </td>
+                <td class="text-center">
+                  <a class="hand" ng-click="vm.showHealth(health)" ng-show="health.details || health.error">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
