@@ -2,14 +2,15 @@
   "settings": {
     "title": "User settings for [<b>{{username}}</b>]",
     "form": {
+      "title": "Change your current settings",
       "firstname": "First Name",
       "firstname.placeholder": "Your first name",
       "lastname": "Last Name",
       "lastname.placeholder": "Your last name",
       "language": "Language",
       "picture": "Profile picture",
-      "addImage": "Add image",
-      "button": "Save"
+      "upload": "Upload",
+      "button": "Save changes"
     },
     "messages": {
       "error": {

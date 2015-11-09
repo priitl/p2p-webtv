@@ -2,14 +2,15 @@
   "settings": {
     "title": "Profil de l'utilisateur [<b>{{username}}</b>]",
     "form": {
+      "title": "Changez vos paramètres actuels",
       "firstname": "Prénom",
       "firstname.placeholder": "Votre prénom",
       "lastname": "Nom",
       "lastname.placeholder": "Votre nom",
       "language": "Langue",
       "picture": "Photo de profil",
-      "addImage": "Ajouter image",
-      "button": "Sauvegarder"
+      "upload": "Télécharger",
+      "button": "Sauvegarder les changements"
     },
     "messages": {
       "error": {
