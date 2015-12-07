@@ -21,6 +21,8 @@ public class ApplicationProperties {
   private final Mail mail = new Mail();
   private final Security security = new Security();
   private final Swagger swagger = new Swagger();
+  private final MovieDatabase movieDatabase = new MovieDatabase();
+  private final Kat kat = new Kat();
   private final Metrics metrics = new Metrics();
   private final Social social = new Social();
 
@@ -96,6 +98,18 @@ public class ApplicationProperties {
     private String contact;
     private String license;
     private String licenseUrl;
+  }
+
+  @Getter
+  @Setter
+  public static class MovieDatabase {
+    private String apiKey;
+  }
+
+  @Getter
+  @Setter
+  public static class Kat {
+    private String apiKey;
   }
 
   @Getter
