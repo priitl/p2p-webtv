@@ -40,6 +40,8 @@ module.exports = function (config) {
       'main/webapp/bower_components/sockjs-client/dist/sockjs.js',
       'main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
       'main/webapp/bower_components/underscore/underscore.js',
+      'main/webapp/bower_components/iCheck/icheck.min.js',
+      'main/webapp/bower_components/webtorrent/webtorrent.min.js',
       'main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'main/webapp/scripts/app/app.js',

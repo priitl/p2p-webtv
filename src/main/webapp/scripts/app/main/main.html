@@ -30,6 +30,19 @@
           You are logged in as user "{{vm.account.login}}".
         </div>
 
+        <div class="col-lg-10">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Demo video</h5>
+            </div>
+            <div class="ibox-content">
+              <div id="video">
+                <div id="player"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.authenticated">
           If you want to <a class="alert-link" href="#/login">sign in</a>, you can try the default accounts:<br/>-
           Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
