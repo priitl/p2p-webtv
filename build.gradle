@@ -139,7 +139,7 @@ dependencies {
   }
 
   compile group: 'org.projectlombok', name: 'lombok', version: lombok_version
-  compile group: 'com.priitlaht', name: 'strikeapi', version:'1.0'
+  compile group: 'com.priitlaht', name: 'strikeapi', version: strike_version
   compile group: 'com.omertron', name: 'themoviedbapi', version: moviedb_version
   compile group: 'org.postgresql', name: 'postgresql', version: postgresql_version
   compile group: 'fr.ippon.spark.metrics', name: 'metrics-spark-reporter', version: metrics_spark_reporter_version

@@ -34,7 +34,8 @@
     "stomp-websocket": "2.3.4",
     "swagger-ui": "2.1.2",
     "underscore": "1.8.3",
-    "iCheck": "icheck#~1.0.2"
+    "iCheck": "icheck#~1.0.2",
+    "webtorrent": "~0.63.4"
   },
   "devDependencies": {
     "angular-mocks": "1.4.5",
@@ -47,6 +48,9 @@
         "dist/css/bootstrap.css",
         "less/bootstrap.less"
       ]
+    },
+    "webtorrent": {
+      "main": "webtorrent.min.js"
     }
   },
   "resolutions": {
