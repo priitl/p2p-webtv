@@ -19,12 +19,11 @@
       });
       // TODO - remove later
       var client = new WebTorrent();
-      var magnetUri = 'magnet:?xt=urn:btih:96580803dd0a924e5a97b3b24d18ea6006e9668b';
+      var magnetUri = 'magnet:?xt=urn:btih:6a9759bffd5c0af65319979fb7832189f4f3c35d';
 
       client.add(magnetUri, function (torrent) {
-        torrent.files.forEach(function (file) {
-          file.appendTo('#player');
-        })
+        var file = torrent.files[0];
+        file.appendTo('#player');
       })
     }
   }

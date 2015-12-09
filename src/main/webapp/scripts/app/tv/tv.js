@@ -9,7 +9,7 @@
     $stateProvider
       .state('tv', {
         parent: 'site',
-        url: '/',
+        url: '/tv',
         data: {
           authorities: []
         },
