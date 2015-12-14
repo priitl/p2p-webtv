@@ -1,4 +1,4 @@
-// Generated on 2015-10-30 using generator-jhipster 2.23.0
+// Generated on 2015-12-14 using generator-jhipster 2.25.0
 /* jshint camelcase: false */
 'use strict';
 
@@ -24,7 +24,7 @@ var gulp = require('gulp'),
   runSequence = require('run-sequence'),
   browserSync = require('browser-sync');
 
-var karma = require('gulp-karma')({configFile: 'src/test/javascript/karma.conf.js'});
+var karmaServer = require('karma').Server;
 
 var yeoman = {
   app: 'src/main/webapp/',
@@ -55,8 +55,11 @@ gulp.task('clean:tmp', function (cb) {
   del([yeoman.tmp], cb);
 });
 
-gulp.task('test', ['wiredep:test', 'ngconstant:dev'], function () {
-  karma.once();
+gulp.task('test', ['wiredep:test', 'ngconstant:dev'], function (done) {
+  new karmaServer({
+    configFile: __dirname + '/src/test/javascript/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 gulp.task('copy', function () {
@@ -132,7 +135,7 @@ gulp.task('serve', function () {
       }));
 
     browserSync({
-      open: false,
+      open: true,
       port: yeoman.port,
       server: {
         baseDir: yeoman.app,
@@ -140,7 +143,7 @@ gulp.task('serve', function () {
       }
     });
 
-    gulp.run('watch');
+    gulp.start('watch');
   });
 });
 

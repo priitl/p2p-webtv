@@ -1,6 +1,6 @@
 jhipster-dev-postgresql:
   container_name: maurus-dev-postgresql
-  image: postgres
+  image: postgres:9.4.5
   # volumes:
   # - ~/volumes/jhipster/maurus/dev-postgresql/:/var/lib/postgresql/
   environment:
