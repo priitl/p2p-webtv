@@ -1,6 +1,7 @@
 package com.priitlaht.maurus.common;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,6 +24,7 @@ public class ApplicationProperties {
   private final Swagger swagger = new Swagger();
   private final MovieDatabase movieDatabase = new MovieDatabase();
   private final Metrics metrics = new Metrics();
+  private final CorsConfiguration cors = new CorsConfiguration();
   private final Social social = new Social();
 
   @Getter

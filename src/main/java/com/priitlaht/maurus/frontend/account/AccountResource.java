@@ -8,6 +8,7 @@ import com.priitlaht.maurus.backend.repository.UserRepository;
 import com.priitlaht.maurus.backend.service.MailService;
 import com.priitlaht.maurus.backend.service.UserService;
 import com.priitlaht.maurus.common.util.security.SecurityUtil;
+import com.priitlaht.maurus.frontend.common.util.HeaderUtil;
 import com.priitlaht.maurus.frontend.user.UserDTO;
 
 import org.apache.commons.lang.StringUtils;
@@ -57,10 +58,8 @@ public class AccountResource {
           .map(user -> new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST))
           .orElseGet(() -> {
             User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
-              userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(),
-              userDTO.getLangKey());
+              userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
             String baseUrl = format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
-
             mailService.sendActivationEmail(user, baseUrl);
             return new ResponseEntity<>(HttpStatus.CREATED);
           })
@@ -93,9 +92,12 @@ public class AccountResource {
   @Timed
   @RequestMapping(value = "/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> saveAccount(@RequestBody UserDTO userDTO) {
+    Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
+    if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
+      return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+    }
     return userRepository
-      .findOneByLogin(userDTO.getLogin())
-      .filter(u -> u.getLogin().equals(SecurityUtil.getCurrentUserLogin()))
+      .findOneByLogin(SecurityUtil.getCurrentUser().getUsername())
       .map(u -> {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
           userDTO.getLangKey(), userDTO.getPictureContentType(), userDTO.getPicture());
@@ -118,9 +120,7 @@ public class AccountResource {
   @RequestMapping(value = "/account/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
     return userRepository.findOneByLogin(SecurityUtil.getCurrentUserLogin())
-      .map(user -> new ResponseEntity<>(
-        persistentTokenRepository.findByUser(user),
-        HttpStatus.OK))
+      .map(user -> new ResponseEntity<>(persistentTokenRepository.findByUser(user), HttpStatus.OK))
       .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
@@ -150,7 +150,7 @@ public class AccountResource {
   public ResponseEntity<?> requestPasswordReset(@RequestBody String mail, HttpServletRequest request) {
     return userService.requestPasswordReset(mail)
       .map(user -> {
-        String baseUrl = format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
+        String baseUrl = format("%s://%s:%d%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath());
         mailService.sendPasswordResetMail(user, baseUrl);
         return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
       }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));

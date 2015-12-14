@@ -1,7 +1,7 @@
 package com.priitlaht.maurus.backend.repository;
 
-import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 import com.priitlaht.maurus.backend.domain.PersistentAuditEvent;
+import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
@@ -56,7 +56,7 @@ public class CustomAuditEventRepository {
       @Transactional(propagation = Propagation.REQUIRES_NEW)
       public void add(AuditEvent event) {
         if (!AUTHORIZATION_FAILURE.equals(event.getType()) &&
-          !ANONYMOUS_USER.equals(event.getPrincipal().toString())) {
+          !ANONYMOUS_USER.equals(event.getPrincipal())) {
 
           PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();
           persistentAuditEvent.setPrincipal(event.getPrincipal());

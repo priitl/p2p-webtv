@@ -1,7 +1,7 @@
 package com.priitlaht.maurus.common.config.apidoc;
 
-import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.ApplicationConstants;
+import com.priitlaht.maurus.common.ApplicationProperties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
- * SpringFox Swagger configuration. <p> Warning! When having a lot of REST endpoints, SpringFox can become a performance issue. In that case, you can
- * use a specific Spring profile for this class, so that only front-end developers have access to the Swagger view.
+ * SpringFox Swagger configuration. <p> Warning! When having a lot of REST endpoints, SpringFox can become a performance
+ * issue. In that case, you can use a specific Spring profile for this class, so that only front-end developers have access
+ * to the Swagger view.
  */
 @Slf4j
 @Configuration

@@ -1,13 +1,14 @@
 package com.priitlaht.maurus.backend.service;
 
-import com.priitlaht.maurus.common.util.random.RandomUtil;
-import com.priitlaht.maurus.common.util.security.SecurityUtil;
 import com.priitlaht.maurus.backend.domain.Authority;
 import com.priitlaht.maurus.backend.domain.User;
 import com.priitlaht.maurus.backend.repository.AuthorityRepository;
 import com.priitlaht.maurus.backend.repository.PersistentTokenRepository;
 import com.priitlaht.maurus.backend.repository.UserRepository;
 import com.priitlaht.maurus.backend.repository.search.UserSearchRepository;
+import com.priitlaht.maurus.common.util.random.RandomUtil;
+import com.priitlaht.maurus.common.util.security.SecurityUtil;
+import com.priitlaht.maurus.frontend.user.ManagedUserDTO;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +46,6 @@ public class UserService {
     log.debug("Activating user for activation key {}", key);
     userRepository.findOneByActivationKey(key)
       .map(user -> {
-        // activate given user for the registration key.
         user.setActivated(true);
         user.setActivationKey(null);
         userRepository.save(user);
@@ -92,15 +92,12 @@ public class UserService {
     Set<Authority> authorities = new HashSet<>();
     String encryptedPassword = passwordEncoder.encode(password);
     newUser.setLogin(login);
-    // new user gets initially a generated password
     newUser.setPassword(encryptedPassword);
     newUser.setFirstName(firstName);
     newUser.setLastName(lastName);
     newUser.setEmail(email);
     newUser.setLangKey(langKey);
-    // new user is not active
     newUser.setActivated(false);
-    // new user gets registration key
     newUser.setActivationKey(RandomUtil.generateActivationKey());
     authorities.add(authority);
     newUser.setAuthorities(authorities);
@@ -108,6 +105,32 @@ public class UserService {
     userSearchRepository.save(newUser);
     log.debug("Created Information for User: {}", newUser);
     return newUser;
+  }
+
+  public User createUser(ManagedUserDTO managedUserDTO) {
+    User user = new User();
+    user.setLogin(managedUserDTO.getLogin());
+    user.setFirstName(managedUserDTO.getFirstName());
+    user.setLastName(managedUserDTO.getLastName());
+    user.setEmail(managedUserDTO.getEmail());
+    if (managedUserDTO.getLangKey() == null) {
+      user.setLangKey("en");
+    } else {
+      user.setLangKey(managedUserDTO.getLangKey());
+    }
+    Set<Authority> authorities = new HashSet<>();
+    managedUserDTO.getAuthorities().stream().forEach(
+      authority -> authorities.add(authorityRepository.findOne(authority))
+    );
+    user.setAuthorities(authorities);
+    String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+    user.setPassword(encryptedPassword);
+    user.setResetKey(RandomUtil.generateResetKey());
+    user.setResetDate(ZonedDateTime.now());
+    user.setActivated(true);
+    userRepository.save(user);
+    log.debug("Created Information for User: {}", user);
+    return user;
   }
 
   public void updateUserInformation(String firstName, String lastName, String email, String langKey, String pictureContentType, byte[] picture) {
@@ -121,6 +144,14 @@ public class UserService {
       userRepository.save(u);
       userSearchRepository.save(u);
       log.debug("Changed Information for User: {}", u);
+    });
+  }
+
+  public void deleteUserInformation(String login) {
+    userRepository.findOneByLogin(login).ifPresent(u -> {
+      userRepository.delete(u);
+      userSearchRepository.delete(u);
+      log.debug("Deleted User: {}", u);
     });
   }
 

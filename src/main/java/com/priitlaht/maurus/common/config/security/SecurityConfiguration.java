@@ -1,10 +1,10 @@
 package com.priitlaht.maurus.common.config.security;
 
+import com.priitlaht.maurus.common.AuthoritiesConstants;
+import com.priitlaht.maurus.common.security.Http401UnauthorizedEntryPoint;
 import com.priitlaht.maurus.common.security.handlers.AjaxAuthenticationFailureHandler;
 import com.priitlaht.maurus.common.security.handlers.AjaxAuthenticationSuccessHandler;
 import com.priitlaht.maurus.common.security.handlers.AjaxLogoutSuccessHandler;
-import com.priitlaht.maurus.common.AuthoritiesConstants;
-import com.priitlaht.maurus.common.security.Http401UnauthorizedEntryPoint;
 import com.priitlaht.maurus.frontend.common.filter.CsrfCookieGeneratorFilter;
 
 import org.springframework.context.annotation.Bean;
@@ -120,7 +120,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .antMatchers("/configprops/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/info/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/autoconfig/**").hasAuthority(AuthoritiesConstants.ADMIN)
-      .antMatchers("/environment/**").hasAuthority(AuthoritiesConstants.ADMIN)
+      .antMatchers("/env/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/mappings/**").hasAuthority(AuthoritiesConstants.ADMIN)
       .antMatchers("/liquibase/**").hasAuthority(AuthoritiesConstants.ADMIN)

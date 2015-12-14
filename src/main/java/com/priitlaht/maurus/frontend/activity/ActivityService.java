@@ -3,14 +3,6 @@ package com.priitlaht.maurus.frontend.activity;
 import com.priitlaht.maurus.common.ApplicationConstants;
 import com.priitlaht.maurus.common.util.security.SecurityUtil;
 
-import java.security.Principal;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import javax.inject.Inject;
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -19,6 +11,15 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.security.Principal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
+import javax.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
 

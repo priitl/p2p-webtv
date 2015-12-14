@@ -2,8 +2,8 @@ package com.priitlaht.maurus.common.config.database;
 
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.ApplicationConstants;
+import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.config.liquibase.AsyncSpringLiquibase;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -48,17 +48,15 @@ public class DatabaseConfiguration {
   public DataSource dataSource(DataSourceProperties dataSourceProperties, ApplicationProperties applicationProperties) {
     log.debug("Configuring Datasource");
     if (dataSourceProperties.getUrl() == null) {
-      log.error("Your database connection pool configuration is incorrect! The application cannot start. Please check your Spring profile," +
-        " current profiles are: {}", Arrays.toString(environment.getActiveProfiles()));
+      log.error("Your database connection pool configuration is incorrect! The application cannot start. " +
+        "Please check your Spring profile, current profiles are: {}", Arrays.toString(environment.getActiveProfiles()));
       throw new ApplicationContextException("Database connection pool is not configured correctly");
     }
-
     HikariConfig config = new HikariConfig();
     config.setDataSourceClassName(dataSourceProperties.getDriverClassName());
     config.addDataSourceProperty("url", dataSourceProperties.getUrl());
     config.addDataSourceProperty("user", dataSourceProperties.getUsername() != null ? dataSourceProperties.getUsername() : "");
     config.addDataSourceProperty("password", dataSourceProperties.getPassword() != null ? dataSourceProperties.getPassword() : "");
-
     if (metricRegistry != null) {
       config.setMetricRegistry(metricRegistry);
     }

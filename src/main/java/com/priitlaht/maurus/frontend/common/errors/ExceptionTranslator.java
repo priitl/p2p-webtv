@@ -23,7 +23,7 @@ public class ExceptionTranslator {
   @ResponseBody
   @ResponseStatus(HttpStatus.CONFLICT)
   @ExceptionHandler(ConcurrencyFailureException.class)
-  public ErrorDTO processConcurencyError(ConcurrencyFailureException ex) {
+  public ErrorDTO processConcurrencyError(ConcurrencyFailureException ex) {
     return new ErrorDTO(ErrorConstants.ERR_CONCURRENCY_FAILURE);
   }
 
@@ -46,7 +46,7 @@ public class ExceptionTranslator {
   @ResponseBody
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ExceptionHandler(AccessDeniedException.class)
-  public ErrorDTO processAccessDeniedExcpetion(AccessDeniedException e) {
+  public ErrorDTO processAccessDeniedExcepetion(AccessDeniedException e) {
     return new ErrorDTO(ErrorConstants.ERR_ACCESS_DENIED, e.getMessage());
   }
 

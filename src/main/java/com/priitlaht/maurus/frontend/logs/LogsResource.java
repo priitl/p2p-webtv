@@ -1,7 +1,6 @@
 package com.priitlaht.maurus.frontend.logs;
 
 import com.codahale.metrics.annotation.Timed;
-import com.priitlaht.maurus.frontend.logs.LoggerDTO;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

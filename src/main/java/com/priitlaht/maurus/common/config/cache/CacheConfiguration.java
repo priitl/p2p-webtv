@@ -2,8 +2,8 @@ package com.priitlaht.maurus.common.config.cache;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ehcache.InstrumentedEhcache;
-import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.ApplicationConstants;
+import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.config.database.DatabaseConfiguration;
 import com.priitlaht.maurus.common.config.metrics.MetricsConfiguration;
 

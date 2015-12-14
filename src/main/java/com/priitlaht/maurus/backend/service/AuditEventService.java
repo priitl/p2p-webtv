@@ -1,8 +1,8 @@
 package com.priitlaht.maurus.backend.service;
 
-import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 import com.priitlaht.maurus.backend.domain.PersistentAuditEvent;
 import com.priitlaht.maurus.backend.repository.PersistenceAuditEventRepository;
+import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.stereotype.Service;

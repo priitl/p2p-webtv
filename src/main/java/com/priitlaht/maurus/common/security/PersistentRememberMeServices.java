@@ -51,7 +51,6 @@ public class PersistentRememberMeServices extends AbstractRememberMeServices {
 
   @Inject
   private PersistentTokenRepository persistentTokenRepository;
-
   @Inject
   private UserRepository userRepository;
 

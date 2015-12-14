@@ -27,7 +27,7 @@ public class LoggingAspect {
   @Inject
   private Environment environment;
 
-  @Pointcut("within(com.priitlaht.maurus.backend.repository..*) || within(com.priitlaht.maurus.backend.service..*) || within(com.priitlaht.maurus.frontend.rest..*)")
+  @Pointcut("within(com.priitlaht.maurus.backend.repository..*) || within(com.priitlaht.maurus.backend.service..*) || within(com.priitlaht.maurus.frontend..*)")
   public void loggingPointcut() {
   }
 
@@ -35,7 +35,7 @@ public class LoggingAspect {
   public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
     Signature signature = joinPoint.getSignature();
     if (environment.acceptsProfiles(ApplicationConstants.SPRING_PROFILE_DEVELOPMENT)) {
-      log.error("Exception in {}.{}() with cause = {}", signature.getDeclaringTypeName(), signature.getName(), e.getCause(), e);
+      log.error("Exception in {}.{}() with cause = {} and exception {}", signature.getDeclaringTypeName(), signature.getName(), e.getCause(), e);
     } else {
       log.error("Exception in {}.{}() with cause = {}", signature.getDeclaringTypeName(), signature.getName(), e.getCause());
     }

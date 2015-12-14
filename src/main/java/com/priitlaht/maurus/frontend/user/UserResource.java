@@ -6,6 +6,7 @@ import com.priitlaht.maurus.backend.domain.User;
 import com.priitlaht.maurus.backend.repository.AuthorityRepository;
 import com.priitlaht.maurus.backend.repository.UserRepository;
 import com.priitlaht.maurus.backend.repository.search.UserSearchRepository;
+import com.priitlaht.maurus.backend.service.MailService;
 import com.priitlaht.maurus.backend.service.UserService;
 import com.priitlaht.maurus.common.AuthoritiesConstants;
 import com.priitlaht.maurus.frontend.common.util.HeaderUtil;
@@ -34,9 +35,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static java.lang.String.format;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
@@ -67,19 +70,30 @@ public class UserResource {
   private UserService userService;
   @Inject
   private UserSearchRepository userSearchRepository;
+  @Inject
+  private MailService mailService;
 
   @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   @RequestMapping(value = "/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
-    log.debug("REST request to save User : {}", user);
-    if (user.getId() != null) {
-      return ResponseEntity.badRequest().header("Failure", "A new user cannot already have an ID").body(null);
+  public ResponseEntity<?> createUser(@RequestBody ManagedUserDTO managedUserDTO, HttpServletRequest request) throws URISyntaxException {
+    log.debug("REST request to save User : {}", managedUserDTO);
+    if (userRepository.findOneByLogin(managedUserDTO.getLogin()).isPresent()) {
+      return ResponseEntity.badRequest()
+        .headers(HeaderUtil.createFailureAlert("user-management", "userexists", "Login already in use"))
+        .body(null);
+    } else if (userRepository.findOneByEmail(managedUserDTO.getEmail()).isPresent()) {
+      return ResponseEntity.badRequest()
+        .headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use"))
+        .body(null);
+    } else {
+      User newUser = userService.createUser(managedUserDTO);
+      String baseUrl = format("%s://%s:%d%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath());
+      mailService.sendCreationEmail(newUser, baseUrl);
+      return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
+        .headers(HeaderUtil.createAlert("user-management.created", newUser.getLogin()))
+        .body(newUser);
     }
-    User result = userRepository.save(user);
-    return ResponseEntity.created(new URI("/api/users/" + result.getId()))
-      .headers(HeaderUtil.createEntityCreationAlert("user", result.getId().toString()))
-      .body(result);
   }
 
   @Timed
@@ -88,8 +102,12 @@ public class UserResource {
   @RequestMapping(value = "/users", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ManagedUserDTO> updateUser(@RequestBody ManagedUserDTO managedUserDTO) throws URISyntaxException {
     log.debug("REST request to update User : {}", managedUserDTO);
-    return Optional.of(userRepository
-      .findOne(managedUserDTO.getId()))
+    Optional<User> existingUser = userRepository.findOneByEmail(managedUserDTO.getEmail());
+    if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(managedUserDTO.getLogin()))) {
+      return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+    }
+    return userRepository
+      .findOneById(managedUserDTO.getId())
       .map(user -> {
         user.setLogin(managedUserDTO.getLogin());
         user.setFirstName(managedUserDTO.getFirstName());
@@ -102,10 +120,8 @@ public class UserResource {
         managedUserDTO.getAuthorities().stream().forEach(
           authority -> authorities.add(authorityRepository.findOne(authority))
         );
-        return ResponseEntity.ok()
-          .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
-          .body(new ManagedUserDTO(userRepository
-            .findOne(managedUserDTO.getId())));
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
+          .body(new ManagedUserDTO(userRepository.findOne(managedUserDTO.getId())));
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
@@ -131,6 +147,15 @@ public class UserResource {
       .map(ManagedUserDTO::new)
       .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
+
+  @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
+  @RequestMapping(value = "/users/{login}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> deleteUser(@PathVariable String login) {
+    log.debug("REST request to delete User: {}", login);
+    userService.deleteUserInformation(login);
+    return ResponseEntity.ok().headers(HeaderUtil.createAlert("user-management.deleted", login)).build();
   }
 
   @Timed

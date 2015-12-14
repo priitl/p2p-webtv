@@ -1,7 +1,7 @@
 package com.priitlaht.maurus.backend.service;
 
-import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.backend.domain.User;
+import com.priitlaht.maurus.common.ApplicationProperties;
 
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.WordUtils;
@@ -85,6 +85,18 @@ public class MailService {
     context.setVariable("provider", WordUtils.capitalize(provider));
     String content = templateEngine.process("socialRegistrationValidationEmail", context);
     String subject = messageSource.getMessage("email.social.registration.title", null, locale);
+    sendEmail(user.getEmail(), subject, content, false, true);
+  }
+
+  @Async
+  public void sendCreationEmail(User user, String baseUrl) {
+    log.debug("Sending creation e-mail to '{}'", user.getEmail());
+    Locale locale = Locale.forLanguageTag(user.getLangKey());
+    Context context = new Context(locale);
+    context.setVariable("user", user);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("creationEmail", context);
+    String subject = messageSource.getMessage("email.activation.title", null, locale);
     sendEmail(user.getEmail(), subject, content, false, true);
   }
 }

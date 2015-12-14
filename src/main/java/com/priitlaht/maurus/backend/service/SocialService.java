@@ -35,9 +35,9 @@ public class SocialService {
   @Inject
   private AuthorityRepository authorityRepository;
   @Inject
-  private PasswordEncoder passwordEncoder;
-  @Inject
   private UserRepository userRepository;
+  @Inject
+  private PasswordEncoder passwordEncoder;
   @Inject
   private MailService mailService;
 

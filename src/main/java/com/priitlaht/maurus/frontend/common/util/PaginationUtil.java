@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 
 import lombok.NoArgsConstructor;
 
-import static java.lang.String.format;
 import static lombok.AccessLevel.PRIVATE;
 
 /**
@@ -25,15 +24,17 @@ public final class PaginationUtil {
     headers.add("X-Total-Count", "" + page.getTotalElements());
     String link = "";
     if ((page.getNumber() + 1) < page.getTotalPages()) {
-      link = "<" + (new URI(format("%s?page=%d&size=%d", baseUrl, page.getNumber() + 1, page.getSize()))).toString() + ">; rel=\"next\",";
+      link = "<" + (new URI(baseUrl + "?page=" + (page.getNumber() + 1) + "&size=" + page.getSize())).toString() + ">; rel=\"next\",";
     }
-    // prev link
     if ((page.getNumber()) > 0) {
-      link += "<" + (new URI(format("%s?page=%d&size=%d", baseUrl, page.getNumber() - 1, page.getSize()))).toString() + ">; rel=\"prev\",";
+      link += "<" + (new URI(baseUrl + "?page=" + (page.getNumber() - 1) + "&size=" + page.getSize())).toString() + ">; rel=\"prev\",";
     }
-    // last and first link
-    link += "<" + (new URI(format("%s?page=%d&size=%d", baseUrl, page.getTotalPages() - 1, page.getSize()))).toString() + ">; rel=\"last\",";
-    link += "<" + (new URI(format("%s?page=%d&size=%d", baseUrl, 0, page.getSize()))).toString() + ">; rel=\"first\"";
+    int lastPage = 0;
+    if (page.getTotalPages() > 0) {
+      lastPage = page.getTotalPages() - 1;
+    }
+    link += "<" + (new URI(baseUrl + "?page=" + lastPage + "&size=" + page.getSize())).toString() + ">; rel=\"last\",";
+    link += "<" + (new URI(baseUrl + "?page=" + 0 + "&size=" + page.getSize())).toString() + ">; rel=\"first\"";
     headers.add(HttpHeaders.LINK, link);
     return headers;
   }

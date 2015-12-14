@@ -28,8 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import static java.lang.String.format;
 
 /**
- * Basic Spring Social configuration. <p> <p>Creates the beans necessary to manage Connections to social services and link accounts from those
- * services to internal Users.</p>
+ * Basic Spring Social configuration. <p> <p>Creates the beans necessary to manage Connections to social services and link
+ * accounts from those services to internal Users.</p>
  */
 @Slf4j
 @Configuration

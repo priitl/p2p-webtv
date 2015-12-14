@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="true">
-  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <charset>utf-8</charset>
-      <Pattern>[%p] %c - %m%n</Pattern>
-    </encoder>
-  </appender>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
   <!--
@@ -27,7 +22,7 @@
       </appender>
   -->
 
-  <logger name="com.priitlaht.maurus" level="${logback.loglevel}"/>
+  <logger name="com.priitlaht.maurus" level="@logback.loglevel@"/>
 
   <logger name="javax.activation" level="WARN"/>
   <logger name="javax.mail" level="WARN"/>
@@ -53,6 +48,7 @@
   <logger name="org.thymeleaf" level="WARN"/>
   <logger name="org.xnio" level="WARN"/>
   <logger name="springfox" level="WARN"/>
+  <logger name="sun.rmi" level="WARN"/>
   <logger name="liquibase" level="WARN"/>
   <logger name="sun.rmi.transport" level="WARN"/>
 
@@ -60,7 +56,7 @@
     <resetJUL>true</resetJUL>
   </contextListener>
 
-  <root level="${logback.loglevel}">
+  <root level="@logback.loglevel@">
     <appender-ref ref="CONSOLE"/>
   </root>
 
