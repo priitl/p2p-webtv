@@ -13,11 +13,8 @@
     vm.editForm = {};
     vm.loadAll = loadUsers;
     vm.loadPage = loadPage;
-    vm.page = 0;
-    vm.refresh = refresh;
-    vm.save = save;
+    vm.page = 1;
     vm.setActive = setActive;
-    vm.showUpdate = showUpdate;
     vm.users = [];
 
     activate();
@@ -30,8 +27,9 @@
     }
 
     function loadUsers() {
-      User.query({page: vm.page, per_page: 20}, function (result, headers) {
+      User.query({page: vm.page - 1, per_page: 20}, function (result, headers) {
         vm.links = ParseLinks.parse(headers('link'));
+        vm.totalItems = headers('X-Total-Count');
         vm.users = result;
       });
     }
@@ -53,23 +51,6 @@
         loadUsers();
         clear();
       });
-    }
-
-    function showUpdate(login) {
-      User.get({login: login}, function (result) {
-        vm.user = result;
-        $('#saveUserModal').modal('show');
-      });
-    }
-
-    function save() {
-      User.update(vm.user, refresh);
-    }
-
-    function refresh() {
-      loadUsers();
-      $('#saveUserModal').modal('hide');
-      clear();
     }
 
     function clear() {

@@ -120,7 +120,7 @@ public class UserResource {
         managedUserDTO.getAuthorities().stream().forEach(
           authority -> authorities.add(authorityRepository.findOne(authority))
         );
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDTO.getLogin()))
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("user-management.updated", managedUserDTO.getLogin()))
           .body(new ManagedUserDTO(userRepository.findOne(managedUserDTO.getId())));
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -129,8 +129,7 @@ public class UserResource {
   @Timed
   @Transactional(readOnly = true)
   @RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable)
-    throws URISyntaxException {
+  public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable) throws URISyntaxException {
     Page<User> page = userRepository.findAll(pageable);
     List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
       .map(ManagedUserDTO::new)

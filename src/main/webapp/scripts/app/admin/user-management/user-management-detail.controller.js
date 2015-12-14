@@ -5,7 +5,7 @@
     .module('maurusApp')
     .controller('UserManagementDetailController', UserManagementDetailController);
 
-  function UserManagementDetailController($scope, $stateParams, User) {
+  function UserManagementDetailController($stateParams, User) {
     var vm = this;
 
     vm.load = load;

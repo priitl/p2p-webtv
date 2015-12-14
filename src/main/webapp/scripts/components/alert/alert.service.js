@@ -5,7 +5,7 @@
     .module('maurusApp')
     .provider('AlertService', AlertService);
 
-  function AlertService($timeout, $sce, $translate) {
+  function AlertService() {
     this.toast = false;
 
     this.$get = ['$timeout', '$sce', '$translate', function ($timeout, $sce, $translate) {
@@ -23,11 +23,12 @@
           info: info,
           warning: warning
         },
-
         toast = this.toast,
         alertId = 0,
         alerts = [],
         timeout = 5000;
+
+      ////////////////
 
       function isToast() {
         return toast;
@@ -134,6 +135,7 @@
     this.showAsToast = function (isToast) {
       this.toast = isToast;
     };
+
   }
 
 })();

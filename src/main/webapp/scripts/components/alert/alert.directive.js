@@ -10,17 +10,15 @@
     return {
       bindToController: true,
       controller: JhAlertController,
-      controllerAs: 'vm',
       restrict: 'E',
       templateUrl: 'scripts/components/alert/alert.directive.html'
     };
   }
 
   function JhAlertController($scope, AlertService) {
-    var vm = this;
-    vm.alerts = AlertService.get();
+    $scope.alerts = AlertService.get();
     $scope.$on('$destroy', function () {
-      vm.alerts = [];
+      $scope.alerts = [];
     });
   }
 
@@ -28,15 +26,13 @@
     return {
       bindToController: true,
       controller: JhAlertErrorController,
-      controllerAs: 'vm',
       restrict: 'E',
       templateUrl: 'scripts/components/alert/alert.directive.html'
     };
   }
 
   function JhAlertErrorController($scope, $rootScope, $translate, AlertService) {
-    var vm = this;
-    vm.alerts = AlertService.get();
+    $scope.alerts = AlertService.get();
 
     var cleanHttpErrorListener = $rootScope.$on('maurusApp.httpError', function (event, httpResponse) {
       event.stopPropagation();
