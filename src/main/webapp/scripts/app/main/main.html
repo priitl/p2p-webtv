@@ -1,8 +1,11 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2 translate="main.title" ng-if="!vm.isAuthenticated()">Welcome to maurus !</h2>
-    <h2 translate="main.titleNamed" translate-values="{firstName: '{{vm.account.firstName}}', lastName: '{{vm.account.lastName}}'}"
+
+    <h2 translate="main.titleNamed"
+        translate-values="{firstName: '{{vm.account.firstName}}', lastName: '{{vm.account.lastName}}'}"
         ng-if="vm.isAuthenticated() && vm.account.firstName">Welcome to maurus !</h2>
+
     <h2 translate="main.titleNamed" translate-values="{firstName: '{{vm.account.login}}'}"
         ng-if="vm.isAuthenticated() && !vm.account.firstName">Welcome to maurus !</h2>
     <ol class="breadcrumb">

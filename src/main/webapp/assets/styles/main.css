@@ -3831,22 +3831,24 @@ body.modal-open {
   color: inherit
 }
 
-.col-md-2 img{
+.col-md-2 img {
   width: 100%;
 }
 
 @media screen and (max-width: 767px) {
-  .tv-show-box{
+  .tv-show-box {
     font-size: 18px;
   }
 }
+
 @media (min-width: 768px) and (max-width: 991px) {
-  .tv-show-box{
+  .tv-show-box {
     font-size: 26px;
   }
 }
+
 @media (min-width: 992px) and (max-width: 1199px) {
-  .tv-show-box{
+  .tv-show-box {
     font-size: 10px;
   }
 }

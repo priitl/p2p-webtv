@@ -10,9 +10,6 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css assets/styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css assets/styles/main.css -->
@@ -94,8 +91,8 @@
 <script src="scripts/components/form/icheck.directive.js"></script>
 <script src="scripts/components/form/maxbytes.directive.js"></script>
 <script src="scripts/components/form/minbytes.directive.js"></script>
-<script src="scripts/components/form/pager.directive.js"></script>
-<script src="scripts/components/form/pagination.directive.js"></script>
+<script src="scripts/components/form/uib-pager.config.js"></script>
+<script src="scripts/components/form/uib-pagination.config.js"></script>
 <script src="scripts/components/admin/audits.service.js"></script>
 <script src="scripts/components/admin/logs.service.js"></script>
 <script src="scripts/components/admin/configuration.service.js"></script>
@@ -117,6 +114,8 @@
 <script src="scripts/components/alert/alert.directive.js"></script>
 <script src="scripts/components/util/parse-links.service.js"></script>
 <script src="scripts/components/util/dateutil.service.js"></script>
+<script src="scripts/components/util/data-util.service.js"></script>
+<script src="scripts/components/util/sort.directive.js"></script>
 <script src="scripts/app/account/account.js"></script>
 <script src="scripts/app/account/activate/activate.js"></script>
 <script src="scripts/app/account/activate/activate.controller.js"></script>
@@ -124,7 +123,7 @@
 <script src="scripts/app/account/login/login.controller.js"></script>
 <script src="scripts/app/account/password/password.js"></script>
 <script src="scripts/app/account/password/password.controller.js"></script>
-<script src="scripts/app/account/password/directive/password.directive.js"></script>
+<script src="scripts/app/account/password/password.directive.js"></script>
 <script src="scripts/app/account/register/register.js"></script>
 <script src="scripts/app/account/register/register.controller.js"></script>
 <script src="scripts/app/account/settings/settings.js"></script>
@@ -150,6 +149,8 @@
 <script src="scripts/app/admin/metrics/metrics.controller.js"></script>
 <script src="scripts/app/admin/metrics/metrics.modal.controller.js"></script>
 <script src="scripts/app/admin/user-management/user-management-detail.controller.js"></script>
+<script src="scripts/app/admin/user-management/user-management-dialog.controller.js"></script>
+<script src="scripts/app/admin/user-management/user-management-delete-dialog.controller.js"></script>
 <script src="scripts/app/admin/user-management/user-management.controller.js"></script>
 <script src="scripts/app/admin/user-management/user-management.js"></script>
 <script src="scripts/app/entities/entity.js"></script>

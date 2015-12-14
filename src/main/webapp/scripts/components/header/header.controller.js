@@ -9,7 +9,7 @@
 
     $scope.isAuthenticated = Principal.isAuthenticated;
 
-    $scope.logout = function(){
+    $scope.logout = function () {
       Auth.logout();
       $state.go('home');
     }

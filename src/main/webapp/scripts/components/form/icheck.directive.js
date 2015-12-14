@@ -13,7 +13,7 @@
     };
 
     function link(scope, element, attrs, ngModel) {
-      return $timeout(function() {
+      return $timeout(function () {
         var value;
         value = attrs['value'];
 
@@ -25,14 +25,14 @@
           checkboxClass: 'icheckbox_square-green',
           radioClass: 'iradio_square-green'
 
-        }).on('ifChanged', function(event) {
+        }).on('ifChanged', function (event) {
           if ($(element).attr('type') === 'checkbox' && attrs['ngModel']) {
-            scope.$apply(function() {
+            scope.$apply(function () {
               return ngModel.$setViewValue(event.target.checked);
             });
           }
           if ($(element).attr('type') === 'radio' && attrs['ngModel']) {
-            return scope.$apply(function() {
+            return scope.$apply(function () {
               return ngModel.$setViewValue(value);
             });
           }

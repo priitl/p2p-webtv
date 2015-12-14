@@ -147,7 +147,8 @@
                 <div class="profile-image" style="padding-bottom: 5px">
                   <img
                     data-ng-src="{{'data:' + vm.settingsAccount.pictureContentType + ';base64,' + vm.settingsAccount.picture}}"
-                    class="img-thumbnail" style="mix-height: 120px; max-height: 120px;" alt="profile" ng-if="vm.settingsAccount.picture"/>
+                    class="img-thumbnail" style="mix-height: 120px; max-height: 120px;" alt="profile"
+                    ng-if="vm.settingsAccount.picture"/>
                 </div>
                 <button class="btn btn-success btn-sm" type="file" ngf-select class="btn btn-default"
                         ngf-change="vm.setPicture($file, vm.settingsAccount)" accept="image/*">
@@ -169,7 +170,8 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group">
               <div class="col-sm-4 col-sm-offset-2">
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">
+                  Save
                 </button>
               </div>
             </div>

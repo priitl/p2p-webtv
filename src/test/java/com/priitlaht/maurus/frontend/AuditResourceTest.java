@@ -1,10 +1,10 @@
 package com.priitlaht.maurus.frontend;
 
 import com.priitlaht.maurus.Application;
-import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 import com.priitlaht.maurus.backend.domain.PersistentAuditEvent;
 import com.priitlaht.maurus.backend.repository.PersistenceAuditEventRepository;
 import com.priitlaht.maurus.backend.service.AuditEventService;
+import com.priitlaht.maurus.common.config.audit.AuditEventConverter;
 import com.priitlaht.maurus.frontend.audit.AuditResource;
 
 import org.junit.Before;

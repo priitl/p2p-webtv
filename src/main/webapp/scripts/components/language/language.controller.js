@@ -41,6 +41,7 @@
         "en": "English",
         "es": "Español",
         "fr": "Français",
+        "ta": "தமிழ்",
         "hu": "Magyar",
         "it": "Italiano",
         "ja": "日本語",
@@ -52,6 +53,7 @@
         "ro": "Română",
         "ru": "Русский",
         "sv": "Svenska",
+        "gl": "Galego",
         "tr": "Türkçe",
         "zh-cn": "中文（简体）",
         "zh-tw": "繁體中文"

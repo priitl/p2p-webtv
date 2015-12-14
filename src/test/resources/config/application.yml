@@ -10,12 +10,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-
-
-# ===================================================================
-# JHipster specific properties
-# ===================================================================
-
 spring:
     datasource:
         driver-class-name: org.h2.jdbcx.JdbcDataSource
@@ -75,7 +69,7 @@ jhipster:
     security:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
-            key: 84e18ef0d8c845cf8226cd13a75c269ed78fff04
+            key: xxx
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
     swagger:
