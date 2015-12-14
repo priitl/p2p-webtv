@@ -1,5 +1,7 @@
 <div class="alerts" ng-cloak="">
-  <alert ng-cloak="" ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="alert.close()">
-    <pre>{{ alert.msg }}</pre>
-  </alert>
+  <div ng-repeat="alert in alerts" ng-class="[alert.position, {'toast': alert.toast}]">
+    <uib-alert ng-cloak="" type="{{alert.type}}" close="alert.close(alerts)">
+      <pre>{{ alert.msg }}</pre>
+    </uib-alert>
+  </div>
 </div>

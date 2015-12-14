@@ -3,105 +3,137 @@
 
   angular
     .module('maurusApp')
-    .factory('AlertService', AlertService);
+    .provider('AlertService', AlertService);
 
   function AlertService($timeout, $sce, $translate) {
-    var alertId = 0; // unique id for each alert. Starts from 0.
-    var alerts = [];
-    var timeout = 5000; // default timeout
+    this.toast = false;
 
-    return {
-      add: addAlert,
-      clear: clear,
-      closeAlert: closeAlert,
-      closeAlertByIndex: closeAlertByIndex,
-      error: error,
-      factory: factory,
-      get: get,
-      info: info,
-      success: success,
-      warning: warning
-    };
+    this.$get = ['$timeout', '$sce', '$translate', function ($timeout, $sce, $translate) {
 
-    ////////////////
+      var exports = {
+          factory: factory,
+          isToast: isToast,
+          add: addAlert,
+          closeAlert: closeAlert,
+          closeAlertByIndex: closeAlertByIndex,
+          clear: clear,
+          get: get,
+          success: success,
+          error: error,
+          info: info,
+          warning: warning
+        },
 
-    function clear() {
-      alerts = [];
-    }
+        toast = this.toast,
+        alertId = 0,
+        alerts = [],
+        timeout = 5000;
 
-    function get() {
-      return alerts;
-    }
-
-    function success(msg, params) {
-      this.add({
-        type: "success",
-        msg: msg,
-        params: params,
-        timeout: timeout
-      });
-    }
-
-    function error(msg, params) {
-      this.add({
-        type: "danger",
-        msg: msg,
-        params: params,
-        timeout: timeout
-      });
-    }
-
-    function warning(msg, params) {
-      this.add({
-        type: "warning",
-        msg: msg,
-        params: params,
-        timeout: timeout
-      });
-    }
-
-    function info(msg, params) {
-      this.add({
-        type: "info",
-        msg: msg,
-        params: params,
-        timeout: timeout
-      });
-    }
-
-    function factory(alertOptions) {
-      return alerts.push({
-        type: alertOptions.type,
-        msg: $sce.trustAsHtml(alertOptions.msg),
-        id: alertOptions.alertId,
-        timeout: alertOptions.timeout,
-        close: function () {
-          return exports.closeAlert(this.id);
-        }
-      });
-    }
-
-    function addAlert(alertOptions) {
-      alertOptions.alertId = alertId++;
-      alertOptions.msg = $translate.instant(alertOptions.msg, alertOptions.params);
-      var that = this;
-      this.factory(alertOptions);
-      if (alertOptions.timeout && alertOptions.timeout > 0) {
-        $timeout(function () {
-          that.closeAlert(alertOptions.alertId);
-        }, alertOptions.timeout);
+      function isToast() {
+        return toast;
       }
-    }
 
-    function closeAlert(id) {
-      return this.closeAlertByIndex(alerts.map(function (e) {
-        return e.id;
-      }).indexOf(id));
-    }
+      function clear() {
+        alerts = [];
+      }
 
-    function closeAlertByIndex(index) {
-      return alerts.splice(index, 1);
-    }
+      function get() {
+        return alerts;
+      }
+
+      function success(msg, params, position) {
+        return this.add({
+          type: "success",
+          msg: msg,
+          params: params,
+          timeout: timeout,
+          toast: toast,
+          position: position
+        });
+      }
+
+      function error(msg, params, position) {
+        return this.add({
+          type: "danger",
+          msg: msg,
+          params: params,
+          timeout: timeout,
+          toast: toast,
+          position: position
+        });
+      }
+
+      function warning(msg, params, position) {
+        return this.add({
+          type: "warning",
+          msg: msg,
+          params: params,
+          timeout: timeout,
+          toast: toast,
+          position: position
+        });
+      }
+
+      function info(msg, params, position) {
+        return this.add({
+          type: "info",
+          msg: msg,
+          params: params,
+          timeout: timeout,
+          toast: toast,
+          position: position
+        });
+      }
+
+      function factory(alertOptions) {
+        var alert = {
+          type: alertOptions.type,
+          msg: $sce.trustAsHtml(alertOptions.msg),
+          id: alertOptions.alertId,
+          timeout: alertOptions.timeout,
+          toast: alertOptions.toast,
+          position: alertOptions.position ? alertOptions.position : 'top right',
+          scoped: alertOptions.scoped,
+          close: function (alerts) {
+            return exports.closeAlert(this.id, alerts);
+          }
+        };
+        if (!alert.scoped) {
+          alerts.push(alert);
+        }
+        return alert;
+      }
+
+      function addAlert(alertOptions, extAlerts) {
+        alertOptions.alertId = alertId++;
+        alertOptions.msg = $translate.instant(alertOptions.msg, alertOptions.params);
+        var that = this;
+        var alert = this.factory(alertOptions);
+        if (alertOptions.timeout && alertOptions.timeout > 0) {
+          $timeout(function () {
+            that.closeAlert(alertOptions.alertId, extAlerts);
+          }, alertOptions.timeout);
+        }
+        return alert;
+      }
+
+      function closeAlert(id, extAlerts) {
+        var thisAlerts = extAlerts ? extAlerts : alerts;
+        return this.closeAlertByIndex(thisAlerts.map(function (e) {
+          return e.id;
+        }).indexOf(id), thisAlerts);
+      }
+
+      function closeAlertByIndex(index, thisAlerts) {
+        return thisAlerts.splice(index, 1);
+      }
+
+      return exports;
+    }];
+
+    this.showAsToast = function (isToast) {
+      this.toast = isToast;
+    };
   }
 
 })();

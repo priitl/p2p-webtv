@@ -3,7 +3,7 @@
 
   var appDependencies = ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 'ui.bootstrap', 'ngAnimate',
                          'ngTouch', 'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload',
-                         'infinite-scroll'];
+                         'infinite-scroll', 'angular-loading-bar'];
   angular
     .module('maurusApp', appDependencies)
     .run(appRun)
@@ -15,17 +15,53 @@
     $rootScope.VERSION = VERSION;
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
-      $rootScope.toState = toState;
-      $rootScope.toStateParams = toStateParams;
+      var updateTitle = function (titleKey) {
+        if (!titleKey && $state.$current.data && $state.$current.data.pageTitle) {
+          titleKey = $state.$current.data.pageTitle;
+        }
+        $translate(titleKey || 'global.title').then(function (title) {
+          $window.document.title = title;
+        });
+      };
 
-      if (Principal.isIdentityResolved()) {
-        Auth.authorize();
-      }
+      $rootScope.ENV = ENV;
+      $rootScope.VERSION = VERSION;
+      $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
+        $rootScope.toState = toState;
+        $rootScope.toStateParams = toStateParams;
+        if (Principal.isIdentityResolved()) {
+          Auth.authorize();
+        }
+        Language.getCurrent().then(function (language) {
+          $translate.use(language);
+        });
 
-      // Update the language
-      Language.getCurrent().then(function (language) {
-        $translate.use(language);
       });
+
+      $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        var titleKey = 'global.title';
+        if (toState.name != 'login' && $rootScope.previousStateName) {
+          $rootScope.previousStateName = fromState.name;
+          $rootScope.previousStateParams = fromParams;
+        }
+
+        if (toState.data.pageTitle) {
+          titleKey = toState.data.pageTitle;
+        }
+        updateTitle(titleKey);
+      });
+
+      $rootScope.$on('$translateChangeSuccess', function () {
+        updateTitle();
+      });
+
+      $rootScope.back = function () {
+        if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
+          $state.go('home');
+        } else {
+          $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
+        }
+      };
 
     });
 
