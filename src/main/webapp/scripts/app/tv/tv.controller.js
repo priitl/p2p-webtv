@@ -26,7 +26,6 @@
       Tv.query({page: vm.page, size: 20}, function(result, headers) {
         vm.links = ParseLinks.parse(headers('link'));
         for (var i = 0; i < result.length; i++) {
-          console.log(result[i].name);
           vm.popularTv.push(result[i]);
         }
       });
