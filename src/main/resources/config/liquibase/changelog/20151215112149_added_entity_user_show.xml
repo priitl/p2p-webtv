@@ -24,6 +24,7 @@
       <column name="show_name" type="varchar(255)">
         <constraints nullable="false"/>
       </column>
+      <column name="poster_path" type="varchar(100)"/>
     </createTable>
 
     <createIndex indexName="idx_user_show_user_login"

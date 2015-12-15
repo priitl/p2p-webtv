@@ -3,10 +3,10 @@
 
   angular
     .module('maurusApp')
-    .factory('Tv', Tv);
+    .factory('TvFeed', TvFeed);
 
-  function Tv($resource) {
-    return $resource('api/tv/', {}, {
+  function TvFeed($resource) {
+    return $resource('api/tv/feed', {}, {
       'query': {method: 'GET', isArray: true},
       'get': {
         method: 'GET',

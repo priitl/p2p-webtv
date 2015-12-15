@@ -30,11 +30,26 @@
       </li>
 
       <!-- Tv -->
-      <li ui-sref-active="active" ng-switch-when="true">
-        <a ui-sref="tv">
-          <i class="glyphicon glyphicon-facetime-video"></i>
-          <span class="nav-label" translate="global.menu.tv">TV</span>
+      <li ng-class="{active: vm.state.includes('tv')}">
+        <a href="">
+          <i class="fa fa-film"></i>
+          <span class="nav-label" translate="global.menu.tv.main">TV</span>
+          <span class="fa arrow"></span>
         </a>
+        <ul class="nav nav-second-level collapse">
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="tv-feed">
+              <i class="fa fa-server"></i>
+              {{'global.menu.tv.feed' | translate}}
+            </a>
+          </li>
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="tv-popular">
+              <i class="glyphicon glyphicon-facetime-video"></i>
+              {{'global.menu.tv.popular' | translate}}
+            </a>
+          </li>
+        </ul>
       </li>
 
       <!-- Entities -->

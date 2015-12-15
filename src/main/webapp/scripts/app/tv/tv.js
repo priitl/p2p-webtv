@@ -3,29 +3,13 @@
 
   angular
     .module('maurusApp')
-    .config(tvConfig);
+    .config(accountConfig);
 
-  function tvConfig($stateProvider) {
+  function accountConfig($stateProvider) {
     $stateProvider
       .state('tv', {
-        parent: 'site',
-        url: '/tv',
-        data: {
-          authorities: []
-        },
-        views: {
-          'content@': {
-            templateUrl: 'scripts/app/tv/tv.html',
-            controller: 'TvController',
-            controllerAs: 'vm'
-          }
-        },
-        resolve: {
-          mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-            $translatePartialLoader.addPart('tv');
-            return $translate.refresh();
-          }]
-        }
+        abstract: true,
+        parent: 'site'
       });
   }
 

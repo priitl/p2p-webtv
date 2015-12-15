@@ -1,5 +1,10 @@
 {
   "tv": {
-    "title": "Popular TV"
+    "popular": {
+      "title": "TV populaire"
+    },
+    "feed": {
+      "title": "Votre flux de TV"
+    }
   }
 }

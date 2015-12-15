@@ -60,7 +60,7 @@
     };
   }
 
-  function appConfig($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider,
+  function appConfig($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider, $compileProvider,
                      tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
     //enable CSRF
     $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
@@ -96,6 +96,8 @@
         }]
       }
     });
+
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|magnet):/);
 
     $httpProvider.interceptors.push('errorHandlerInterceptor');
     $httpProvider.interceptors.push('authExpiredInterceptor');

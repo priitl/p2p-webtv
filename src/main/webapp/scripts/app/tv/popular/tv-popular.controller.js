@@ -3,16 +3,15 @@
 
   angular
     .module('maurusApp')
-    .controller('TvController', TvController);
+    .controller('TvPopularController', TvPopularController);
 
-  function TvController(Tv, UserShow, Principal, ParseLinks) {
+  function TvPopularController(TvPopular, UserShow, Principal, ParseLinks) {
     var vm = this;
 
-    vm.popularTv = [];
+    vm.shows = [];
     vm.loadAll = loadAll;
     vm.loadPage = loadPage;
-    vm.reset = reset;
-    vm.page = 1;
+    vm.page = 0;
     vm.setFavorite = setFavorite;
 
     activate();
@@ -20,15 +19,14 @@
     ////////////////
 
     function activate() {
-      loadAll();
       loadAccount();
     }
 
     function loadAll() {
-      Tv.query({page: vm.page, size: 20}, function (result, headers) {
+      TvPopular.query({page: vm.page, size: 20}, function (result, headers) {
         vm.links = ParseLinks.parse(headers('link'));
         for (var i = 0; i < result.length; i++) {
-          vm.popularTv.push(result[i]);
+          vm.shows.push(result[i]);
         }
       });
     }
@@ -44,16 +42,10 @@
       });
     }
 
-    function reset() {
-      vm.page = 0;
-      vm.popularTv = [];
-      vm.loadAll();
-    }
-
     function setFavorite(show, isFavorite) {
       show.favorite = isFavorite;
 
-      var userShow = {userLogin: vm.account.login, showName: show.name};
+      var userShow = {userLogin: vm.account.login, showName: show.name, posterPath: show.fullPosterPath};
       if (isFavorite) {
         UserShow.save(userShow);
       } else {

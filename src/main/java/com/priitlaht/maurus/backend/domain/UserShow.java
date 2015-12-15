@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -27,5 +28,8 @@ public class UserShow implements Serializable {
   @Id
   @Column(name = "show_name", length = 255, nullable = false)
   private String showName;
+
+  @Column(name = "poster_path", length = 100)
+  private String posterPath;
 
 }

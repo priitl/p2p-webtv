@@ -1,0 +1,39 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 translate="tv.feed.title">Your feed</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.menu.tv.main">Tv</a>
+      </li>
+      <li class="active">
+        <strong><a ui-sref="tv-feed" href="#/tv/feed" translate="global.menu.tv.feed">Your feed</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
+       infinite-scroll-distance="1">
+    <div class="col-lg-4" ng-repeat="feedItem in vm.feedItems track by $index">
+      <div class="ibox">
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-4">
+              <img alt="image" class="img img-responsive" ng-src="{{feedItem.posterPath}}">
+            </div>
+            <div class="col-md-8">
+              <h3 class="m-b-xxs">{{feedItem.showName}} S{{feedItem.seasonNumber}}E{{feedItem.episodeNumber}}</h3>
+              <small>Magnet link:</small>
+              <a ng-href="{{feedItem.magnetUri}}"><i class="fa fa-magnet"></i></a><br/>
+              <small>Seeds/Leeches: ({{feedItem.seeds}} - {{feedItem.leeches}})</small>
+              <br/>
+              <small>Added: {{feedItem.uploadDate | date}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

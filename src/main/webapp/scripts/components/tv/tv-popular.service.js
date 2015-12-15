@@ -3,10 +3,10 @@
 
   angular
     .module('maurusApp')
-    .factory('UserShow', UserShow);
+    .factory('TvPopular', TvPopular);
 
-  function UserShow($resource) {
-    return $resource('api/tv/user-show', {}, {
+  function TvPopular($resource) {
+    return $resource('api/tv/popular', {}, {
       'query': {method: 'GET', isArray: true},
       'get': {
         method: 'GET',
@@ -15,8 +15,7 @@
           return data;
         }
       },
-      'update': {method: 'PUT'},
-      'delete': {method: 'DELETE'}
+      'update': {method: 'PUT'}
     });
   }
 
