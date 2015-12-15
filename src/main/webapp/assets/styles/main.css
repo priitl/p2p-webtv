@@ -3845,6 +3845,15 @@ body.modal-open {
   color: inherit
 }
 
+.fa-heart {
+  color: crimson;
+  font-size: 1.5em;
+}
+
+.fa-heart-o {
+  font-size: 1.5em;
+}
+
 .col-md-2 img {
   width: 100%;
 }

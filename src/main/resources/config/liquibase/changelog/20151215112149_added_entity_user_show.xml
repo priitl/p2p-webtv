@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <property name="now" value="now()" dbms="mysql,h2"/>
+  <property name="now" value="current_timestamp" dbms="postgresql"/>
+  <property name="now" value="sysdate" dbms="oracle"/>
+
+  <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql,oracle"/>
+
+  <property name="floatType" value="float4" dbms="postgresql, h2"/>
+  <property name="floatType" value="float" dbms="mysql, oracle"/>
+
+  <!--
+      Added the entity UserShow.
+  -->
+  <changeSet id="20151215112149" author="jhipster">
+    <createTable tableName="user_show">
+      <column name="user_login" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="show_name" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createIndex indexName="idx_user_show_user_login"
+                 tableName="user_show"
+                 unique="false">
+      <column name="user_login" type="varchar(100)"/>
+    </createIndex>
+
+    <createIndex indexName="idx_user_show_show_name"
+                 tableName="user_show"
+                 unique="false">
+      <column name="show_name" type="varchar(255)"/>
+    </createIndex>
+
+    <addForeignKeyConstraint baseColumnNames="user_login"
+                             baseTableName="user_show"
+                             constraintName="fk_user_login"
+                             referencedColumnNames="login"
+                             referencedTableName="jhi_user"/>
+
+    <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, show_name" tableName="user_show"/>
+
+  </changeSet>
+</databaseChangeLog>
