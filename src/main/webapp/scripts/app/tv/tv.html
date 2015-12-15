@@ -14,21 +14,20 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
-
-  <div class="row">
-    <div class="col-md-2" ng-repeat="show in vm.popularTv track by $index">
-
+  <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
+       infinite-scroll-distance="1">
+    <div class="col-md-2" ng-repeat="show in vm.popularTv track by show.id">
       <div class="tv-show-box">
         <a ui-sref="tv-details">
-          <div class="text-center">
-            <img alt="image" class="img m-t-xs img-responsive poster" src="{{show.poster_path}}">
+          <div class="poster-wrapper">
+            <div class="poster-inner text-center">
+              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.poster_path}}">
+            </div>
           </div>
           <div class="m-t-xs font-bold">{{show.name}}</div>
           <div class="clearfix"></div>
         </a>
       </div>
-
     </div>
   </div>
-
 </div>

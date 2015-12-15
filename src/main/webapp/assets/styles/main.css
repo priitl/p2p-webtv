@@ -3827,6 +3827,20 @@ body.modal-open {
   text-overflow: ellipsis;
 }
 
+.poster-wrapper {
+  padding-top: 150%;
+  height: 0;
+  position: relative;
+}
+
+.poster-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .tv-show-box a {
   color: inherit
 }
