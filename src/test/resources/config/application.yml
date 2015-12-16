@@ -69,7 +69,7 @@ jhipster:
     security:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
-            key: xxx
+            key: YOUR_KEY
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
     swagger:
@@ -80,3 +80,7 @@ jhipster:
         contact:
         license:
         licenseUrl:
+    movieDatabase:
+        apiKey: YOUR_API_KEY
+    eztv:
+        apiUrl: YOUR_API_URL
