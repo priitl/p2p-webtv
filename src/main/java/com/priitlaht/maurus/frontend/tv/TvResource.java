@@ -45,33 +45,31 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "feed", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvFeedDTO>> findUserTvFeed(Pageable pageable) throws URISyntaxException {
-    log.debug("REST request to get a page of user's tv feed");
-    Page<TvFeedDTO> page = tvService.findTvFeed(pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/feed");
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+  public List<TvFeedDTO> findUserTvFeed() throws URISyntaxException {
+    log.debug("REST request to get user's tv feed");
+    return tvService.findTvFeed();
   }
 
   @Timed
   @RequestMapping(value = "user-show", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> insertUserShow(@RequestBody UserShow userShow) {
-    log.debug("REST request to insert UserShow: {}", userShow.getShowName());
+  public ResponseEntity<String> insertUserShow(@RequestBody UserShow userShow) {
+    log.debug("REST request to insert UserShow: {}", userShow.getTitle());
     if (!Objects.equals(userShow.getUserLogin(), SecurityUtil.getCurrentUserLogin())) {
       return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tv", "invalid_user", "invalid user")).body(null);
     }
-    tvService.createUserShow(userShow);
-    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.created", userShow.getShowName())).build();
+    return tvService.createUserShow(userShow)
+      .map(user -> new ResponseEntity<String>(HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   @Timed
   @RequestMapping(value = "user-show", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> deleteUserShow(@RequestParam String userLogin, @RequestParam String showName) {
-    log.debug("REST request to delete UserShow: {}", showName);
+  public ResponseEntity<Void> deleteUserShow(@RequestParam String userLogin, @RequestParam Long tmdbId) {
+    log.debug("REST request to delete UserShow: {}", tmdbId);
     if (!Objects.equals(userLogin, SecurityUtil.getCurrentUserLogin())) {
       return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tv", "invalid_user", "invalid user")).body(null);
     }
-    tvService.deleteUserShow(userLogin, showName);
-    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.deleted", showName)).build();
+    tvService.deleteUserShow(userLogin, tmdbId);
+    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.deleted", tmdbId.toString())).build();
   }
 
 }

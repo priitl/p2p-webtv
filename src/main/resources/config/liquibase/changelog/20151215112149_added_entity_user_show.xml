@@ -21,10 +21,15 @@
       <column name="user_login" type="varchar(100)">
         <constraints nullable="false"/>
       </column>
-      <column name="show_name" type="varchar(255)">
+      <column name="tmdb_id" type="integer">
         <constraints nullable="false"/>
       </column>
-      <column name="poster_path" type="varchar(100)"/>
+      <column name="imdb_id" type="varchar(10)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="title" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
     </createTable>
 
     <createIndex indexName="idx_user_show_user_login"
@@ -33,10 +38,22 @@
       <column name="user_login" type="varchar(100)"/>
     </createIndex>
 
-    <createIndex indexName="idx_user_show_show_name"
+    <createIndex indexName="idx_user_show_tmdb_id"
                  tableName="user_show"
                  unique="false">
-      <column name="show_name" type="varchar(255)"/>
+      <column name="tmdb_id" type="integer"/>
+    </createIndex>
+
+    <createIndex indexName="idx_user_show_imdb_id"
+                 tableName="user_show"
+                 unique="false">
+      <column name="imdb_id" type="varchar(10)"/>
+    </createIndex>
+
+    <createIndex indexName="idx_user_show_title"
+                 tableName="user_show"
+                 unique="false">
+      <column name="title" type="varchar(255)"/>
     </createIndex>
 
     <addForeignKeyConstraint baseColumnNames="user_login"
@@ -45,7 +62,7 @@
                              referencedColumnNames="login"
                              referencedTableName="jhi_user"/>
 
-    <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, show_name" tableName="user_show"/>
+    <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, tmdb_id" tableName="user_show"/>
 
   </changeSet>
 </databaseChangeLog>

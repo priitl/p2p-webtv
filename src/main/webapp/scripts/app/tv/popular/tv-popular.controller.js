@@ -45,7 +45,7 @@
     function setFavorite(show, isFavorite) {
       show.favorite = isFavorite;
 
-      var userShow = {userLogin: vm.account.login, showName: show.name, posterPath: show.fullPosterPath};
+      var userShow = {userLogin: vm.account.login, tmdbId: show.id, title: show.name};
       if (isFavorite) {
         UserShow.save(userShow);
       } else {

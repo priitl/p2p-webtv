@@ -30,7 +30,7 @@
       </li>
 
       <!-- Tv -->
-      <li ng-class="{active: vm.state.includes('tv')}">
+      <li ng-class="{active: vm.state.includes('tv')}" ng-show="vm.isAuthenticated()">
         <a href="">
           <i class="fa fa-film"></i>
           <span class="nav-label" translate="global.menu.tv.main">TV</span>

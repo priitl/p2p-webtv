@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserShowId implements Serializable {
   private String userLogin;
-  private String showName;
+  private String title;
 }

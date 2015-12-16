@@ -23,6 +23,7 @@ public class ApplicationProperties {
   private final Security security = new Security();
   private final Swagger swagger = new Swagger();
   private final MovieDatabase movieDatabase = new MovieDatabase();
+  private final Eztv eztv = new Eztv();
   private final Metrics metrics = new Metrics();
   private final CorsConfiguration cors = new CorsConfiguration();
   private final Social social = new Social();
@@ -105,6 +106,12 @@ public class ApplicationProperties {
   @Setter
   public static class MovieDatabase {
     private String apiKey;
+  }
+
+  @Getter
+  @Setter
+  public static class Eztv {
+    private String apiUrl;
   }
 
   @Getter

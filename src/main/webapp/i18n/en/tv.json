@@ -4,7 +4,11 @@
       "title": "Popular TV"
     },
     "feed": {
-      "title": "Your TV feed"
+      "title": "Your TV feed",
+      "nothingHere": "Nothing here yet! Please favorite a show first!",
+      "seeds": "seeds",
+      "leeches": "leeches",
+      "airDate": "air date"
     }
   }
 }

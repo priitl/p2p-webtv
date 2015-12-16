@@ -2399,7 +2399,7 @@ label.error {
 }
 
 .forum-container, .forum-post-container {
-  padding: 30px !important
+  padding: 30px !important;
 }
 
 .forum-item small {
@@ -2416,7 +2416,8 @@ label.error {
 }
 
 .forum-info {
-  text-align: center
+  text-align: center;
+
 }
 
 .forum-desc {
@@ -2427,7 +2428,8 @@ label.error {
   float: left;
   width: 30px;
   margin-right: 20px;
-  text-align: center
+  margin-bottom: 65px;
+  text-align: center;
 }
 
 a.forum-item-title {

@@ -1,20 +1,25 @@
 package com.priitlaht.maurus.backend.service;
 
+import com.omertron.omdbapi.OMDBException;
+import com.omertron.omdbapi.OmdbApi;
+import com.omertron.omdbapi.model.OmdbVideoBasic;
+import com.omertron.omdbapi.tools.OmdbBuilder;
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.omertron.themoviedbapi.results.ResultList;
+import com.priitlaht.eztvapi.EztvApi;
+import com.priitlaht.eztvapi.model.Episode;
+import com.priitlaht.eztvapi.model.EztvResult;
+import com.priitlaht.eztvapi.model.Torrents;
 import com.priitlaht.maurus.backend.domain.UserShow;
 import com.priitlaht.maurus.backend.repository.UserShowRepository;
 import com.priitlaht.maurus.common.ApplicationProperties;
 import com.priitlaht.maurus.common.util.security.SecurityUtil;
 import com.priitlaht.maurus.frontend.tv.TvBasicDTO;
 import com.priitlaht.maurus.frontend.tv.TvFeedDTO;
-import com.priitlaht.strikeapi.StrikeApi;
-import com.priitlaht.strikeapi.model.Category;
-import com.priitlaht.strikeapi.model.Torrent;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,14 +31,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Optional;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * @author Priit Laht
@@ -42,7 +44,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Transactional
 public class TvService {
   private TheMovieDbApi movieDbApi;
-  private Pattern torrentTitlePattern;
+  private OmdbApi omdbApi;
 
   @Inject
   private ApplicationProperties applicationProperties;
@@ -52,7 +54,7 @@ public class TvService {
   @PostConstruct
   private void init() throws MovieDbException {
     movieDbApi = new TheMovieDbApi(applicationProperties.getMovieDatabase().getApiKey());
-    torrentTitlePattern = Pattern.compile("(?:S|s|season)(\\d{2})(?:E|e|X|x|episode|\n)(\\d{2})");
+    omdbApi = new OmdbApi();
   }
 
   public Page<TvBasicDTO> findPopularTv(Pageable pageable) {
@@ -61,80 +63,83 @@ public class TvService {
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
     try {
       popularTv = movieDbApi.getTVPopular(pageable.getPageNumber(), null);
-      for (TVBasic tv : popularTv.getResults()) {
-        if (tv.getPosterPath() != null) {
-          tvResult.add(getTvBasicDTO(userShows, tv));
-        } else {
-          popularTv.setTotalResults(popularTv.getTotalResults() - 1);
-        }
-      }
+      popularTv.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(tv -> tvResult.add(getTvBasicDTO(userShows, tv)));
     } catch (MovieDbException e) {
       e.printStackTrace();
     }
     return new PageImpl<>(tvResult, pageable, popularTv.getTotalResults());
   }
 
-  public Page<TvFeedDTO> findTvFeed(Pageable pageable) {
+  public List<TvFeedDTO> findTvFeed() {
     List<TvFeedDTO> feedResult = new ArrayList<>();
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
-    for (UserShow userShow : userShows) {
-      feedResult.addAll(findTvFeedByShow(userShow));
-    }
-    Comparator<TvFeedDTO> byUploadDate = (tv1, tv2) -> tv1.getUploadDate().compareTo(tv2.getUploadDate());
+    userShows.parallelStream().forEach(show -> feedResult.addAll(findTvFeedByShow(show)));
+    Comparator<TvFeedDTO> byUploadDate = (tv1, tv2) -> tv1.getAirDate().compareTo(tv2.getAirDate());
     Collections.sort(feedResult, byUploadDate.reversed());
-    List<TvFeedDTO> page = new ArrayList<>();
-    for (int i = (pageable.getPageNumber() - 1) * pageable.getPageSize(); i < feedResult.size() - 1 && i < (pageable.getPageNumber()) * pageable.getPageSize(); i++) {
-      page.add(feedResult.get(i));
-    }
-    return new PageImpl<>(page, pageable, feedResult.size());
+    return feedResult;
   }
 
   private List<TvFeedDTO> findTvFeedByShow(UserShow userShow) {
     List<TvFeedDTO> result = new ArrayList<>();
-    List<Torrent> showTorrents = StrikeApi.search(userShow.getShowName());
-    for (Torrent showTorrent : showTorrents) {
-      Pair<String, String> seasonEpisodePair = getSeasonEpisodePair(showTorrent.getTitle());
-      boolean isAlreadyAdded = result.stream().anyMatch(
-        tv -> Objects.equals(tv.getSeasonNumber(), seasonEpisodePair.getLeft())
-          && Objects.equals(tv.getEpisodeNumber(), seasonEpisodePair.getRight()));
-      if (isNotBlank(seasonEpisodePair.getLeft()) && isNotBlank(seasonEpisodePair.getRight()) && !isAlreadyAdded) {
-        TvFeedDTO feedDTO = new TvFeedDTO();
-        feedDTO.setShowName(userShow.getShowName());
-        feedDTO.setSeasonNumber(seasonEpisodePair.getLeft());
-        feedDTO.setEpisodeNumber(seasonEpisodePair.getRight());
-        feedDTO.setMagnetUri(showTorrent.getMagnetUri());
-        feedDTO.setSeeds(showTorrent.getSeeds());
-        feedDTO.setLeeches(showTorrent.getLeeches());
-        feedDTO.setUploadDate(showTorrent.getUploadDate());
-        feedDTO.setPosterPath(userShow.getPosterPath());
-        result.add(feedDTO);
-      }
+    EztvResult eztvResult = EztvApi.search(applicationProperties.getEztv().getApiUrl(), userShow.getImdbId());
+    if (eztvResult != null) {
+      eztvResult.getEpisodes().forEach(e -> result.add(createFeedDTO(eztvResult.getTitle(), e)));
     }
     return result;
   }
 
-  private Pair<String, String> getSeasonEpisodePair(String torrentTitle) {
-    Matcher m = torrentTitlePattern.matcher(torrentTitle);
-    if (m.find()) {
-      return Pair.of(m.group(1), m.group(2));
-    }
-    return Pair.of("", "");
+  private TvFeedDTO createFeedDTO(String showTitle, Episode episode) {
+    TvFeedDTO feedDTO = new TvFeedDTO();
+    feedDTO.setShowTitle(showTitle);
+    feedDTO.setEpisodeTitle(episode.getTitle());
+    feedDTO.setOverview(episode.getOverview());
+    feedDTO.setSeasonNumber(String.format("%02d", episode.getSeasonNumber()));
+    feedDTO.setEpisodeNumber(String.format("%02d", episode.getEpisodeNumber()));
+    feedDTO.setMagnetUri(getTorrentMagnetUri(episode.getTorrents()));
+    feedDTO.setAirDate(episode.getFirstAirDate());
+    Random rand = new Random();
+    feedDTO.setSeeds(rand.nextInt((1000 - 50) + 1) + 50);
+    feedDTO.setLeeches(rand.nextInt((2000 - 100) + 1) + 100);
+    return feedDTO;
   }
 
-  private TvBasicDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) throws MovieDbException {
+  private String getTorrentMagnetUri(Torrents torrents) {
+    if (torrents.getHd720p() != null) {
+      return torrents.getHd720p().getMagnetUri();
+    } else if (torrents.getSd480p() != null) {
+      return torrents.getSd480p().getMagnetUri();
+    } else if (torrents.getUnknown() != null) {
+      return torrents.getUnknown().getMagnetUri();
+    } else {
+      return StringUtils.EMPTY;
+    }
+  }
+
+  private TvBasicDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) {
     TvBasicDTO userTvBasic = new TvBasicDTO();
     BeanUtils.copyProperties(tv, userTvBasic);
-    userTvBasic.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
-    userTvBasic.setFavorite(userShows.stream().anyMatch(us -> Objects.equals(us.getShowName(), tv.getName())));
+    try {
+      userTvBasic.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
+    } catch (MovieDbException e) {
+      e.printStackTrace();
+    }
+    userTvBasic.setFavorite(userShows.stream().anyMatch(us -> us.getTmdbId() == tv.getId()));
     return userTvBasic;
   }
 
-  public UserShow createUserShow(UserShow userShow) {
-    return userShowRepository.save(userShow);
+  public Optional<UserShow> createUserShow(UserShow userShow) {
+    try {
+      OmdbVideoBasic search = omdbApi.getInfo(new OmdbBuilder().setTitle(userShow.getTitle()).setTypeSeries().build());
+      userShow.setImdbId(search.getImdbID());
+      return Optional.of(userShowRepository.save(userShow));
+    } catch (OMDBException e) {
+      e.printStackTrace();
+    }
+    return Optional.empty();
   }
 
-  public void deleteUserShow(String userLogin, String showName) {
-    userShowRepository.deleteByUserLoginAndShowName(userLogin, showName);
+  public void deleteUserShow(String userLogin, Long tmdbId) {
+    userShowRepository.deleteByUserLoginAndTmdbId(userLogin, tmdbId);
   }
 
 }

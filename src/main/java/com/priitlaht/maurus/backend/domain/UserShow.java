@@ -26,10 +26,13 @@ public class UserShow implements Serializable {
   private String userLogin;
 
   @Id
-  @Column(name = "show_name", length = 255, nullable = false)
-  private String showName;
+  @Column(name = "tmdb_id", length = 10, nullable = false)
+  private Long tmdbId;
 
-  @Column(name = "poster_path", length = 100)
-  private String posterPath;
+  @Column(name = "imdb_id", length = 10, nullable = false)
+  private String imdbId;
+
+  @Column(name = "title", length = 255, nullable = false)
+  private String title;
 
 }

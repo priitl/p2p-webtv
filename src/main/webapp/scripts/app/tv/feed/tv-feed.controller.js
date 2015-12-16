@@ -5,8 +5,11 @@
     .module('maurusApp')
     .controller('TvFeedController', TvFeedController);
 
-  function TvFeedController(TvFeed, ParseLinks) {
+  function TvFeedController(TvFeed) {
     var vm = this;
+    var allItems = [];
+    var loaded = false;
+    var pageSize = 20;
 
     vm.feedItems = [];
     vm.loadAll = loadAll;
@@ -16,17 +19,26 @@
     ////////////////
 
     function loadAll() {
-      TvFeed.query({page: vm.page, size: 20}, function (result, headers) {
-        vm.links = ParseLinks.parse(headers('link'));
-        for (var i = 0; i < result.length; i++) {
-          vm.feedItems.push(result[i]);
-        }
+      TvFeed.query(function (result) {
+        allItems = result;
+        addFeedItems();
       });
+      loaded = true;
     }
 
     function loadPage(page) {
       vm.page = page;
-      vm.loadAll();
+      if (!loaded) {
+        loadAll();
+      } else {
+        addFeedItems();
+      }
+    }
+
+    function addFeedItems() {
+      for (var i = (vm.page - 1) * pageSize; i < allItems.length && i < (vm.page) * pageSize; i++) {
+        vm.feedItems.push(allItems[i]);
+      }
     }
 
   }

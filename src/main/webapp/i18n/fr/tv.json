@@ -4,7 +4,11 @@
       "title": "TV populaire"
     },
     "feed": {
-      "title": "Votre flux de TV"
+      "title": "Votre flux de TV",
+      "nothingHere": "Rien ici encore! S'il vous plaît s'abonner à une émission premièrement!",
+      "seeds": "sources",
+      "leeches": "sangsues",
+      "airDate": "date de l'air"
     }
   }
 }

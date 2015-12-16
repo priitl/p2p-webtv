@@ -14,26 +14,45 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
-       infinite-scroll-distance="1">
-    <div class="col-lg-4" ng-repeat="feedItem in vm.feedItems track by $index">
-      <div class="ibox">
-        <div class="ibox-content">
-          <div class="row">
-            <div class="col-md-4">
-              <img alt="image" class="img img-responsive" ng-src="{{feedItem.posterPath}}">
-            </div>
-            <div class="col-md-8">
-              <h3 class="m-b-xxs">{{feedItem.showName}} S{{feedItem.seasonNumber}}E{{feedItem.episodeNumber}}</h3>
-              <small>Magnet link:</small>
-              <a ng-href="{{feedItem.magnetUri}}"><i class="fa fa-magnet"></i></a><br/>
-              <small>Seeds/Leeches: ({{feedItem.seeds}} - {{feedItem.leeches}})</small>
-              <br/>
-              <small>Added: {{feedItem.uploadDate | date}}</small>
-            </div>
+  <div class="ibox-content forum-container" infinite-scroll="vm.loadPage(vm.page + 1)"
+       infinite-scroll-disabled="vm.links['last'] == vm.page" infinite-scroll-distance="0">
+    <h2 ng-if="!vm.feedItems.length" translate="tv.feed.nothingHere">Nothing here yet! Please favorite a show first!</h2>
+
+    <div class="forum-item active" ng-repeat="feedItem in vm.feedItems track by $index">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="forum-icon">
+            <a ng-href="{{feedItem.magnetUri}}"><i
+              class="fa fa-magnet"></i></a><br/>
+          </div>
+          <a href="" class="forum-item-title">
+            {{feedItem.showTitle}} S{{feedItem.seasonNumber}}E{{feedItem.episodeNumber}} {{feedItem.episodeTitle}}</a>
+
+          <div class="forum-sub-title">{{feedItem.overview}}</div>
+        </div>
+        <div class="col-md-1 forum-info">
+          <span class="views-number"> {{feedItem.seeds}}</span>
+
+          <div>
+            <small translate="tv.feed.seeds">seeds</small>
+          </div>
+        </div>
+        <div class="col-md-1 forum-info">
+          <span class="views-number">{{feedItem.leeches}}</span>
+
+          <div>
+            <small translate="tv.feed.leeches">leeches</small>
+          </div>
+        </div>
+        <div class="col-md-1 forum-info">
+          <span class="views-number">{{feedItem.airDate | date:'dd MMM'}}</span>
+
+          <div>
+            <small translate="tv.feed.airDate">air date</small>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<br/>

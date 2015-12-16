@@ -2,19 +2,22 @@ package com.priitlaht.maurus.frontend.tv;
 
 import java.util.Date;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Priit Laht
  */
-@Data
+@Getter
+@Setter
 public class TvFeedDTO {
-  private String showName;
+  private String showTitle;
+  private String episodeTitle;
   private String seasonNumber;
   private String episodeNumber;
+  private String overview;
   private String magnetUri;
   private Integer seeds;
   private Integer leeches;
-  private Date uploadDate;
-  private String posterPath;
+  private Date airDate;
 }
