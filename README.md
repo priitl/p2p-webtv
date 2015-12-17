@@ -1,6 +1,4 @@
-# maurus
-
-This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
+# p2p-webtv
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
@@ -28,7 +26,7 @@ Add the `-h` flag on any command to see how you can use it. For example, `bower 
 
 # Building for production
 
-To optimize the maurus client for production, run:
+To optimize the p2p-webtv client for production, run:
 
     ./gradlew -Pprod clean bootRepackage
 
@@ -53,9 +51,9 @@ Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in
 
 To setup this project in Jenkins, use the following configuration:
 
-* Project name: `maurus`
+* Project name: `p2p-webtv`
 * Source Code Management
-    * Git Repository: `git@github.com:xxxx/maurus.git`
+    * Git Repository: `git@github.com:priitl/p2p-webtv.git`
     * Branches to build: `*/master`
     * Additional Behaviours: `Wipe out repository & force clone`
 * Build Triggers
@@ -65,7 +63,6 @@ To setup this project in Jenkins, use the following configuration:
 * Post-build Actions
     * Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
 
-[JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
 [Bower]: http://bower.io/
 [Gulp]: http://gulpjs.com/
@@ -73,3 +70,4 @@ To setup this project in Jenkins, use the following configuration:
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
+[JHipster]: https://jhipster.github.io/
