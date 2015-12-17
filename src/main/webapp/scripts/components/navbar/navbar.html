@@ -9,15 +9,16 @@
                data-ng-src="{{'data:' + vm.account.pictureContentType + ';base64,' + vm.account.picture}}"
                ng-if="vm.account.picture"/>
           <a class="dropdown-toggle" dropdown-toggle href>
-                            <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold">{{vm.account.firstName + ' ' +
-                                  vm.account.lastName}}</strong></span>
-                            </span>
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">{{vm.account.firstName + ' ' +
+                vm.account.lastName}}</strong>
+              </span>
+            </span>
           </a>
         </div>
 
         <div class="logo-element">
-          MAU
+          WTV
         </div>
       </li>
 
@@ -53,16 +54,16 @@
       </li>
 
       <!-- Entities -->
-      <li ui-sref-active="active" ng-switch-when="true">
-        <a href="">
-          <i class="glyphicon glyphicon-th-list"></i>
-          <span class="nav-label" translate="global.menu.entities.main">Entities</span>
-          <span class="fa arrow"></span>
-        </a>
-        <ul class="nav nav-second-level collapse">
-          <!-- jhipster-needle-002 - JHipster will add entities to the menu here -->
-        </ul>
-      </li>
+      <!--<li ui-sref-active="active" ng-switch-when="true">-->
+      <!--<a href="">-->
+      <!--<i class="glyphicon glyphicon-th-list"></i>-->
+      <!--<span class="nav-label" translate="global.menu.entities.main">Entities</span>-->
+      <!--<span class="fa arrow"></span>-->
+      <!--</a>-->
+      <!--<ul class="nav nav-second-level collapse">-->
+      <!-- jhipster-needle-002 - JHipster will add entities to the menu here -->
+      <!--</ul>-->
+      <!--</li>-->
 
       <!-- Account -->
       <li ng-class="{active: vm.state.includes('account')}">

@@ -75,7 +75,8 @@ public class TvService {
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
     userShows.parallelStream().forEach(show -> feedResult.addAll(findTvFeedByShow(show)));
     Comparator<TvFeedDTO> byUploadDate = (tv1, tv2) -> tv1.getAirDate().compareTo(tv2.getAirDate());
-    Collections.sort(feedResult, byUploadDate.reversed());
+    Comparator<TvFeedDTO> byEpisodeNumber = (tv1, tv2) -> tv1.getEpisodeNumber().compareTo(tv2.getEpisodeNumber());
+    Collections.sort(feedResult, byUploadDate.thenComparing(byEpisodeNumber).reversed());
     return feedResult;
   }
 
@@ -130,6 +131,7 @@ public class TvService {
 
   private TvBasicDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) {
     TvBasicDTO userTvBasic = new TvBasicDTO();
+    tv.setName(tv.getName().replaceAll("Marvel's ", ""));
     BeanUtils.copyProperties(tv, userTvBasic);
     try {
       userTvBasic.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());

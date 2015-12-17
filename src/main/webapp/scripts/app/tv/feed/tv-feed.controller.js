@@ -13,6 +13,7 @@
     var pageSize = 20;
 
     vm.feedItems = [];
+    vm.clearFilter = clearFilter;
     vm.filterActive = filterActive;
     vm.loadAll = loadAll;
     vm.loadPage = loadPage;
@@ -37,8 +38,18 @@
       }
     }
 
+    function clearFilter() {
+      if (vm.filter && vm.filter.showTitle.length) {
+        if(cachedItems.length) {
+          vm.feedItems = cachedItems.slice(0);
+          cachedItems = [];
+        }
+        vm.filter.showTitle = undefined;
+      }
+    }
+
     function filterActive() {
-      if (vm.filter.showTitle.length > 2 && !cachedItems.length) {
+      if (vm.filter.showTitle.length > 1 && !cachedItems.length) {
         cachedItems = vm.feedItems.slice(0);
         vm.feedItems = _.where(allItems, function (item) {
           return item.showTitle.indexOf(vm.filter.showTitle) >= 0;

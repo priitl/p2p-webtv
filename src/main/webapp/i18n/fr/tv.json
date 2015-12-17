@@ -1,11 +1,7 @@
 {
   "tv": {
     "popular": {
-      "title": "TV populaire",
-      "messages": {
-        "added": "a été ajoutée aux favoris",
-        "removed": "a été enlevé de favoris"
-      }
+      "title": "TV Populaire"
     },
     "feed": {
       "title": "Votre flux de TV",
@@ -15,7 +11,12 @@
       "airDate": "date de l'air"
     },
     "search": {
-      "title": "Résultats pour [<strong>{{title}}</strong>]"
+      "title": "Résultats pour [<strong>{{title}}</strong>]",
+      "noResults": "Oh! Malheureusement, aucun résultat n'a été trouvé..."
+    },
+    "favorite": {
+      "added": "a été ajoutée aux favoris",
+      "removed": "a été enlevé de favoris"
     },
     "filter": "Filtrer..."
   }

@@ -6,7 +6,7 @@
       "home": "Accueil",
       "tv": {
         "main": "Télévision",
-        "popular": "TV populaire",
+        "popular": "TV Populaire",
         "feed": "Votre flux de TV",
         "search": "Recherche"
       },
@@ -35,7 +35,8 @@
         "apidocs": "API",
         "database": "Base de données"
       },
-      "language": "Langue"
+      "language": "Langue",
+      "searchTv": "Recherche TV"
     },
     "form": {
       "username": "Nom d'utilisateur",
@@ -119,5 +120,8 @@
     "emailexists": "E-mail is already in use!",
     "idexists": "A new {{entityName}} cannot already have an ID"
   },
-  "footer": "Ceci est votre pied de page"
+  "footer": {
+    "copyright": "Copyright &copy;",
+    "backToTop": "Haut de page"
+  }
 }

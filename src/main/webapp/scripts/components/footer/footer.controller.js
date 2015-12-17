@@ -5,8 +5,16 @@
     .module('maurusApp')
     .controller('FooterController', FooterController);
 
-  function FooterController() {
+  function FooterController($anchorScroll) {
+    var vm = this;
 
+    vm.scrollToTop = scrollToTop;
+
+    ////////////////
+
+    function scrollToTop() {
+      $anchorScroll();
+    }
   }
 
 })();

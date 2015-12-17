@@ -32,7 +32,7 @@
   function MinimizeNavbarController() {
     var vm = this;
     vm.minimize = function () {
-      angular.element('body').toggleClass("mini-navbar");
+      angular.element('body').toggleClass("fixed-sidebar mini-navbar");
       if (!angular.element('body').hasClass('mini-navbar') || angular.element('body').hasClass('body-small')) {
         $('#side-menu').hide();
         setTimeout(function () {
@@ -46,7 +46,7 @@
       } else {
         $('#side-menu').removeAttr('style');
       }
-    }
+    };
   }
 
 })();

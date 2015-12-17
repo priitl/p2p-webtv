@@ -336,8 +336,12 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   padding: 18px 0
 }
 
-.pace-done .navbar-static-side, .pace-done .nav-header, .pace-done li.active, .pace-done #page-wrapper, .pace-done .footer {
-  transition: all .5s
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .navbar-fixed-top {
@@ -456,10 +460,6 @@ body.fixed-sidebar.mini-navbar .nav-label, body.fixed-sidebar.mini-navbar .navba
 
 .top-navigation #page-wrapper {
   margin-left: 0
-}
-
-.top-navigation .pace .pace-progress {
-  left: 0
 }
 
 .top-navigation .navbar-nav .dropdown-menu > .active > a {
@@ -1466,24 +1466,6 @@ table.dataTable thead .sorting:after {
 .animation-text-box p {
   font-size: 12px;
   text-transform: uppercase
-}
-
-.pace .pace-progress {
-  background: #1ab394;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  left: 220px;
-  height: 2px;
-  transition: width 1s
-}
-
-.body-small .pace .pace-progress {
-  left: 0
-}
-
-.pace-inactive {
-  display: none
 }
 
 .widget {
@@ -3840,6 +3822,10 @@ body.modal-open {
 
 .contact-box a {
   color: inherit
+}
+
+#loading-bar .bar {
+  background: #1ab394;
 }
 
 .tv-show-box {

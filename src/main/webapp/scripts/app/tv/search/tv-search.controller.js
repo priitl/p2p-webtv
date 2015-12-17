@@ -47,10 +47,10 @@
       show.favorite = isFavorite;
       var userShow = {userLogin: vm.account.login, tmdbId: show.id, title: show.name};
       if (isFavorite) {
-        toastr.success($translate.instant("tv.popular.messages.added"), show.name);
+        toastr.success($translate.instant("tv.favorite.added"), show.name);
         UserShow.save(userShow);
       } else {
-        toastr.warning($translate.instant("tv.popular.messages.removed"), show.name);
+        toastr.warning($translate.instant("tv.favorite.removed"), show.name);
         UserShow.delete(userShow);
       }
     }

@@ -18,7 +18,7 @@
     <div class="row">
       <div class="p-xs">
         <div class="pull-left top-filter-icon-wrapper">
-          <i class="fa fa-angle-right text-navy mid-icon"></i>
+         <a ng-click="vm.clearFilter()" title="Clear filter"><i class="fa fa-angle-right text-navy mid-icon"></i></a>
         </div>
         <div class="top-filter">
           <input type="text" ng-model="vm.filter.showTitle" ng-change="vm.filterActive()" class="form-control input-lg"
@@ -29,7 +29,7 @@
   </div>
 
   <div class="ibox-content forum-container" infinite-scroll="vm.loadPage(vm.page + 1)"
-       infinite-scroll-disabled="vm.links['last'] == vm.page" infinite-scroll-distance="0">
+       infinite-scroll-disabled="(vm.links['last'] == vm.page) || vm.filter.showTitle" infinite-scroll-distance="0">
     <h2 ng-if="!vm.feedItems.length" translate="tv.feed.nothingHere">Nothing here yet! Please favorite a show first!</h2>
 
     <div class="forum-item active" ng-repeat="feedItem in vm.feedItems|filter:vm.filter track by $index">
@@ -62,7 +62,7 @@
           <span class="views-number">{{feedItem.airDate | date:'dd MMM'}}</span>
 
           <div>
-            <small translate="tv.feed.airDate">air date</small>
+            <small>{{feedItem.airDate | date:'yyyy'}}</small>
           </div>
         </div>
       </div>

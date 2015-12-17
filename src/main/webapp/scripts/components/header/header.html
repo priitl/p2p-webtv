@@ -5,7 +5,7 @@
 
       <form ng-show="isAuthenticated()" role="search" class="navbar-form-custom" method="post" ng-submit="searchTv()">
         <div class="form-group">
-          <input type="text" ng-model="search" placeholder="{{ 'SEARCH TV' | translate }}" class="form-control">
+          <input type="text" ng-model="search" placeholder="{{'global.menu.searchTv' | translate }}" class="form-control">
         </div>
       </form>
     </div>
@@ -13,8 +13,9 @@
 
       <!-- Language -->
       <li class="dropdown" dropdown>
-        <a class="dropdown-toggle count-info" href dropdown-toggle>
-          <span class="nav-label" translate="global.menu.language">Language</span>
+        <a class="dropdown-toggle" dropdown-toggle>
+          <i class="fa fa-globe"></i>
+          <span translate="global.menu.language">Language</span>
         </a>
         <ul class="dropdown-menu animated fadeInRight m-t-xs" ng-controller="LanguageController as lang">
           <li active-menu="{{language}}" ng-repeat="language in lang.languages">

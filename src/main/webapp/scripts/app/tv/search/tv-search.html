@@ -14,6 +14,10 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
+  <div ng-if="!vm.shows.length" class="ibox-content forum-container">
+    <h2 translate="tv.search.noResults">Oh! Unfortunately, no results were found...</h2>
+  </div>
+
   <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
        infinite-scroll-distance="1">
     <div class="col-md-2" ng-repeat="show in vm.shows track by $index">

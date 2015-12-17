@@ -62,7 +62,7 @@
   }
 
   function appConfig($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider, $compileProvider,
-                     tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+                     tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, cfpLoadingBarProvider) {
     //enable CSRF
     $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
@@ -85,7 +85,8 @@
         },
         'footer@': {
           templateUrl: 'scripts/components/footer/footer.html',
-          controller: 'FooterController'
+          controller: 'FooterController',
+          controllerAs: 'vm'
         }
       },
       resolve: {
@@ -99,6 +100,7 @@
     });
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|magnet):/);
+    cfpLoadingBarProvider.includeSpinner = false;
 
     $httpProvider.interceptors.push('errorHandlerInterceptor');
     $httpProvider.interceptors.push('authExpiredInterceptor');

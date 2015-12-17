@@ -35,7 +35,8 @@
         "apidocs": "API",
         "database": "Database"
       },
-      "language": "Language"
+      "language": "Language",
+      "searchTv": "Search TV"
     },
     "form": {
       "username": "Username",
@@ -119,5 +120,8 @@
     "emailexists": "E-mail is already in use!",
     "idexists": "A new {{entityName}} cannot already have an ID"
   },
-  "footer": "This is your footer"
+  "footer": {
+    "copyright": "Copyright &copy;",
+    "backToTop": "Back to Top"
+  }
 }

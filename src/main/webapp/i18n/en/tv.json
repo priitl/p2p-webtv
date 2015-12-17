@@ -1,11 +1,7 @@
 {
   "tv": {
     "popular": {
-      "title": "Popular TV",
-      "messages": {
-        "added": "was added to favorites",
-        "removed": "was removed from favorites"
-      }
+      "title": "Popular TV"
     },
     "feed": {
       "title": "Your TV feed",
@@ -15,7 +11,12 @@
       "airDate": "air date"
     },
     "search": {
-      "title": "Search results for [<strong>{{title}}</strong>]"
+      "title": "Search results for [<strong>{{title}}</strong>]",
+      "noResults": "Oh! Unfortunately, no results were found..."
+    },
+    "favorite": {
+      "added": "was added to favorites",
+      "removed": "was removed from favorites"
     },
     "filter": "Type to filter..."
   }
