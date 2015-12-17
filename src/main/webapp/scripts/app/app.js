@@ -2,12 +2,13 @@
   'use strict';
 
   var appDependencies = ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 'ui.bootstrap', 'ngAnimate',
-                         'ngTouch', 'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload',
-                         'infinite-scroll', 'angular-loading-bar'];
+                         'toastr', 'ngTouch', 'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
+                         'ngFileUpload', 'infinite-scroll', 'angular-loading-bar'];
   angular
     .module('maurusApp', appDependencies)
     .run(appRun)
     .config(appConfig)
+    .config(toasterConfig)
     .config(['$urlMatcherFactoryProvider', urlMatcherConfig]);
 
   function appRun($rootScope, $window, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
@@ -116,6 +117,25 @@
     tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
     tmhDynamicLocaleProvider.useCookieStorage();
     tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
+  }
+
+  function toasterConfig(toastrConfig) {
+    angular.extend(toastrConfig, {
+      "closeButton": true,
+      "debug": false,
+      "progressBar": true,
+      "preventDuplicates": false,
+      "positionClass": "toast-top-right",
+      "onclick": null,
+      "showDuration": "400",
+      "hideDuration": "1000",
+      "timeOut": "3000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    });
   }
 
   function urlMatcherConfig($urlMatcherFactory) {

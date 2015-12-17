@@ -7,14 +7,6 @@
 
   function UserShow($resource) {
     return $resource('api/tv/user-show', {}, {
-      'query': {method: 'GET', isArray: true},
-      'get': {
-        method: 'GET',
-        transformResponse: function (data) {
-          data = angular.fromJson(data);
-          return data;
-        }
-      },
       'update': {method: 'PUT'},
       'delete': {method: 'DELETE'}
     });

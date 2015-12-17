@@ -1,7 +1,11 @@
 {
   "tv": {
     "popular": {
-      "title": "Popular TV"
+      "title": "Popular TV",
+      "messages": {
+        "added": "was added to favorites",
+        "removed": "was removed from favorites"
+      }
     },
     "feed": {
       "title": "Your TV feed",
@@ -9,6 +13,9 @@
       "seeds": "seeds",
       "leeches": "leeches",
       "airDate": "air date"
+    },
+    "search": {
+      "title": "Search results for [<strong>{{title}}</strong>]"
     },
     "filter": "Type to filter..."
   }

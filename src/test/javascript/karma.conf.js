@@ -43,6 +43,7 @@ module.exports = function (config) {
       'main/webapp/bower_components/metisMenu/dist/metisMenu.js',
       'main/webapp/bower_components/iCheck/icheck.min.js',
       'main/webapp/bower_components/webtorrent/webtorrent.min.js',
+      'main/webapp/bower_components/angular-toastr/dist/angular-toastr.tpls.js',
       'main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'main/webapp/scripts/app/app.js',

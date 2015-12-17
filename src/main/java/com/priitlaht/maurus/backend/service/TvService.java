@@ -79,6 +79,19 @@ public class TvService {
     return feedResult;
   }
 
+  public Page<TvBasicDTO> searchTv(String title, Pageable pageable) {
+    List<TvBasicDTO> tvResult = new ArrayList<>();
+    ResultList<TVBasic> searchResult = new ResultList<>();
+    List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
+    try {
+      searchResult = movieDbApi.searchTV(title, pageable.getPageNumber(), null, null, null);
+      searchResult.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(tv -> tvResult.add(getTvBasicDTO(userShows, tv)));
+    } catch (MovieDbException e) {
+      e.printStackTrace();
+    }
+    return new PageImpl<>(tvResult, pageable, searchResult.getTotalResults());
+  }
+
   private List<TvFeedDTO> findTvFeedByShow(UserShow userShow) {
     List<TvFeedDTO> result = new ArrayList<>();
     TvShowDetails tvShow = EztvApi.getTvShowDetails(applicationProperties.getEztv().getApiUrl(), userShow.getImdbId());

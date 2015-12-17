@@ -3,9 +3,9 @@
 
   angular
     .module('maurusApp')
-    .controller('TvPopularController', TvPopularController);
+    .controller('TvSearchController', TvSearchController);
 
-  function TvPopularController(TvPopular, UserShow, Principal, ParseLinks, toastr, $translate) {
+  function TvSearchController(TvSearch, UserShow, Principal, ParseLinks, toastr, $translate, $stateParams) {
     var vm = this;
 
     vm.shows = [];
@@ -19,11 +19,12 @@
     ////////////////
 
     function activate() {
+      vm.searchTitle = $stateParams.title;
       loadAccount();
     }
 
     function loadAll() {
-      TvPopular.query({page: vm.page, size: 20}, function (result, headers) {
+      TvSearch.query({page: vm.page, size: 20, title: vm.searchTitle}, function (result, headers) {
         vm.links = ParseLinks.parse(headers('link'));
         for (var i = 0; i < result.length; i++) {
           vm.shows.push(result[i]);
@@ -46,10 +47,10 @@
       show.favorite = isFavorite;
       var userShow = {userLogin: vm.account.login, tmdbId: show.id, title: show.name};
       if (isFavorite) {
-        toastr.success($translate.instant("popular.messages.added"), show.name);
+        toastr.success($translate.instant("tv.popular.messages.added"), show.name);
         UserShow.save(userShow);
       } else {
-        toastr.success($translate.instant("popularmessages.removed"), show.name);
+        toastr.warning($translate.instant("tv.popular.messages.removed"), show.name);
         UserShow.delete(userShow);
       }
     }

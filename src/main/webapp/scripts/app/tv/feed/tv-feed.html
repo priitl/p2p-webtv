@@ -21,7 +21,7 @@
           <i class="fa fa-angle-right text-navy mid-icon"></i>
         </div>
         <div class="top-filter">
-          <input type="text" ng-model="vm.filter" class="form-control input-lg"
+          <input type="text" ng-model="vm.filter.showTitle" ng-change="vm.filterActive()" class="form-control input-lg"
                  placeholder="{{ 'tv.filter' | translate }}">
         </div>
       </div>
@@ -32,7 +32,7 @@
        infinite-scroll-disabled="vm.links['last'] == vm.page" infinite-scroll-distance="0">
     <h2 ng-if="!vm.feedItems.length" translate="tv.feed.nothingHere">Nothing here yet! Please favorite a show first!</h2>
 
-    <div class="forum-item active" ng-repeat="feedItem in vm.feedItems|filter:vm.filter  track by $index">
+    <div class="forum-item active" ng-repeat="feedItem in vm.feedItems|filter:vm.filter track by $index">
       <div class="row">
         <div class="col-md-9">
           <div class="forum-icon">

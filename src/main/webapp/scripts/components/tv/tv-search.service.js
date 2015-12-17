@@ -3,10 +3,10 @@
 
   angular
     .module('maurusApp')
-    .factory('TvPopular', TvPopular);
+    .factory('TvSearch', TvSearch);
 
-  function TvPopular($resource) {
-    return $resource('api/tv/popular', {}, {
+  function TvSearch($resource) {
+    return $resource('api/tv/search/:title', {}, {
       'query': {method: 'GET', isArray: true}
     });
   }

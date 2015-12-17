@@ -1,7 +1,11 @@
 {
   "tv": {
     "popular": {
-      "title": "TV populaire"
+      "title": "TV populaire",
+      "messages": {
+        "added": "a été ajoutée aux favoris",
+        "removed": "a été enlevé de favoris"
+      }
     },
     "feed": {
       "title": "Votre flux de TV",
@@ -9,6 +13,9 @@
       "seeds": "sources",
       "leeches": "sangsues",
       "airDate": "date de l'air"
+    },
+    "search": {
+      "title": "Résultats pour [<strong>{{title}}</strong>]"
     },
     "filter": "Filtrer..."
   }
