@@ -9,6 +9,7 @@
       "seeds": "seeds",
       "leeches": "leeches",
       "airDate": "air date"
-    }
+    },
+    "filter": "Type to filter..."
   }
 }

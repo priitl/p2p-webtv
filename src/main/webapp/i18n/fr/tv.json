@@ -9,6 +9,7 @@
       "seeds": "sources",
       "leeches": "sangsues",
       "airDate": "date de l'air"
-    }
+    },
+    "filter": "Filtrer..."
   }
 }

@@ -10,8 +10,8 @@ import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.eztvapi.EztvApi;
 import com.priitlaht.eztvapi.model.Episode;
-import com.priitlaht.eztvapi.model.EztvResult;
 import com.priitlaht.eztvapi.model.Torrents;
+import com.priitlaht.eztvapi.model.TvShowDetails;
 import com.priitlaht.maurus.backend.domain.UserShow;
 import com.priitlaht.maurus.backend.repository.UserShowRepository;
 import com.priitlaht.maurus.common.ApplicationProperties;
@@ -81,9 +81,9 @@ public class TvService {
 
   private List<TvFeedDTO> findTvFeedByShow(UserShow userShow) {
     List<TvFeedDTO> result = new ArrayList<>();
-    EztvResult eztvResult = EztvApi.search(applicationProperties.getEztv().getApiUrl(), userShow.getImdbId());
-    if (eztvResult != null) {
-      eztvResult.getEpisodes().forEach(e -> result.add(createFeedDTO(eztvResult.getTitle(), e)));
+    TvShowDetails tvShow = EztvApi.getTvShowDetails(applicationProperties.getEztv().getApiUrl(), userShow.getImdbId());
+    if (tvShow != null) {
+      tvShow.getEpisodes().forEach(e -> result.add(createFeedDTO(tvShow.getTitle(), e)));
     }
     return result;
   }

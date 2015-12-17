@@ -2424,6 +2424,29 @@ label.error {
   color: #999
 }
 
+.top-filter-icon-wrapper {
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+.top-filter {
+  float: left;
+  padding: 0;
+  display: inline-table;
+  width: 145px;
+}
+
+.top-filter .form-group {
+  margin-bottom: 0
+}
+
+.top-filter .form-control {
+  background: 0 0 rgba(0, 0, 0, 0);
+  border: medium none;
+  font-size: 18px;
+  margin: 11px 0 0;
+}
+
 .forum-icon {
   float: left;
   width: 30px;
