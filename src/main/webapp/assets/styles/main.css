@@ -2441,7 +2441,8 @@ a.forum-item-title {
   color: inherit;
   display: block;
   font-size: 18px;
-  font-weight: 600
+  font-weight: 600;
+  outline : none;
 }
 
 a.forum-item-title:hover {
@@ -2835,14 +2836,13 @@ a:hover, a:focus {
 .hr-line-solid {
   border-bottom: 1px solid #e7eaec;
   background-color: rgba(0, 0, 0, 0);
-  border-style: solid !important;
   margin-top: 15px;
   margin-bottom: 15px
 }
 
 video {
   width: 100% !important;
-  height: auto !important
+  height: auto !important;
 }
 
 .gallery > .row > div {

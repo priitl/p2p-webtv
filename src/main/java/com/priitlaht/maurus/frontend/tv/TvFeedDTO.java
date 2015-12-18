@@ -17,6 +17,7 @@ public class TvFeedDTO {
   private String episodeNumber;
   private String overview;
   private String magnetUri;
+  private String tvdbId;
   private Integer seeds;
   private Integer leeches;
   private Date airDate;

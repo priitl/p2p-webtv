@@ -8,7 +8,14 @@
       "nothingHere": "Rien ici encore! S'il vous plaît s'abonner à une émission premièrement!",
       "seeds": "sources",
       "leeches": "sangsues",
-      "airDate": "date de l'air"
+      "airDate": "date de l'air",
+      "modal": {
+        "noPeersWarningMessage": "Parce que principaux clients torrent ne disposent pas encore de support webtorrent, il n'y a pas web sources pour diffuser le torrent actuelle. Amusez-vous avec cet exemple torrent entre-temps.",
+        "peers": "Sources",
+        "progress": "Progrès",
+        "downloadSpeed": "Vitesse de download",
+        "uploadSpeed": "Vitesse d'upload"
+      }
     },
     "search": {
       "title": "Résultats pour [<strong>{{title}}</strong>]",

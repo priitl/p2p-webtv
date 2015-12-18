@@ -105,6 +105,7 @@ public class TvService {
   private TvFeedDTO createFeedDTO(String showTitle, Episode episode) {
     TvFeedDTO feedDTO = new TvFeedDTO();
     feedDTO.setShowTitle(showTitle);
+    feedDTO.setTvdbId(episode.getTvdbId());
     feedDTO.setEpisodeTitle(episode.getTitle());
     feedDTO.setOverview(episode.getOverview());
     feedDTO.setSeasonNumber(String.format("%02d", episode.getSeasonNumber()));

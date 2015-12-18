@@ -1,0 +1,20 @@
+<div class="inmodal">
+  <div class="modal-header">
+    <h4 class="modal-title">{{vm.episode.showTitle}} S{{vm.episode.seasonNumber}}E{{vm.episode.episodeNumber}}
+      {{vm.episode.episodeTitle}}</h4>
+  </div>
+  <div class="modal-body">
+    <div id="player">
+      <video poster="assets/images/loading.gif"></video>
+    </div>
+    <br />
+    <div id="info"></div>
+    <div class="hr-line-solid"></div>
+    {{vm.episode.overview}}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="vm.clear()">
+      <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+      <span translate="entity.action.close">Close</span></button>
+  </div>
+</div>

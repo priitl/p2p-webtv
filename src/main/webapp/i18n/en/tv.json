@@ -8,7 +8,14 @@
       "nothingHere": "Nothing here yet! Please favorite a show first!",
       "seeds": "seeds",
       "leeches": "leeches",
-      "airDate": "air date"
+      "airDate": "air date",
+      "modal": {
+        "noPeersWarningMessage": "As major torrent clients do not have webtorrent support yet, there are no web peers to stream the current torrent. Enjoy this example torrent meanwhile.",
+        "peers": "Peers",
+        "progress": "Progress",
+        "downloadSpeed": "Download speed",
+        "uploadSpeed": "Upload speed"
+      }
     },
     "search": {
       "title": "Search results for [<strong>{{title}}</strong>]",

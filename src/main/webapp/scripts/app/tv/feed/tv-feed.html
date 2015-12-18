@@ -39,7 +39,7 @@
             <a ng-href="{{feedItem.magnetUri}}"><i
               class="fa fa-magnet"></i></a><br/>
           </div>
-          <a href="" class="forum-item-title">
+          <a ui-sref="tv-feed.watch({'tvdbId':feedItem.tvdbId, 'episode':feedItem})" class="forum-item-title">
             {{feedItem.showTitle}} S{{feedItem.seasonNumber}}E{{feedItem.episodeNumber}} {{feedItem.episodeTitle}}</a>
 
           <div class="forum-sub-title">{{feedItem.overview}}</div>
