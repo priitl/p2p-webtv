@@ -60,7 +60,8 @@
                              baseTableName="user_show"
                              constraintName="fk_user_login"
                              referencedColumnNames="login"
-                             referencedTableName="jhi_user"/>
+                             referencedTableName="jhi_user"
+                             onDelete="CASCADE"/>
 
     <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, tmdb_id" tableName="user_show"/>
 
