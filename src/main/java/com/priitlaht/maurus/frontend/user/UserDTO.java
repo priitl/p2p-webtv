@@ -56,6 +56,8 @@ public class UserDTO {
 
   private String pictureContentType;
 
+  private String apiUrl;
+
   public UserDTO(User user) {
     this(user.getLogin(), null, user.getFirstName(), user.getLastName(),
       user.getEmail(), user.isActivated(), user.getLangKey(),

@@ -5,7 +5,7 @@
     .module('maurusApp')
     .controller('SettingsController', SettingsController);
 
-  function SettingsController(Principal, Auth, Language, $translate, $scope, toastr) {
+  function SettingsController(Principal, Auth, Language, $translate, $scope, $cookies, toastr) {
     var vm = this;
 
     vm.byteSize = byteSize;
@@ -20,11 +20,12 @@
     function activate() {
       Principal.identity(true).then(function (account) {
         vm.settingsAccount = account;
+        vm.settingsAccount.apiUrl = $cookies.get("apiUrl");
       });
     }
 
     function save() {
-      Auth.updateAccount(vm.settingsAccount).then(function () {
+      Auth.updateAccount(vm.settingsAccount).then(function (response) {
         Principal.identity().then(function (account) {
           vm.settingsAccount = account;
         });
@@ -33,9 +34,13 @@
             $translate.use(vm.settingsAccount.langKey);
           }
         });
+        if(angular.isDefined(vm.settingsAccount.apiUrl) && vm.settingsAccount.apiUrl.length) {
+          $cookies.put("apiUrl", vm.settingsAccount.apiUrl);
+        } else {
+          $cookies.remove("apiUrl");
+        }
         toastr.success($translate.instant('settings.messages.success'));
       }).catch(function () {
-        toastr.error($translate.instant('settings.messages.error.fail'));
       });
     }
 

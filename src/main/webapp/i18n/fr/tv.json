@@ -6,6 +6,7 @@
     "feed": {
       "title": "Votre flux de TV",
       "nothingHere": "Rien ici encore! S'il vous plaît s'abonner à une émission premièrement!",
+      "apiNotConfigured": "Vous n'avez pas encore configuré votre url de l'API, vous povez le faire <a href=\"#/settings\" class=\"text-navy\"><b>ici</b></a>.",
       "seeds": "sources",
       "leeches": "sangsues",
       "airDate": "date de l'air",

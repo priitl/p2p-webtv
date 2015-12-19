@@ -70,10 +70,10 @@ public class TvService {
     return new PageImpl<>(tvResult, pageable, popularTv.getTotalResults());
   }
 
-  public List<TvFeedDTO> findTvFeed() {
+  public List<TvFeedDTO> findTvFeed(String apiUrl) {
     List<TvFeedDTO> feedResult = new ArrayList<>();
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
-    userShows.parallelStream().forEach(show -> feedResult.addAll(findTvFeedByShow(show)));
+    userShows.parallelStream().forEach(show -> feedResult.addAll(findTvFeedByShow(show, apiUrl)));
     Comparator<TvFeedDTO> byUploadDate = (tv1, tv2) -> tv1.getAirDate().compareTo(tv2.getAirDate());
     Comparator<TvFeedDTO> byEpisodeNumber = (tv1, tv2) -> tv1.getEpisodeNumber().compareTo(tv2.getEpisodeNumber());
     Collections.sort(feedResult, byUploadDate.thenComparing(byEpisodeNumber).reversed());
@@ -93,9 +93,9 @@ public class TvService {
     return new PageImpl<>(tvResult, pageable, searchResult.getTotalResults());
   }
 
-  private List<TvFeedDTO> findTvFeedByShow(UserShow userShow) {
+  private List<TvFeedDTO> findTvFeedByShow(UserShow userShow, String apiUrl) {
     List<TvFeedDTO> result = new ArrayList<>();
-    TvShowDetails tvShow = EztvApi.getTvShowDetails(applicationProperties.getEztv().getApiUrl(), userShow.getImdbId());
+    TvShowDetails tvShow = EztvApi.getTvShowDetails(apiUrl, userShow.getImdbId());
     if (tvShow != null) {
       tvShow.getEpisodes().forEach(e -> result.add(createFeedDTO(tvShow.getTitle(), e)));
     }

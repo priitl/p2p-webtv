@@ -120,6 +120,7 @@
     "Size": "Field {{fieldName}} does not meet min/max size requirements!",
     "userexists": "Ce compte utilisateur existe déjà !",
     "emailexists": "Cet e-mail est déjà utilisé!",
+    "invalidapiurl": "Cette url de l'API semble être invalide!",
     "idexists": "A new {{entityName}} cannot already have an ID"
   },
   "footer": {

@@ -46,9 +46,9 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "feed", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<TvFeedDTO> findUserTvFeed() throws URISyntaxException {
+  public List<TvFeedDTO> findUserTvFeed(@RequestParam String apiUrl) throws URISyntaxException {
     log.debug("REST request to get user's tv feed");
-    return tvService.findTvFeed();
+    return tvService.findTvFeed(apiUrl);
   }
 
   @Timed

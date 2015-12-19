@@ -8,6 +8,9 @@
       "lastname": "Nom",
       "lastname.placeholder": "Votre nom",
       "language": "Langue",
+      "apiUrl": "Url de l'API",
+      "apiUrl.placeholder": "Votre url de l'API [peut être laissé en blanc]",
+      "apiUrl.warning": "Cette valeur est sauvegardée dans un cookie sur votre appareil et sera utilisée pour récupérer les informations torrent. En fournissant cette information vous savez clairement ce que vous faites et assumez l'entière responsabilité de vos actions sur ce site.",
       "picture": "Photo de profil",
       "upload": "Télécharger",
       "button": "Sauvegarder les changements"

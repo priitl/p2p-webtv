@@ -1,6 +1,7 @@
 package com.priitlaht.maurus.frontend.account;
 
 import com.codahale.metrics.annotation.Timed;
+import com.priitlaht.eztvapi.EztvApi;
 import com.priitlaht.maurus.backend.domain.PersistentToken;
 import com.priitlaht.maurus.backend.domain.User;
 import com.priitlaht.maurus.backend.repository.PersistentTokenRepository;
@@ -11,6 +12,7 @@ import com.priitlaht.maurus.common.util.security.SecurityUtil;
 import com.priitlaht.maurus.frontend.common.util.HeaderUtil;
 import com.priitlaht.maurus.frontend.user.UserDTO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,7 @@ import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @RestController
@@ -55,14 +58,14 @@ public class AccountResource {
     return userRepository.findOneByLogin(userDTO.getLogin())
       .map(user -> new ResponseEntity<>("login already in use", HttpStatus.BAD_REQUEST))
       .orElseGet(() -> userRepository.findOneByEmail(userDTO.getEmail())
-          .map(user -> new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST))
-          .orElseGet(() -> {
-            User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
-              userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
-            String baseUrl = format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
-            mailService.sendActivationEmail(user, baseUrl);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-          })
+        .map(user -> new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST))
+        .orElseGet(() -> {
+          User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
+            userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
+          String baseUrl = format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
+          mailService.sendActivationEmail(user, baseUrl);
+          return new ResponseEntity<>(HttpStatus.CREATED);
+        })
       );
   }
 
@@ -95,6 +98,9 @@ public class AccountResource {
     Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
     if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
       return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+    }
+    if (!isApiUrlValid(userDTO.getApiUrl())) {
+      return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "invalidapiurl", "Invalid api url")).body(null);
     }
     return userRepository
       .findOneByLogin(SecurityUtil.getCurrentUser().getUsername())
@@ -170,5 +176,16 @@ public class AccountResource {
     return (!StringUtils.isEmpty(password) &&
       password.length() >= UserDTO.PASSWORD_MIN_LENGTH &&
       password.length() <= UserDTO.PASSWORD_MAX_LENGTH);
+  }
+
+  private boolean isApiUrlValid(String apiUrl) {
+    if (isNotBlank(apiUrl)) {
+      try {
+        return CollectionUtils.isNotEmpty(EztvApi.getTvShows(apiUrl, 1));
+      } catch (Exception e) {
+        return false;
+      }
+    }
+    return true;
   }
 }

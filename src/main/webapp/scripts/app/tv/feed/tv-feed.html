@@ -30,7 +30,8 @@
 
   <div class="ibox-content forum-container" infinite-scroll="vm.loadPage(vm.page + 1)"
        infinite-scroll-disabled="(vm.links['last'] == vm.page) || vm.filter.showTitle" infinite-scroll-distance="0">
-    <h2 ng-if="!vm.feedItems.length" translate="tv.feed.nothingHere">Nothing here yet! Please favorite a show first!</h2>
+    <h2 ng-if="!vm.apiUrl" translate="tv.feed.apiNotConfigured">You have not configured your API url yet, you can do it <a ui-sref="settings" class="text-navy">here</a>.</h2>
+    <h2 ng-if="vm.apiUrl && !vm.feedItems.length" translate="tv.feed.nothingHere">Nothing here yet! Please favorite a show first!</h2>
 
     <div class="forum-item active" ng-repeat="feedItem in vm.feedItems|filter:vm.filter track by $index">
       <div class="row">

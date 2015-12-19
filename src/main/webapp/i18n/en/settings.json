@@ -8,6 +8,9 @@
       "lastname": "Last Name",
       "lastname.placeholder": "Your last name",
       "language": "Language",
+      "apiUrl": "API url",
+      "apiUrl.placeholder": "Your API url [can be left blank]",
+      "apiUrl.warning": "This value is stored as a cookie on your device and will be used to fetch torrent information. By providing this you clearly know what you are doing and take full responsibility for your actions on this website.",
       "picture": "Profile picture",
       "upload": "Upload",
       "button": "Save changes"

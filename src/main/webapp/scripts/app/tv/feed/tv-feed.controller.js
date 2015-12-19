@@ -5,7 +5,7 @@
     .module('maurusApp')
     .controller('TvFeedController', TvFeedController);
 
-  function TvFeedController(TvFeed) {
+  function TvFeedController(TvFeed, $cookies) {
     var vm = this;
     var allItems = [];
     var cachedItems = [];
@@ -17,15 +17,19 @@
     vm.filterActive = filterActive;
     vm.loadAll = loadAll;
     vm.loadPage = loadPage;
+    vm.apiUrl = undefined;
     vm.page = 0;
 
     ////////////////
 
     function loadAll() {
-      TvFeed.query(function (result) {
-        allItems = result;
-        addFeedItems();
-      });
+      vm.apiUrl = $cookies.get("apiUrl");
+      if (vm.apiUrl) {
+        TvFeed.query({apiUrl: vm.apiUrl}, function (result) {
+          allItems = result;
+          addFeedItems();
+        });
+      }
       loaded = true;
     }
 
@@ -40,7 +44,7 @@
 
     function clearFilter() {
       if (vm.filter && vm.filter.showTitle.length) {
-        if(cachedItems.length) {
+        if (cachedItems.length) {
           vm.feedItems = cachedItems.slice(0);
           cachedItems = [];
         }

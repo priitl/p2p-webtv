@@ -131,6 +131,20 @@
             </div>
             <div class="hr-line-dashed"></div>
 
+
+            <!--API url-->
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="apiUrl" translate="settings.form.apiUrl">API url</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="apiUrl" name="apiUrl"
+                       placeholder="{{'settings.form.apiUrl.placeholder' | translate}}"
+                       ng-model="vm.settingsAccount.apiUrl">
+                <span class="help-block m-b-none" translate="settings.form.apiUrl.warning"></span>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
             <!--Profile picture-->
             <div class="form-group" ngf-drop ngf-change="vm.setPicture($file, vm.settingsAccount)" ngf-pattern="'image/*'">
               <label class="col-sm-2 control-label" translate="settings.form.picture" for="field_picture">Picture</label>

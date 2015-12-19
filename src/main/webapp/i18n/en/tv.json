@@ -6,6 +6,7 @@
     "feed": {
       "title": "Your TV feed",
       "nothingHere": "Nothing here yet! Please favorite a show first!",
+      "apiNotConfigured": "You have not configured your API url yet, you can do it <a href=\"#/settings\" class=\"text-navy\"><b>here</b></a>.",
       "seeds": "seeds",
       "leeches": "leeches",
       "airDate": "air date",
