@@ -5,7 +5,7 @@
     .module('maurusApp')
     .controller('SettingsController', SettingsController);
 
-  function SettingsController(Principal, Auth, Language, $translate, $scope) {
+  function SettingsController(Principal, Auth, Language, $translate, $scope, toastr) {
     var vm = this;
 
     vm.byteSize = byteSize;
@@ -18,8 +18,6 @@
     ////////////////
 
     function activate() {
-      vm.success = null;
-      vm.error = null;
       Principal.identity(true).then(function (account) {
         vm.settingsAccount = account;
       });
@@ -27,8 +25,6 @@
 
     function save() {
       Auth.updateAccount(vm.settingsAccount).then(function () {
-        vm.error = null;
-        vm.success = 'OK';
         Principal.identity().then(function (account) {
           vm.settingsAccount = account;
         });
@@ -37,9 +33,9 @@
             $translate.use(vm.settingsAccount.langKey);
           }
         });
+        toastr.success($translate.instant('settings.messages.success'));
       }).catch(function () {
-        vm.success = null;
-        vm.error = 'ERROR';
+        toastr.error($translate.instant('settings.messages.error.fail'));
       });
     }
 

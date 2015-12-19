@@ -5,7 +5,7 @@
     .module('maurusApp')
     .controller('LoginController', LoginController);
 
-  function LoginController($rootScope, $state, $timeout, Auth) {
+  function LoginController($rootScope, $state, $timeout, $translate, Auth, toastr) {
     var vm = this;
 
     vm.login = login;
@@ -36,6 +36,7 @@
         } else {
           $rootScope.back();
         }
+        toastr.success($translate.instant("login.messages.success", {username: vm.username}));
       }).catch(function () {
         vm.authenticationError = true;
       });

@@ -139,7 +139,7 @@ public class UserResource {
   }
 
   @Timed
-  @RequestMapping(value = "/users/{login}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/{login:.+}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
     return userService.getUserWithAuthoritiesByLogin(login)
@@ -150,7 +150,7 @@ public class UserResource {
 
   @Timed
   @Secured(AuthoritiesConstants.ADMIN)
-  @RequestMapping(value = "/users/{login}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/{login:.+}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> deleteUser(@PathVariable String login) {
     log.debug("REST request to delete User: {}", login);
     userService.deleteUserInformation(login);

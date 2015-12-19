@@ -1,20 +1,12 @@
 {
   "main": {
-    "title": "Welcome to maurus!",
+    "title": "Welcome to p2p-webtv!",
     "titleNamed": "Welcome, {{firstName}} {{lastName}}!",
-    "subtitle": "This is your homepage",
+    "siteInfo": "Site information",
+    "signInOrRegister": "Sign in or register:",
+    "signInInformation": "To access site's main features, you must first sign in or create an account.",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
-    },
-    "question": "If you have any question on JHipster:",
-    "link": {
-      "homepage": "JHipster homepage",
-      "stackoverflow": "JHipster on Stack Overflow",
-      "bugtracker": "JHipster bug tracker",
-      "chat": "JHipster public chat room",
-      "contact": "contact @java_hipster on Twitter"
-    },
-    "like": "If you like JHipster, don't forget to give us a star on",
-    "github": "Github"
+    }
   }
 }

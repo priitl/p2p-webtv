@@ -16,17 +16,7 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="alert alert-success" ng-show="vm.success" translate="settings.messages.success">
-    <strong>Settings saved!</strong>
-  </div>
-
-  <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
-    <strong>E-mail is already in use!</strong> Please choose another one.
-  </div>
-
-  <div class="alert alert-danger" ng-show="vm.error" translate="settings.messages.error.fail">
-    <strong>An error has occurred!</strong> Settings could not be saved.
-  </div>
+  <jh-alert-error></jh-alert-error>
 
   <div class="row">
     <div class="col-lg-12">

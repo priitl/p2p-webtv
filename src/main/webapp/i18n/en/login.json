@@ -13,7 +13,8 @@
     "messages": {
       "error": {
         "authentication": "<strong>Failed to sign in!</strong> Please check your credentials and try again."
-      }
+      },
+      "success": "Logged in as user \"{{username}}\"."
     },
     "password": {
       "forgot": "Forgot password?"

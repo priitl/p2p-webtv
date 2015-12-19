@@ -38,8 +38,7 @@
                 <div class="form-group">
                   <label for="password" translate="login.form.password">Password</label>
                   <input type="password" class="form-control" id="password"
-                         placeholder="{{'login.form.password.placeholder' | translate}}"
-                         ng-model="vm.password">
+                         placeholder="{{'login.form.password.placeholder' | translate}}" ng-model="vm.password">
                 </div>
 
                 <div class="form-group">
@@ -48,14 +47,14 @@
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary block full-width m-b" translate="login.form.button">
+                  <button type="submit" ng-disabled="!vm.username || !vm.password"
+                          class="btn btn-primary block full-width m-b" translate="login.form.button">
                     <strong>Sign in</strong>
                   </button>
                   <a class="alert-link" href="#/reset/request">
                     <small translate="login.password.forgot">Forgot password?</small>
                   </a>
                 </div>
-
 
               </form>
             </div>
@@ -69,7 +68,5 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </div>

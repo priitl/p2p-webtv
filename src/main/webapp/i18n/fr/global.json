@@ -52,7 +52,8 @@
       "info": {
         "authenticated": "Si vous voulez vous <a class=\"alert-link\" href=\"#/login\">connecter</a>, vous pouvez utiliser les comptes par défaut : <br/> - Administrateur (nom d'utilisateur=\"admin\" et mot de passe =\"admin\") <br/> - Utilisateur (nom d'utilisateur=\"user\" et mot de passe =\"user\").",
         "noaccount": "Vous n'avez pas encore de compte?",
-        "register": "Vous n'avez pas encore de compte ? <a class=\"alert-link\" href=\"#/register\">Créer un compte</a>."
+        "register": "Créer un compte",
+        "login": "S'identifier"
       },
       "error": {
         "dontmatch": "Le nouveau mot de passe et sa confirmation ne sont pas égaux!"
@@ -117,8 +118,8 @@
     "server.not.reachable": "Server not reachable",
     "NotNull": "Field {{fieldName}} cannot be empty!",
     "Size": "Field {{fieldName}} does not meet min/max size requirements!",
-    "userexists": "Login name already used!",
-    "emailexists": "E-mail is already in use!",
+    "userexists": "Ce compte utilisateur existe déjà !",
+    "emailexists": "Cet e-mail est déjà utilisé!",
     "idexists": "A new {{entityName}} cannot already have an ID"
   },
   "footer": {
