@@ -5,7 +5,6 @@ import com.priitlaht.maurus.backend.domain.User;
 import com.priitlaht.maurus.backend.repository.AuthorityRepository;
 import com.priitlaht.maurus.backend.repository.PersistentTokenRepository;
 import com.priitlaht.maurus.backend.repository.UserRepository;
-import com.priitlaht.maurus.backend.repository.search.UserSearchRepository;
 import com.priitlaht.maurus.common.util.random.RandomUtil;
 import com.priitlaht.maurus.common.util.security.SecurityUtil;
 import com.priitlaht.maurus.frontend.user.ManagedUserDTO;
@@ -36,8 +35,6 @@ public class UserService {
   @Inject
   private UserRepository userRepository;
   @Inject
-  private UserSearchRepository userSearchRepository;
-  @Inject
   private PersistentTokenRepository persistentTokenRepository;
   @Inject
   private AuthorityRepository authorityRepository;
@@ -49,7 +46,6 @@ public class UserService {
         user.setActivated(true);
         user.setActivationKey(null);
         userRepository.save(user);
-        userSearchRepository.save(user);
         log.debug("Activated user: {}", user);
         return user;
       });
@@ -102,7 +98,6 @@ public class UserService {
     authorities.add(authority);
     newUser.setAuthorities(authorities);
     userRepository.save(newUser);
-    userSearchRepository.save(newUser);
     log.debug("Created Information for User: {}", newUser);
     return newUser;
   }
@@ -142,7 +137,6 @@ public class UserService {
       u.setPictureContentType(pictureContentType);
       u.setPicture(picture);
       userRepository.save(u);
-      userSearchRepository.save(u);
       log.debug("Changed Information for User: {}", u);
     });
   }
@@ -150,7 +144,6 @@ public class UserService {
   public void deleteUserInformation(String login) {
     userRepository.findOneByLogin(login).ifPresent(u -> {
       userRepository.delete(u);
-      userSearchRepository.delete(u);
       log.debug("Deleted User: {}", u);
     });
   }
@@ -212,7 +205,6 @@ public class UserService {
     for (User user : users) {
       log.debug("Deleting not activated user {}", user.getLogin());
       userRepository.delete(user);
-      userSearchRepository.delete(user);
     }
   }
 }

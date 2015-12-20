@@ -10,7 +10,7 @@
     "databaseType": "sql",
     "devDatabaseType": "postgresql",
     "prodDatabaseType": "postgresql",
-    "searchEngine": "elasticsearch",
+    "searchEngine": "no",
     "useSass": false,
     "buildTool": "gradle",
     "frontendBuilder": "gulp",

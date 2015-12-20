@@ -29,5 +29,5 @@ task setProdProperties(dependsOn: bootRun) << {
 
 node {
   download = true
-  version = '0.12.7'
+  version = '4.2.3'
 }

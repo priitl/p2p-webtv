@@ -12,7 +12,6 @@ import com.priitlaht.maurus.common.util.security.SecurityUtil;
 import com.priitlaht.maurus.frontend.common.util.HeaderUtil;
 import com.priitlaht.maurus.frontend.user.UserDTO;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -181,7 +180,7 @@ public class AccountResource {
   private boolean isApiUrlValid(String apiUrl) {
     if (isNotBlank(apiUrl)) {
       try {
-        return CollectionUtils.isNotEmpty(EztvApi.getTvShows(apiUrl, 1));
+        return !EztvApi.getTvShows(apiUrl, 1).isEmpty();
       } catch (Exception e) {
         return false;
       }

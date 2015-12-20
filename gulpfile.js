@@ -47,12 +47,12 @@ var parseVersionFromBuildGradle = function () {
   return versionRegex.exec(buildGradle)[1];
 };
 
-gulp.task('clean', function (cb) {
-  del([yeoman.dist], cb);
+gulp.task('clean', function () {
+  del.sync([yeoman.dist]);
 });
 
-gulp.task('clean:tmp', function (cb) {
-  del([yeoman.tmp], cb);
+gulp.task('clean:tmp', function () {
+  del.sync([yeoman.tmp]);
 });
 
 gulp.task('test', ['wiredep:test', 'ngconstant:dev'], function (done) {
@@ -198,8 +198,7 @@ gulp.task('usemin', function () {
       pipe(usemin({
              css: [
                prefix.apply(),
-               minifyCss({root: 'src/main/webapp'}),  // Replace relative paths for static resources with absolute path with
-                                                      // root
+               minifyCss({root: 'src/main/webapp'}),  // Replace relative paths for static resources with absolute path with root
                'concat', // Needs to be present for minifyCss root option to work
                rev()
              ],

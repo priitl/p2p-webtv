@@ -5,7 +5,6 @@ import com.priitlaht.maurus.backend.domain.Authority;
 import com.priitlaht.maurus.backend.domain.User;
 import com.priitlaht.maurus.backend.repository.AuthorityRepository;
 import com.priitlaht.maurus.backend.repository.UserRepository;
-import com.priitlaht.maurus.backend.repository.search.UserSearchRepository;
 import com.priitlaht.maurus.backend.service.MailService;
 import com.priitlaht.maurus.backend.service.UserService;
 import com.priitlaht.maurus.common.AuthoritiesConstants;
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +38,6 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.String.format;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * REST controller for managing users.
@@ -68,8 +65,6 @@ public class UserResource {
   private AuthorityRepository authorityRepository;
   @Inject
   private UserService userService;
-  @Inject
-  private UserSearchRepository userSearchRepository;
   @Inject
   private MailService mailService;
 
@@ -157,11 +152,4 @@ public class UserResource {
     return ResponseEntity.ok().headers(HeaderUtil.createAlert("user-management.deleted", login)).build();
   }
 
-  @Timed
-  @RequestMapping(value = "/_search/users/{query}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> search(@PathVariable String query) {
-    return StreamSupport
-      .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-      .collect(Collectors.toList());
-  }
 }

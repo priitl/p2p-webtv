@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.validator.constraints.Email;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -35,7 +34,6 @@ import static org.hibernate.annotations.CacheConcurrencyStrategy.NONSTRICT_READ_
 @Setter
 @Entity
 @Table(name = "jhi_user")
-@Document(indexName = "user")
 @Cache(usage = NONSTRICT_READ_WRITE)
 public class User extends BaseAuditingEntity implements Serializable {
 
