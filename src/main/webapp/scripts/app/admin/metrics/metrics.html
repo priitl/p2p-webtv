@@ -290,6 +290,45 @@
     </div>
   </div>
 
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h4 translate="metrics.ehcache.title">Ehcache statistics</h4>
+
+
+        </div>
+        <div class="ibox-content">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th translate="metrics.ehcache.cachename">Cache name</th>
+                <th class="text-right" translate="metrics.ehcache.objects">Objects</th>
+                <th class="text-right" translate="metrics.ehcache.hits">Hits</th>
+                <th class="text-right" translate="metrics.ehcache.misses">Misses</th>
+                <th class="text-right" translate="metrics.ehcache.evictioncount">Eviction count</th>
+                <th class="text-right" translate="metrics.ehcache.mean">Mean get time (ms)</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="(k, v) in vm.cachesStats" ng-once>
+                <td>{{v.name}}</td>
+                <td class="text-right">{{vm.metrics.gauges[k + '.objects'].value}}</td>
+                <td class="text-right">{{vm.metrics.gauges[k + '.hits'].value}}</td>
+                <td class="text-right">{{vm.metrics.gauges[k + '.misses'].value}}</td>
+                <td class="text-right">{{vm.metrics.gauges[k + '.eviction-count'].value}}</td>
+                <td class="text-right">{{vm.metrics.gauges[k + '.mean-get-time'].value | number:2}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
