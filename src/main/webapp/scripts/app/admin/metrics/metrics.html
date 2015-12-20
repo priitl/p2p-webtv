@@ -329,12 +329,11 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" ng-show="vm.metrics.gauges['HikariPool-0.pool.TotalConnections'].value > 0">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-title">
-          <h4 translate="metrics.datasource.title"
-              ng-show="vm.metrics.gauges['HikariPool-0.pool.TotalConnections'].value > 0">
+          <h4 translate="metrics.datasource.title">
             DataSource statistics (time in millisecond)</h4>
 
         </div>
