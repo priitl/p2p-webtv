@@ -98,8 +98,8 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     FilterRegistration.Dynamic cachingHttpHeadersFilter =
       servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter(environment));
 
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(dispatchers, true, "dist/assets/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(dispatchers, true, "dist/scripts/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(dispatchers, true, "/dist/assets/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(dispatchers, true, "/dist/scripts/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 
