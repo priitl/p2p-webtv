@@ -10,7 +10,7 @@
       "language": "Language",
       "apiUrl": "API url",
       "apiUrl.placeholder": "Your API url [can be left blank]",
-      "apiUrl.warning": "This value is stored as a cookie on your device and will be used to fetch torrent information. By providing this you clearly know what you are doing and take full responsibility for your actions on this website.",
+      "apiUrl.warning": "This value is stored as a cookie on your device and will be used to build your TV feed. By providing it, you agree to use it only for educational purposes and take full responsibility for your actions on this website.",
       "picture": "Profile picture",
       "upload": "Upload",
       "button": "Save changes"
