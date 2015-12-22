@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('iCheck', iCheck);
 
   function iCheck($timeout) {

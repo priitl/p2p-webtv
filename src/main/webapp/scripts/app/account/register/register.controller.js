@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('RegisterController', RegisterController);
 
   function RegisterController($translate, $timeout, Auth) {

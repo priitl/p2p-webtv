@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('SettingsController', SettingsController);
 
   function SettingsController(Principal, Auth, Language, $translate, $scope, $cookies, toastr) {

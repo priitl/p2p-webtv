@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('UserManagementDialogController', UserManagementDialogController);
 
   function UserManagementDialogController($uibModalInstance, entity, User, Language) {

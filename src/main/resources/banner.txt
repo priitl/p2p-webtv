@@ -1,9 +1,9 @@
 
-  ${AnsiColor.GREEN}      ██ ${AnsiColor.RED} ██    ██  ████████  ███████    ██████  ████████  ████████  ███████
-  ${AnsiColor.GREEN}      ██ ${AnsiColor.RED} ██    ██     ██     ██    ██  ██          ██     ██        ██    ██
-  ${AnsiColor.GREEN}      ██ ${AnsiColor.RED} ████████     ██     ███████    █████      ██     ██████    ███████
-  ${AnsiColor.GREEN}██    ██ ${AnsiColor.RED} ██    ██     ██     ██             ██     ██     ██        ██   ██
-  ${AnsiColor.GREEN} ██████  ${AnsiColor.RED} ██    ██  ████████  ██        ██████      ██     ████████  ██    ██
+  ${AnsiColor.GREEN} ____ ____  ____  ${AnsiColor.RED}   __        _______ ____ _______     __
+  ${AnsiColor.GREEN}|  _ \___ \|  _ \ ${AnsiColor.RED}   \ \      / / ____| __ )_   _\ \   / /
+  ${AnsiColor.GREEN}| |_) |__) | |_) |${AnsiColor.RED} ___\ \ /\ / /|  _| |  _ \ | |  \ \ / /
+  ${AnsiColor.GREEN}|  __// __/|  __/${AnsiColor.RED} _____\ V  V / | |___| |_) || |   \ V /
+  ${AnsiColor.GREEN}|_|  |_____|_|    ${AnsiColor.RED}      \_/\_/  |_____|____/ |_|    \_/
 
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: http://jhipster.github.io ::${AnsiColor.DEFAULT}
+${AnsiColor.BRIGHT_BLUE}:: p2p-webtv 🤓  :: Running Spring Boot ${spring-boot.version} ::
+::https://p2p-webtv.herokuapp.com ::${AnsiColor.DEFAULT}

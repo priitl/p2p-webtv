@@ -1,8 +1,8 @@
 {
   "generator-jhipster": {
-    "baseName": "maurus",
-    "packageName": "com.priitlaht.maurus",
-    "packageFolder": "com/priitlaht/maurus",
+    "baseName": "p2p-webtv",
+    "packageName": "com.priitlaht.ppwtv",
+    "packageFolder": "com/priitlaht/ppwtv",
     "authenticationType": "session",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": "no",

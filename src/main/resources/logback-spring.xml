@@ -22,7 +22,7 @@
       </appender>
   -->
 
-  <logger name="com.priitlaht.maurus" level="@logback.loglevel@"/>
+  <logger name="com.priitlaht.ppwebtv" level="@logback.loglevel@"/>
 
   <logger name="javax.activation" level="WARN"/>
   <logger name="javax.mail" level="WARN"/>

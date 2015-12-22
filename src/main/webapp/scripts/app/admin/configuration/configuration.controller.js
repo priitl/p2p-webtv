@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('ConfigurationController', ConfigurationController);
 
   function ConfigurationController(ConfigurationService) {

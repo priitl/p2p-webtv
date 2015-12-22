@@ -1,7 +1,7 @@
 {
   "name": "p2p-webtv",
-  "version": "1.0.0",
-  "description": "Description for maurus",
+  "version": "0.1.0",
+  "description": "get your personalized torrent feed and stream it using webrtc",
   "private": true,
   "cacheDirectories": [
     "node_modules",
@@ -41,7 +41,7 @@
     "karma": "0.12.0",
     "karma-coverage": "0.5.3",
     "karma-jenkins-reporter": "0.0.2",
-    "generator-jhipster": "2.25.0",
+    "generator-jhipster": "2.26.0",
     "lodash": "3.10.1",
     "yo": ">=1.3.0",
     "requirejs": "2.1",

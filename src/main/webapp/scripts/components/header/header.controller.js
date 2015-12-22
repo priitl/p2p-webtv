@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('HeaderController', HeaderController);
 
   function HeaderController($scope, $state, Auth, Principal) {

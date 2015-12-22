@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('ActivationController', ActivationController);
 
   function ActivationController($stateParams, Auth) {

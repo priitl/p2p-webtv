@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('authExpiredInterceptor', authExpiredInterceptor);
 
   function authExpiredInterceptor($rootScope, $q, $injector) {

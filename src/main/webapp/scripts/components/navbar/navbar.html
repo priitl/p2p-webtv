@@ -5,6 +5,7 @@
       <li class="nav-header">
         <!-- Profile -->
         <div class="dropdown profile-element" dropdown ng-if="vm.isAuthenticated()">
+          <span ng-if="!vm.isAccountLoaded">{{vm.loadAccount()}}</span>
           <img alt="image" class="img-circle" width="48" height="48"
                data-ng-src="{{'data:' + vm.account.pictureContentType + ';base64,' + vm.account.picture}}"
                ng-if="vm.account.picture"/>

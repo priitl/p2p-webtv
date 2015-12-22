@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('AuditsService', AuditsService);
 
   function AuditsService($http) {

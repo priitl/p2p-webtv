@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('sideNavigation', sideNavigation)
     .directive('miniNavbar', miniNavbar);
 

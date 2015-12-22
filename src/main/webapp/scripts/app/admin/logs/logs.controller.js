@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('LogsController', LogsController);
 
   function LogsController(LogsService) {

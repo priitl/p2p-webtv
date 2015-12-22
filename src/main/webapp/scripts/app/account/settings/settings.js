@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .config(settingsConfig);
 
   function settingsConfig($stateProvider) {

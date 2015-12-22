@@ -1,4 +1,3 @@
-// Generated on 2015-12-14 using generator-jhipster 2.25.0
 /* jshint camelcase: false */
 'use strict';
 
@@ -219,7 +218,7 @@ gulp.task('usemin', function () {
 gulp.task('ngconstant:dev', function () {
   return ngConstant({
     dest: 'app.constants.js',
-    name: 'maurusApp',
+    name: 'wtvApp',
     deps: false,
     noFile: true,
     interpolate: /\{%=(.+?)%\}/g,
@@ -235,7 +234,7 @@ gulp.task('ngconstant:dev', function () {
 gulp.task('ngconstant:prod', function () {
   return ngConstant({
     dest: 'app.constants.js',
-    name: 'maurusApp',
+    name: 'wtvApp',
     deps: false,
     noFile: true,
     interpolate: /\{%=(.+?)%\}/g,

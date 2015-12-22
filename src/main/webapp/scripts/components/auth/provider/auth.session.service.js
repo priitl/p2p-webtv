@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('AuthServerProvider', AuthServerProvider);
 
   function AuthServerProvider($http, localStorageService, Tracker) {

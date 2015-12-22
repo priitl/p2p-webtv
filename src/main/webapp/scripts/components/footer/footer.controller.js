@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('FooterController', FooterController);
 
   function FooterController($anchorScroll) {

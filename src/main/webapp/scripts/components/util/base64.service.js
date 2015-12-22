@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('StorageService', StorageService)
     .service('Base64', Base64);
 

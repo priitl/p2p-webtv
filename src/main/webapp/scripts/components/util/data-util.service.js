@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .service('DataUtils', DataUtils);
 
   function DataUtils() {

@@ -1,4 +1,4 @@
-beforeEach(module('maurusApp'));
+beforeEach(module('wtvApp'));
 /**
  * returns a function whose angular will be replaced
  * with whatever mock was supplied.

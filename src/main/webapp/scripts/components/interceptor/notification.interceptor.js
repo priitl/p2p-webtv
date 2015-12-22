@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('notificationInterceptor', notificationInterceptor);
 
   function notificationInterceptor(AlertService) {
@@ -13,9 +13,9 @@
     ////////////////
 
     function response(response) {
-      var alertKey = response.headers('X-maurusApp-alert');
+      var alertKey = response.headers('X-wtvApp-alert');
       if (angular.isString(alertKey)) {
-        AlertService.success(alertKey, {param: response.headers('X-maurusApp-params')});
+        AlertService.success(alertKey, {param: response.headers('X-wtvApp-params')});
       }
       return response;
     }

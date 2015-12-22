@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('TvPopularController', TvPopularController);
 
   function TvPopularController(TvPopular, UserShow, Principal, ParseLinks, toastr, $translate) {

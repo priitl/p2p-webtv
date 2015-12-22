@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('LoginController', LoginController);
 
   function LoginController($rootScope, $state, $timeout, $translate, Auth, toastr) {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('UserManagementDeleteController', UserManagementDeleteController);
 
   function UserManagementDeleteController($uibModalInstance, entity, User) {

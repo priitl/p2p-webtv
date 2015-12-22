@@ -1,10 +1,10 @@
 jhipster-prod-postgresql:
-  container_name: maurus-prod-postgresql
+  container_name: ppwtv-prod-postgresql
   image: postgres:9.4.5
   # volumes:
-  # - ~/volumes/jhipster/maurus/prod-postgresql/:/var/lib/postgresql/
+  # - ~/volumes/jhipster/ppwtv/prod-postgresql/:/var/lib/postgresql/
   environment:
-  - POSTGRES_USER=maurus
+  - POSTGRES_USER=
   - POSTGRES_PASSWORD=
   ports:
   - "5432:5432"

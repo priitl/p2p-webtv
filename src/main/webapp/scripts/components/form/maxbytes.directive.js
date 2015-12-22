@@ -4,7 +4,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('maxbytes', maxbytes);
 
   function maxbytes() {

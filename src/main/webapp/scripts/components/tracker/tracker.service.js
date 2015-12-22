@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('Tracker', Tracker);
 
   function Tracker($rootScope, $cookies, $http, $q) {

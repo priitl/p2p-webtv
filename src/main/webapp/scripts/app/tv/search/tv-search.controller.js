@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('TvSearchController', TvSearchController);
 
   function TvSearchController(TvSearch, UserShow, Principal, ParseLinks, toastr, $translate, $stateParams) {

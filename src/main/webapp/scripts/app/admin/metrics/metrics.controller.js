@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('MetricsController', MetricsController);
 
   function MetricsController($scope, MonitoringService, $modal) {

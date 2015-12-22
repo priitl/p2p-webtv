@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .service('DateUtils', DateUtils);
 
   function DateUtils($filter) {

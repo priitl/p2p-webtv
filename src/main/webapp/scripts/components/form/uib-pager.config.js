@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .config(uibPagerConfig);
 
   function uibPagerConfig(uibPagerConfig) {

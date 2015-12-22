@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('jhSocial', jhSocial);
 
   function jhSocial($translatePartialLoader, $translate, $filter, SocialService) {

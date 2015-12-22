@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('jhSort', jhSort)
     .directive('jhSortBy', jhSortBy);
 

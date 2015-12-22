@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('TvFeedDialogController', TvFeedDialogController);
 
   function TvFeedDialogController($uibModalInstance, $stateParams, $filter, $rootScope, $interval, $translate, toastr) {

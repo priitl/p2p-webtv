@@ -26,11 +26,11 @@ apply plugin: 'propdeps'
 defaultTasks 'bootRun'
 
 bootRepackage {
-  mainClass = 'com.priitlaht.maurus.Application'
+  mainClass = 'com.priitlaht.ppwebtv.Application'
 }
 
 springBoot {
-  mainClass = 'com.priitlaht.maurus.Application'
+  mainClass = 'com.priitlaht.ppwebtv.Application'
   executable = true
 }
 
@@ -67,8 +67,8 @@ if (project.hasProperty('prod')) {
   apply from: 'profile_dev.gradle'
 }
 
-group = 'com.priitlaht.maurus'
-version = '0.0.1-SNAPSHOT'
+group = 'com.priitlaht.ppwebtv'
+version = '0.1.0-SNAPSHOT'
 
 description = ''
 

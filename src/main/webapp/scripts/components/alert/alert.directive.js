@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('jhAlert', jhAlert)
     .directive('jhAlertError', jhAlertError);
 
@@ -34,15 +34,15 @@
   function JhAlertErrorController($scope, $rootScope, $translate, AlertService) {
     $scope.alerts = AlertService.get();
 
-    var cleanHttpErrorListener = $rootScope.$on('maurusApp.httpError', function (event, httpResponse) {
+    var cleanHttpErrorListener = $rootScope.$on('wtvApp.httpError', function (event, httpResponse) {
       event.stopPropagation();
       switch (httpResponse.status) {
         case 0:
           addErrorAlert("Server not reachable", 'error.serverNotReachable');
           break;
         case 400:
-          var errorHeader = httpResponse.headers('X-maurusApp-error');
-          var entityKey = httpResponse.headers('X-maurusApp-params');
+          var errorHeader = httpResponse.headers('X-wtvApp-error');
+          var entityKey = httpResponse.headers('X-wtvApp-params');
           if (errorHeader) {
             var entityName = $translate.instant('global.menu.entities.' + entityKey);
             addErrorAlert(errorHeader, errorHeader, {entityName: entityName});
@@ -50,7 +50,7 @@
             for (var i = 0; i < httpResponse.data.fieldErrors.length; i++) {
               var fieldError = httpResponse.data.fieldErrors[i];
               var convertedField = fieldError.field.replace(/\[\d*\]/g, "[]");
-              var fieldName = $translate.instant('maurusApp.' + fieldError.objectName + '.' + convertedField);
+              var fieldName = $translate.instant('wtvApp.' + fieldError.objectName + '.' + convertedField);
               addErrorAlert('Field ' + fieldName + ' cannot be empty', 'error.' + fieldError.message, {fieldName: fieldName});
             }
           } else if (httpResponse.data && httpResponse.data.message) {

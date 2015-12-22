@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('UserManagementController', UserManagementController);
 
   function UserManagementController(User, ParseLinks, Language) {

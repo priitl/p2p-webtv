@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('maurusApp')
+angular.module('wtvApp')
   .controller('HealthModalController', function ($scope, $modalInstance, currentHealth, baseName, subSystemName) {
 
               });
@@ -9,7 +9,7 @@ angular.module('maurusApp')
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('HealthModalController', HealthModalController);
 
   function HealthModalController($modalInstance, currentHealth, baseName, subSystemName) {

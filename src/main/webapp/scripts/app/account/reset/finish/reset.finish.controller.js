@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('ResetFinishController', ResetFinishController);
 
   function ResetFinishController($stateParams, $timeout, Auth) {

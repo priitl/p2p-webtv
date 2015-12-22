@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('Password', Password)
     .factory('PasswordResetInit', PasswordResetInit)
     .factory('PasswordResetFinish', PasswordResetFinish);

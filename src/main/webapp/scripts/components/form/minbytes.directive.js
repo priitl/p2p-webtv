@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .directive('minbytes', minbytes);
 
   function minbytes() {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .factory('Principal', Principal);
 
   function Principal($q, Account, Tracker) {

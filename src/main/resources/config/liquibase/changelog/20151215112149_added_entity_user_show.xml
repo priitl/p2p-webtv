@@ -16,7 +16,7 @@
   <!--
       Added the entity UserShow.
   -->
-  <changeSet id="20151215112149" author="jhipster">
+  <changeSet id="20151215112149" author="p2p-webtv">
     <createTable tableName="user_show">
       <column name="user_login" type="varchar(100)">
         <constraints nullable="false"/>
@@ -60,7 +60,7 @@
                              baseTableName="user_show"
                              constraintName="fk_user_login"
                              referencedColumnNames="login"
-                             referencedTableName="jhi_user"
+                             referencedTableName="user_account"
                              onDelete="CASCADE"/>
 
     <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, tmdb_id" tableName="user_show"/>

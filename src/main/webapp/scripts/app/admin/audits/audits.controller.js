@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('AuditsController', AuditsController);
 
   function AuditsController($filter, AuditsService) {

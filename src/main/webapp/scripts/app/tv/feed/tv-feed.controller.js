@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .controller('TvFeedController', TvFeedController);
 
   function TvFeedController(TvFeed, $cookies) {

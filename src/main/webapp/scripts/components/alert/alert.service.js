@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('maurusApp')
+    .module('wtvApp')
     .provider('AlertService', AlertService);
 
   function AlertService() {

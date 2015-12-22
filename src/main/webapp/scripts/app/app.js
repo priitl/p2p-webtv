@@ -5,7 +5,7 @@
                          'toastr', 'ngTouch', 'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
                          'ngFileUpload', 'infinite-scroll', 'angular-loading-bar'];
   angular
-    .module('maurusApp', appDependencies)
+    .module('wtvApp', appDependencies)
     .run(appRun)
     .config(appConfig)
     .config(toasterConfig)
