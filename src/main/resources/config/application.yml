@@ -45,10 +45,10 @@ security:
         enabled: false
 
 # ===================================================================
-# JHipster specific properties
+# p2p-webtv specific properties
 # ===================================================================
 
-jhipster:
+p2p-webtv:
     async:
         corePoolSize: 2
         maxPoolSize: 50
@@ -61,22 +61,19 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: maurus@localhost
+        from: p2p-webtv@localhost
     security:
         rememberme:
-            # security key (this key should be unique for your application, and kept secret)
             key: YOUR_KEY
     swagger:
-        title: maurus API
-        description: maurus API documentation
-        version: 0.0.1
+        title: ppwebtv API
+        description: ppwebtv API documentation
+        version: 0.1.0
         termsOfServiceUrl:
         contact:
         license:
         licenseUrl:
     movieDatabase:
         apiKey: YOUR_API_KEY
-    eztv:
-        apiUrl: YOUR_API_URL
     social:
         redirectAfterSignIn: "/#/home"

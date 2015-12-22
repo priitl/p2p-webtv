@@ -17,15 +17,15 @@ spring:
         restart:
             enabled: true
         livereload:
-            enabled: false # we use Grunt + BrowserSync for livereload
+            enabled: false # we use Gulp + BrowserSync for livereload
     datasource:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://localhost:5432/xxx
+        url: jdbc:postgresql://localhost:5432/YOUR_DB
         name:
-        username: xxx
-        password: xxx
+        username: YOUR_USERNAME
+        password: YOUR_PASSWORD
     jpa:
-        database-platform: com.priitlaht.maurus.domain.util.FixedPostgreSQL82Dialect
+        database-platform: com.priitlaht.ppwebtv.common.config.database.FixedPostgreSQL82Dialect
         database: POSTGRESQL
         show_sql: true
         properties:
@@ -33,16 +33,14 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-    data:
-        elasticsearch:
-            cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
     mail:
-        host: localhost
+        host: smtp.gmail.com
+        port: 587
+        username: YOUR_USERNAME
+        password: YOUR_PASSWORD
+        properties:
+            mail.smtp.auth: true
+            mail.smtp.starttls.enable: true
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -55,17 +53,17 @@ server:
     port: 8080
 
 # ===================================================================
-# JHipster specific properties
+# p2p-webtv specific properties
 # ===================================================================
 
-jhipster:
+p2p-webtv:
     cache: # Hibernate 2nd level cache, used by CacheConfiguration
         timeToLiveSeconds: 3600
         ehcache:
             maxBytesLocalHeap: 16M
-    mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: maurus@localhost
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+    mail:
+        from: p2p-webtv@localhost
+    metrics:
         jmx.enabled: true
         spark:
             enabled: false
@@ -75,4 +73,4 @@ jhipster:
             enabled: false
             host: localhost
             port: 2003
-            prefix: maurus
+            prefix: ppwebtv

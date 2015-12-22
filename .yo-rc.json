@@ -16,7 +16,7 @@
     "frontendBuilder": "gulp",
     "enableTranslation": true,
     "enableSocialSignIn": true,
-    "rememberMeKey": "84e18ef0d8c845cf8226cd13a75c269ed78fff04",
+    "rememberMeKey": "YOUR_REMEMBER_ME_KEY",
     "testFrameworks": [
       "gatling"
     ]

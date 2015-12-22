@@ -13,12 +13,12 @@
 spring:
     datasource:
         driver-class-name: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:maurus;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:ppwebtv;DB_CLOSE_DELAY=-1
         name:
         username:
         password:
     jpa:
-        database-platform: com.priitlaht.maurus.domain.util.FixedH2Dialect
+        database-platform: com.priitlaht.ppwebtvv.domain.util.FixedH2Dialect
         database: H2
         open-in-view: false
         show_sql: true
@@ -30,14 +30,6 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
-    data:
-        elasticsearch:
-            cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
     mail:
         host: localhost
     mvc:
@@ -58,29 +50,26 @@ server:
     address: localhost
 
 # ===================================================================
-# JHipster specific properties
+# p2p-webtv specific properties
 # ===================================================================
 
-jhipster:
+p2p-webtv:
     async:
         corePoolSize: 2
         maxPoolSize: 50
         queueCapacity: 10000
     security:
         rememberme:
-            # security key (this key should be unique for your application, and kept secret)
             key: YOUR_KEY
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+    metrics:
         jmx.enabled: true
     swagger:
-        title: maurus API
-        description: maurus API documentation
-        version: 0.0.1
+        title: ppwebtv API
+        description: ppwebtv API documentation
+        version: 0.1.0
         termsOfServiceUrl:
         contact:
         license:
         licenseUrl:
     movieDatabase:
         apiKey: YOUR_API_KEY
-    eztv:
-        apiUrl: YOUR_API_URL
