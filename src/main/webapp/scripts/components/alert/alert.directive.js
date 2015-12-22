@@ -3,35 +3,35 @@
 
   angular
     .module('wtvApp')
-    .directive('jhAlert', jhAlert)
-    .directive('jhAlertError', jhAlertError);
+    .directive('wtvAlert', wtvAlert)
+    .directive('wtvAlertError', wtvAlertError);
 
-  function jhAlert() {
+  function wtvAlert() {
     return {
       bindToController: true,
-      controller: JhAlertController,
+      controller: WtvAlertController,
       restrict: 'E',
       templateUrl: 'scripts/components/alert/alert.directive.html'
     };
   }
 
-  function JhAlertController($scope, AlertService) {
+  function WtvAlertController($scope, AlertService) {
     $scope.alerts = AlertService.get();
     $scope.$on('$destroy', function () {
       $scope.alerts = [];
     });
   }
 
-  function jhAlertError() {
+  function wtvAlertError() {
     return {
       bindToController: true,
-      controller: JhAlertErrorController,
+      controller: WtvAlertErrorController,
       restrict: 'E',
       templateUrl: 'scripts/components/alert/alert.directive.html'
     };
   }
 
-  function JhAlertErrorController($scope, $rootScope, $translate, AlertService) {
+  function WtvAlertErrorController($scope, $rootScope, $translate, AlertService) {
     $scope.alerts = AlertService.get();
 
     var cleanHttpErrorListener = $rootScope.$on('wtvApp.httpError', function (event, httpResponse) {

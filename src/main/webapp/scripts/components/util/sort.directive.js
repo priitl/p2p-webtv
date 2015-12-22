@@ -3,24 +3,24 @@
 
   angular
     .module('wtvApp')
-    .directive('jhSort', jhSort)
-    .directive('jhSortBy', jhSortBy);
+    .directive('wtvSort', wtvSort)
+    .directive('wtvSortBy', wtvSortBy);
 
-  function jhSort() {
+  function wtvSort() {
     return {
       bindToController: true,
-      controller: JhSortController,
+      controller: WtvSortController,
       controllerAs: 'vm',
       restrict: 'A',
       scope: {
-        predicate: '=jhSort',
+        predicate: '=wtvSort',
         ascending: '=',
         callback: '&'
       }
     };
   }
 
-  function JhSortController($scope) {
+  function WtvSortController($scope) {
     this.sort = function (field) {
       if (field !== $scope.predicate) {
         $scope.ascending = true;
@@ -51,17 +51,17 @@
     }
   }
 
-  function jhSortBy() {
+  function wtvSortBy() {
     return {
       restrict: 'A',
       scope: false,
-      require: '^jhSort',
+      require: '^wtvSort',
       link: link
     };
 
     function link(scope, element, attrs, parentCtrl) {
       element.bind('click', function () {
-        parentCtrl.sort(attrs.jhSortBy);
+        parentCtrl.sort(attrs.wtvSortBy);
         parentCtrl.applyClass(element);
       });
     }

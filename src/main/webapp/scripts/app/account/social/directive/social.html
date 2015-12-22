@@ -1,7 +1,7 @@
 <form action="{{ providerURL }}" method="POST">
   <div class="form-group">
     <label translate="social.btnLabel" translate-values="{ label: label }">Sign in with {{ label }}</label>
-    <button type="submit" class="btn btn-block jh-btn-social jh-btn-{{ provider }}">
+    <button type="submit" class="btn btn-block wtv-btn-social wtv-btn-{{ provider }}">
       <span translate="social.btnText" translate-values="{ label: label }">Use your {{ label }} account</span>
     </button>
     <input name="scope" type="hidden" value="{{ providerSetting }}"/>

@@ -3,9 +3,9 @@
 
   angular
     .module('wtvApp')
-    .directive('jhSocial', jhSocial);
+    .directive('wtvSocial', wtvSocial);
 
-  function jhSocial($translatePartialLoader, $translate, $filter, SocialService) {
+  function wtvSocial($translatePartialLoader, $translate, $filter, SocialService) {
     return {
       restrict: 'E',
       link: link,
