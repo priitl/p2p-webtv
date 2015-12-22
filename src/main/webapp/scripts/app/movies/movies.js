@@ -3,11 +3,11 @@
 
   angular
     .module('wtvApp')
-    .config(tvConfig);
+    .config(moviesConfig);
 
-  function tvConfig($stateProvider) {
+  function moviesConfig($stateProvider) {
     $stateProvider
-      .state('tv', {
+      .state('movies', {
         abstract: true,
         parent: 'site'
       });

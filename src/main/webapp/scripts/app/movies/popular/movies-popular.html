@@ -1,0 +1,34 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 translate="movies.popular.title">Popular Movies</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.menu.movies.main">Movies</a>
+      </li>
+      <li class="active">
+        <strong><a ui-sref="movies-popular" href="#/movies/popular" translate="global.menu.movies.popular">Popular Movies</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
+       infinite-scroll-distance="1">
+    <div class="col-md-2" ng-repeat="movie in vm.movies track by $index">
+      <div class="tv-show-box">
+        <a ui-sref="tv-details">
+          <div class="poster-wrapper">
+            <div class="poster-inner text-center">
+              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{movie.poster_path}}">
+            </div>
+          </div>
+          <div class="m-t-xs font-bold ellipses">{{movie.title}}</div>
+          <div class="m-t-xs">{{movie.release_date | date}}</div>
+          <div class="clearfix"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

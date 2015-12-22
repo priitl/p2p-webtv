@@ -31,6 +31,23 @@
         </a>
       </li>
 
+      <!-- Movies -->
+      <li ng-class="{active: vm.state.includes('movies')}" ng-show="vm.isAuthenticated()">
+        <a href="">
+          <i class="fa fa-film"></i>
+          <span class="nav-label" translate="global.menu.movies.main">Movies</span>
+          <span class="fa arrow"></span>
+        </a>
+        <ul class="nav nav-second-level collapse">
+          <li ui-sref-active="active" ng-switch-when="true">
+            <a ui-sref="movies-popular">
+              <i class="fa fa-fire"></i>
+              {{'global.menu.movies.popular' | translate}}
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- Tv -->
       <li ng-class="{active: vm.state.includes('tv')}" ng-show="vm.isAuthenticated()">
         <a href="">

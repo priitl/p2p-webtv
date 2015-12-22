@@ -4,6 +4,10 @@
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
+      "movies": {
+        "main": "Movies",
+        "popular": "Popular Movies"
+      },
       "tv": {
         "main": "Television",
         "popular": "Popular TV",
