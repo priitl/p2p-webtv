@@ -1,6 +1,5 @@
 package com.priitlaht.ppwebtv.backend.service;
 
-import com.omertron.omdbapi.OmdbApi;
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
@@ -45,6 +44,18 @@ public class MovieService {
       e.printStackTrace();
     }
     return new PageImpl<>(movieResult, pageable, popularMovies.getTotalResults());
+  }
+
+  public Page<MovieInfo> searchMovies(String title, Pageable pageable) {
+    List<MovieInfo> movieResult = new ArrayList<>();
+    ResultList<MovieInfo> searchResult = new ResultList<>();
+    try {
+      searchResult = movieDbApi.searchMovie(title, pageable.getPageNumber(), null, true, null, null, null);
+      searchResult.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(movie -> movieResult.add(updatePosterUrl(movie)));
+    } catch (MovieDbException e) {
+      e.printStackTrace();
+    }
+    return new PageImpl<>(movieResult, pageable, searchResult.getTotalResults());
   }
 
   private MovieInfo updatePosterUrl(MovieInfo movie) {

@@ -3,12 +3,12 @@
 
   angular
     .module('wtvApp')
-    .config(tvPopularConfig);
+    .config(tvSearchConfig);
 
-  function tvPopularConfig($stateProvider) {
+  function tvSearchConfig($stateProvider) {
     $stateProvider
       .state('tv-search', {
-        parent: 'tv',
+        parent: 'site',
         url: '/tv/search/:title',
         data: {
           authorities: ['ROLE_USER'],
