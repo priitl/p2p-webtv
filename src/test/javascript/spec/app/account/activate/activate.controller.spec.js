@@ -7,7 +7,7 @@ describe('Controllers Tests ', function () {
 
   describe('ActivationController', function () {
 
-    var $scope, $httpBackend, $q, MockAuth; // actual implementations
+    var $scope, $httpBackend, $q; // actual implementations
     var MockAuth, MockStateParams; // mocks
     var createController; // local utility function
 
@@ -25,7 +25,7 @@ describe('Controllers Tests ', function () {
         'Auth': MockAuth
       };
       createController = function () {
-        $injector.get('$controller')('ActivationController', locals);
+        $injector.get('$controller')('ActivationController as vm', locals);
       };
     }));
 
@@ -36,8 +36,8 @@ describe('Controllers Tests ', function () {
       $scope.$apply(createController);
       // then
       expect(MockAuth.activateAccount).toHaveBeenCalledWith({
-        key: 'ABC123'
-      });
+                                                              key: 'ABC123'
+                                                            });
     });
 
     it('should set set success to OK upon successful activation', function () {
@@ -46,8 +46,8 @@ describe('Controllers Tests ', function () {
       // when
       $scope.$apply(createController);
       // then
-      expect($scope.error).toBe(null);
-      expect($scope.success).toEqual('OK');
+      expect($scope.vm.error).toBe(null);
+      expect($scope.vm.success).toEqual('OK');
     });
 
     it('should set set error to ERROR upon activation failure', function () {
@@ -56,8 +56,8 @@ describe('Controllers Tests ', function () {
       // when
       $scope.$apply(createController);
       // then
-      expect($scope.error).toBe('ERROR');
-      expect($scope.success).toEqual(null);
+      expect($scope.vm.error).toBe('ERROR');
+      expect($scope.vm.success).toEqual(null);
     });
   });
 });

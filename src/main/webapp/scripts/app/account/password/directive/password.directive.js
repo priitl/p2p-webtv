@@ -18,7 +18,7 @@
         colors: ['#F00', '#F90', '#FF0', '#9F0', '#0F0'],
         measureStrength: function (p) {
           var _force = 0;
-          var _regex = /[$-/:-?{-~!"^_`\[\]]/g; // "
+          var _regex = /[$-/:-?{-~!"^_`\[\]]/g;
 
           var _lowerLetters = /[a-z]+/.test(p);
           var _upperLetters = /[A-Z]+/.test(p);

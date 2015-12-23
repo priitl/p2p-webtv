@@ -9,11 +9,11 @@ describe('Controllers Tests ', function () {
 
     beforeEach(inject(function ($rootScope, $controller) {
       $scope = $rootScope.$new();
-      $controller('LoginController', {$scope: $scope});
+      $controller('LoginController as vm', {$scope: $scope});
     }));
 
     it('should set remember Me', function () {
-      expect($scope.rememberMe).toBeTruthy();
+      expect($scope.vm.rememberMe).toBeTruthy();
     });
   });
 });
