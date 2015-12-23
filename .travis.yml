@@ -3,7 +3,7 @@ node_js:
   - "4.2.3"
 sudo: false
 before_install:
-  - chmod +x gradlew
+#  - chmod +x gradlew
   - npm install -g gulp
   - npm install -g bower
 install:
@@ -11,7 +11,7 @@ install:
   - bower install
 before_script:
   - gulp build
-  - ./gradlew test
+#  - ./gradlew test
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always
