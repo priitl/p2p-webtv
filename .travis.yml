@@ -3,6 +3,7 @@ node_js:
   - "4.2.3"
 sudo: false
 before_install:
+  - chmod +x gradlew
   - npm install -g gulp
   - npm install -g bower
 install:
