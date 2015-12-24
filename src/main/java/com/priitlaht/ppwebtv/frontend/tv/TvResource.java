@@ -37,9 +37,9 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "popular", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvBasicDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<TvPopularDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
     log.debug("REST request to get a page of popular tv");
-    Page<TvBasicDTO> page = tvService.findPopularTv(pageable);
+    Page<TvPopularDTO> page = tvService.findPopularTv(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/popular");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
@@ -53,9 +53,9 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "search/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvBasicDTO>> searchTv(@PathVariable String title, Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<TvPopularDTO>> searchTv(@PathVariable String title, Pageable pageable) throws URISyntaxException {
     log.debug("REST request to search tv by title: {}", title);
-    Page<TvBasicDTO> page = tvService.searchTv(title, pageable);
+    Page<TvPopularDTO> page = tvService.searchTv(title, pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/search/" + title);
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }

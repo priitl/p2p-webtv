@@ -6,7 +6,8 @@
       "home": "Home",
       "movies": {
         "main": "Movies",
-        "popular": "Popular Movies"
+        "popular": "Popular Movies",
+        "details": "Movie Details"
       },
       "tv": {
         "main": "Television",

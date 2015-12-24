@@ -44,12 +44,12 @@
 
     function setFavorite(show, isFavorite) {
       show.favorite = isFavorite;
-      var userShow = {userLogin: vm.account.login, tmdbId: show.id, title: show.name};
+      var userShow = {userLogin: vm.account.login, tmdbId: show.tmdbId, title: show.title};
       if (isFavorite) {
-        toastr.success($translate.instant("tv.favorite.added"), show.name);
+        toastr.success($translate.instant("tv.favorite.added"), show.title);
         UserShow.save(userShow);
       } else {
-        toastr.warning($translate.instant("tv.favorite.removed"), show.name);
+        toastr.warning($translate.instant("tv.favorite.removed"), show.title);
         UserShow.delete(userShow);
       }
     }

@@ -16,11 +16,10 @@ import com.priitlaht.ppwebtv.backend.domain.UserShow;
 import com.priitlaht.ppwebtv.backend.repository.UserShowRepository;
 import com.priitlaht.ppwebtv.common.ApplicationProperties;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
-import com.priitlaht.ppwebtv.frontend.tv.TvBasicDTO;
 import com.priitlaht.ppwebtv.frontend.tv.TvFeedDTO;
+import com.priitlaht.ppwebtv.frontend.tv.TvPopularDTO;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -57,8 +56,8 @@ public class TvService {
     omdbApi = new OmdbApi();
   }
 
-  public Page<TvBasicDTO> findPopularTv(Pageable pageable) {
-    List<TvBasicDTO> tvResult = new ArrayList<>();
+  public Page<TvPopularDTO> findPopularTv(Pageable pageable) {
+    List<TvPopularDTO> tvResult = new ArrayList<>();
     ResultList<TVBasic> popularTv = new ResultList<>();
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
     try {
@@ -80,8 +79,8 @@ public class TvService {
     return feedResult;
   }
 
-  public Page<TvBasicDTO> searchTv(String title, Pageable pageable) {
-    List<TvBasicDTO> tvResult = new ArrayList<>();
+  public Page<TvPopularDTO> searchTv(String title, Pageable pageable) {
+    List<TvPopularDTO> tvResult = new ArrayList<>();
     ResultList<TVBasic> searchResult = new ResultList<>();
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
     try {
@@ -130,17 +129,18 @@ public class TvService {
     }
   }
 
-  private TvBasicDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) {
-    TvBasicDTO userTvBasic = new TvBasicDTO();
-    tv.setName(tv.getName().replaceAll("Marvel's ", ""));
-    BeanUtils.copyProperties(tv, userTvBasic);
+  private TvPopularDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) {
+    TvPopularDTO result = new TvPopularDTO();
+    result.setTitle(tv.getName().replaceAll("Marvel's ", ""));
+    result.setTmdbId(tv.getId());
+    result.setReleaseDateString(tv.getFirstAirDate());
+    result.setFavorite(userShows.stream().anyMatch(us -> us.getTmdbId() == tv.getId()));
     try {
-      userTvBasic.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
+      result.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
     } catch (MovieDbException e) {
       e.printStackTrace();
     }
-    userTvBasic.setFavorite(userShows.stream().anyMatch(us -> us.getTmdbId() == tv.getId()));
-    return userTvBasic;
+    return result;
   }
 
   public Optional<UserShow> createUserShow(UserShow userShow) {

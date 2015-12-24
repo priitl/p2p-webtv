@@ -18,14 +18,14 @@
        infinite-scroll-distance="1">
     <div class="col-md-2" ng-repeat="movie in vm.movies track by $index">
       <div class="tv-show-box">
-        <a ui-sref="movie-details">
+        <a ui-sref="movie-details({tmdbId:movie.tmdbId})">
           <div class="poster-wrapper">
             <div class="poster-inner text-center">
-              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{movie.poster_path}}">
+              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{movie.fullPosterPath}}">
             </div>
           </div>
           <div class="m-t-xs font-bold ellipses">{{movie.title}}</div>
-          <div class="m-t-xs">{{movie.release_date | date}}</div>
+          <div class="m-t-xs">{{movie.releaseDateString | date}}</div>
           <div class="clearfix"></div>
         </a>
       </div>

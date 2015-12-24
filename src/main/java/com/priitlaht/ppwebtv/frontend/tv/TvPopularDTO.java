@@ -1,7 +1,5 @@
 package com.priitlaht.ppwebtv.frontend.tv;
 
-import com.omertron.themoviedbapi.model.tv.TVBasic;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +8,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TvBasicDTO extends TVBasic {
-  private boolean favorite;
+public class TvPopularDTO {
+  private String title;
+  private int tmdbId;
+  private String releaseDateString;
   private String fullPosterPath;
+  private boolean favorite;
 }
