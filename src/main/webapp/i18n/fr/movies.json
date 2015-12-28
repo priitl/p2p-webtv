@@ -2,6 +2,28 @@
   "movies": {
     "popular": {
       "title": "Films Populaires"
+    },
+    "details": {
+      "generalInfo": "Informations Générales",
+      "overviewAndCast": "Sujet et Acteurs",
+      "similarMovies": "Films Similaires",
+      "showFullCast": "Montrer les acteurs additionnels",
+      "hideFullCast": "Masquer les acteurs additionnels",
+      "magnet": "Ouvrir le lien magnétique",
+      "playInBrowser": "Jouer dans le navigateur",
+      "releaseDate": "Date de sortie: ",
+      "as": "que",
+      "minutes": "minutes",
+      "budget": "Budget: ",
+      "revenue": "Revenu: ",
+      "runtime": "Durée: ",
+      "status": "Statut: ",
+      "tagline": "Slogan: ",
+      "rating": "Evaluation de l'utilisateur: ",
+      "genre": "Genre: ",
+      "director": "Réalisateur: ",
+      "writer": "Scénario: ",
+      "originalLanguage": "Langue: "
     }
   }
 }

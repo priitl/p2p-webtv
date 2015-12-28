@@ -4103,7 +4103,14 @@ body.modal-open {
   width: 100%;
   max-width: 200px;
   left: 15px;
-  bottom: -50px;
+  bottom: -10px;
+}
+
+#backdrop-wrapper .mobile-title h1 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 20px black;
 }
 
 #backdrop-wrapper .mobile-poster .poster {
@@ -4134,12 +4141,12 @@ body.modal-open {
   }
 
   #backdrop-wrapper .mobile-poster {
-    max-width: 150px;
+    max-width: 135px;
     left: 10px;
   }
 
   #backdrop-wrapper .mobile-title {
-    margin-left: 160px;
+    margin-left: 145px;
   }
 
   #backdrop-wrapper .mobile-title h1 {
@@ -4150,6 +4157,16 @@ body.modal-open {
 section {
   background-color: #fff;
   display: block;
+}
+
+.movie-link {
+  text-align: center;
+}
+
+.movie-link .fa {
+  color: #1ab394;
+  font-size: 50px;
+  margin-top: 10px;
 }
 
 .tv-show-box {
@@ -4195,6 +4212,11 @@ section {
 
 .fa-heart-o {
   font-size: 1.5em;
+}
+
+.article p {
+  font-size: 15px;
+  line-height: 26px;
 }
 
 @media screen and (max-width: 767px) {
