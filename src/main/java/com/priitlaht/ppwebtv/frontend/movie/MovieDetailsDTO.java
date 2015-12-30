@@ -1,5 +1,7 @@
 package com.priitlaht.ppwebtv.frontend.movie;
 
+import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MovieDetailsDTO extends MoviePopularDTO {
+public class MovieDetailsDTO extends MediaBasicDTO {
   private String overview;
   private Integer runtime;
   private String tagline;
@@ -26,9 +28,9 @@ public class MovieDetailsDTO extends MoviePopularDTO {
   private List<CastDTO> cast;
   private String director;
   private String writer;
-  private List<MoviePopularDTO> similarMovies;
+  private List<MediaBasicDTO> similarMovies;
 
-  public void addSimilarMovie(MoviePopularDTO movie) {
+  public void addSimilarMovie(MediaBasicDTO movie) {
     if (similarMovies == null) {
       similarMovies = new ArrayList<>();
     }

@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,9 +36,9 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "popular", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvPopularDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<MediaBasicDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
     log.debug("REST request to get a page of popular tv");
-    Page<TvPopularDTO> page = tvService.findPopularTv(pageable);
+    Page<MediaBasicDTO> page = tvService.findPopularTv(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/popular");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
@@ -49,15 +48,6 @@ public class TvResource {
   public List<TvFeedDTO> findUserTvFeed(@RequestParam String apiUrl) throws URISyntaxException {
     log.debug("REST request to get user's tv feed");
     return tvService.findTvFeed(apiUrl);
-  }
-
-  @Timed
-  @RequestMapping(value = "search/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvPopularDTO>> searchTv(@PathVariable String title, Pageable pageable) throws URISyntaxException {
-    log.debug("REST request to search tv by title: {}", title);
-    Page<TvPopularDTO> page = tvService.searchTv(title, pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/search/" + title);
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
 
   @Timed

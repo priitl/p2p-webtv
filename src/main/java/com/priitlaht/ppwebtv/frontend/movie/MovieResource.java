@@ -3,6 +3,7 @@ package com.priitlaht.ppwebtv.frontend.movie;
 import com.codahale.metrics.annotation.Timed;
 import com.priitlaht.ppwebtv.backend.service.MovieService;
 import com.priitlaht.ppwebtv.frontend.common.util.PaginationUtil;
+import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,9 +32,9 @@ public class MovieResource {
 
   @Timed
   @RequestMapping(value = "popular", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<MoviePopularDTO>> findPopularMovies(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<MediaBasicDTO>> findPopularMovies(Pageable pageable) throws URISyntaxException {
     log.debug("REST request to get a page of popular movies");
-    Page<MoviePopularDTO> page = movieService.findPopularMovies(pageable);
+    Page<MediaBasicDTO> page = movieService.findPopularMovies(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/movies/popular");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }

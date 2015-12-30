@@ -2,6 +2,12 @@
   "global": {
     "title": "p2p-webtv",
     "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
+    "search": {
+      "main": "Recherche",
+      "media": "Multimédia",
+      "title": "Résultats pour [<strong>{{title}}</strong>]",
+      "noResults": "Oh! Malheureusement, aucun résultat n'a été trouvé..."
+    },
     "menu": {
       "home": "Accueil",
       "movies": {
@@ -12,8 +18,7 @@
       "tv": {
         "main": "Télévision",
         "popular": "TV Populaire",
-        "feed": "Votre flux de TV",
-        "search": "Recherche"
+        "feed": "Votre flux de TV"
       },
       "entities": {
         "main": "Entités",

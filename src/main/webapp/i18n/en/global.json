@@ -2,6 +2,12 @@
   "global": {
     "title": "p2p-webtv",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
+    "search": {
+      "main": "Search",
+      "media": "Media",
+      "title": "Search results for [<strong>{{title}}</strong>]",
+      "noResults": "Oh! Unfortunately, no results were found..."
+    },
     "menu": {
       "home": "Home",
       "movies": {
@@ -12,8 +18,7 @@
       "tv": {
         "main": "Television",
         "popular": "Popular TV",
-        "feed": "Your TV feed",
-        "search": "Search"
+        "feed": "Your TV feed"
       },
       "entities": {
         "main": "Entities",
@@ -40,8 +45,7 @@
         "apidocs": "API",
         "database": "Database"
       },
-      "language": "Language",
-      "searchTv": "Search TV"
+      "language": "Language"
     },
     "form": {
       "username": "Username",

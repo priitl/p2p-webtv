@@ -10,7 +10,7 @@ import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.ppwebtv.common.ApplicationProperties;
 import com.priitlaht.ppwebtv.frontend.movie.CastDTO;
 import com.priitlaht.ppwebtv.frontend.movie.MovieDetailsDTO;
-import com.priitlaht.ppwebtv.frontend.movie.MoviePopularDTO;
+import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromMovie;
 import static java.lang.String.join;
 
 /**
@@ -46,12 +47,12 @@ public class MovieService {
     movieDbApi = new TheMovieDbApi(applicationProperties.getMovieDatabase().getApiKey());
   }
 
-  public Page<MoviePopularDTO> findPopularMovies(Pageable pageable) {
-    List<MoviePopularDTO> movieResult = new ArrayList<>();
+  public Page<MediaBasicDTO> findPopularMovies(Pageable pageable) {
+    List<MediaBasicDTO> movieResult = new ArrayList<>();
     ResultList<MovieInfo> popularMovies = new ResultList<>();
     try {
       popularMovies = movieDbApi.getPopularMovieList(pageable.getPageNumber(), null);
-      popularMovies.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(movie -> movieResult.add(getMoviePopularDTO(movie)));
+      popularMovies.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(movie -> movieResult.add(createFromMovie(movie, movieDbApi)));
     } catch (MovieDbException e) {
       e.printStackTrace();
     }
@@ -68,18 +69,6 @@ public class MovieService {
     return Optional.empty();
   }
 
-  public Page<MoviePopularDTO> searchMovies(String title, Pageable pageable) {
-    List<MoviePopularDTO> movieResult = new ArrayList<>();
-    ResultList<MovieInfo> searchResult = new ResultList<>();
-    try {
-      searchResult = movieDbApi.searchMovie(title, pageable.getPageNumber(), null, true, null, null, null);
-      searchResult.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(movie -> movieResult.add(getMoviePopularDTO(movie)));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return new PageImpl<>(movieResult, pageable, searchResult.getTotalResults());
-  }
-
   private MovieDetailsDTO getMovieDetailsDTO(MovieInfo movie) {
     MovieDetailsDTO result = new MovieDetailsDTO();
     result.setOverview(movie.getOverview());
@@ -94,8 +83,8 @@ public class MovieService {
     result.setCast(createCastList(movie));
     result.setDirector(getCrewByDepartment(movie, "directing"));
     result.setWriter(getCrewByDepartment(movie, "writing"));
-    movie.getSimilarMovies().stream().filter(sm -> sm.getPosterPath() != null).limit(6).forEach(sm -> result.addSimilarMovie(getMoviePopularDTO(sm)));
-    BeanUtils.copyProperties(getMoviePopularDTO(movie), result);
+    movie.getSimilarMovies().stream().filter(sm -> sm.getPosterPath() != null).limit(6).forEach(sm -> result.addSimilarMovie(createFromMovie(sm, movieDbApi)));
+    BeanUtils.copyProperties(createFromMovie(movie, movieDbApi), result);
     try {
       result.setFullBackdropPath(movieDbApi.createImageUrl(movie.getBackdropPath(), "original").toString());
     } catch (MovieDbException e) {
@@ -127,16 +116,4 @@ public class MovieService {
     return castDTO;
   }
 
-  private MoviePopularDTO getMoviePopularDTO(MovieInfo movie) {
-    MoviePopularDTO result = new MoviePopularDTO();
-    result.setTitle(movie.getTitle());
-    result.setTmdbId(movie.getId());
-    result.setReleaseDateString(movie.getReleaseDate());
-    try {
-      result.setFullPosterPath(movieDbApi.createImageUrl(movie.getPosterPath(), "w342").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return result;
-  }
 }
