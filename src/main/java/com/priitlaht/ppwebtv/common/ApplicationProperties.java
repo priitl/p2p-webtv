@@ -22,7 +22,7 @@ public class ApplicationProperties {
   private final Mail mail = new Mail();
   private final Security security = new Security();
   private final Swagger swagger = new Swagger();
-  private final MovieDatabase movieDatabase = new MovieDatabase();
+  private final Trakt trakt = new Trakt();
   private final Eztv eztv = new Eztv();
   private final Metrics metrics = new Metrics();
   private final CorsConfiguration cors = new CorsConfiguration();
@@ -104,7 +104,7 @@ public class ApplicationProperties {
 
   @Getter
   @Setter
-  public static class MovieDatabase {
+  public static class Trakt {
     private String apiKey;
   }
 

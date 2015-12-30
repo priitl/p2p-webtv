@@ -1,13 +1,5 @@
 package com.priitlaht.ppwebtv.backend.service;
 
-import com.omertron.omdbapi.OMDBException;
-import com.omertron.omdbapi.OmdbApi;
-import com.omertron.omdbapi.model.OmdbVideoBasic;
-import com.omertron.omdbapi.tools.OmdbBuilder;
-import com.omertron.themoviedbapi.MovieDbException;
-import com.omertron.themoviedbapi.TheMovieDbApi;
-import com.omertron.themoviedbapi.model.tv.TVBasic;
-import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.eztvapi.EztvApi;
 import com.priitlaht.eztvapi.model.Episode;
 import com.priitlaht.eztvapi.model.Torrents;
@@ -16,8 +8,11 @@ import com.priitlaht.ppwebtv.backend.domain.UserShow;
 import com.priitlaht.ppwebtv.backend.repository.UserShowRepository;
 import com.priitlaht.ppwebtv.common.ApplicationProperties;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
+import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
 import com.priitlaht.ppwebtv.frontend.tv.TvFeedDTO;
-import com.priitlaht.ppwebtv.frontend.tv.TvPopularDTO;
+import com.uwetrottmann.trakt.v2.TraktV2;
+import com.uwetrottmann.trakt.v2.entities.Show;
+import com.uwetrottmann.trakt.v2.services.Shows;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -30,11 +25,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
+import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromShow;
+import static com.uwetrottmann.trakt.v2.enums.Extended.IMAGES;
 
 /**
  * @author Priit Laht
@@ -42,8 +39,8 @@ import javax.inject.Inject;
 @Service
 @Transactional
 public class TvService {
-  private TheMovieDbApi movieDbApi;
-  private OmdbApi omdbApi;
+  private static final int RESULT_LIMIT = 15000;
+  private Shows showService;
 
   @Inject
   private ApplicationProperties applicationProperties;
@@ -51,22 +48,18 @@ public class TvService {
   private UserShowRepository userShowRepository;
 
   @PostConstruct
-  private void init() throws MovieDbException {
-    movieDbApi = new TheMovieDbApi(applicationProperties.getMovieDatabase().getApiKey());
-    omdbApi = new OmdbApi();
+  private void init() {
+    TraktV2 traktV2 = new TraktV2();
+    traktV2.setApiKey(applicationProperties.getTrakt().getApiKey());
+    showService = traktV2.shows();
   }
 
-  public Page<TvPopularDTO> findPopularTv(Pageable pageable) {
-    List<TvPopularDTO> tvResult = new ArrayList<>();
-    ResultList<TVBasic> popularTv = new ResultList<>();
+  public Page<MediaBasicDTO> findPopularTv(Pageable pageable) {
+    List<MediaBasicDTO> result = new ArrayList<>();
+    List<Show> popularShows = showService.popular(pageable.getPageNumber(), pageable.getPageSize(), IMAGES);
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
-    try {
-      popularTv = movieDbApi.getTVPopular(pageable.getPageNumber(), null);
-      popularTv.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(tv -> tvResult.add(getTvBasicDTO(userShows, tv)));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return new PageImpl<>(tvResult, pageable, popularTv.getTotalResults());
+    popularShows.stream().filter(tv -> tv.images != null && tv.images.poster != null).forEach(tv -> result.add(createFromShow(userShows, tv)));
+    return new PageImpl<>(result, pageable, RESULT_LIMIT);
   }
 
   public List<TvFeedDTO> findTvFeed(String apiUrl) {
@@ -77,19 +70,6 @@ public class TvService {
     Comparator<TvFeedDTO> byEpisodeNumber = (tv1, tv2) -> tv1.getEpisodeNumber().compareTo(tv2.getEpisodeNumber());
     Collections.sort(feedResult, byUploadDate.thenComparing(byEpisodeNumber).reversed());
     return feedResult;
-  }
-
-  public Page<TvPopularDTO> searchTv(String title, Pageable pageable) {
-    List<TvPopularDTO> tvResult = new ArrayList<>();
-    ResultList<TVBasic> searchResult = new ResultList<>();
-    List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
-    try {
-      searchResult = movieDbApi.searchTV(title, pageable.getPageNumber(), null, null, null);
-      searchResult.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(tv -> tvResult.add(getTvBasicDTO(userShows, tv)));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return new PageImpl<>(tvResult, pageable, searchResult.getTotalResults());
   }
 
   private List<TvFeedDTO> findTvFeedByShow(UserShow userShow, String apiUrl) {
@@ -129,33 +109,12 @@ public class TvService {
     }
   }
 
-  private TvPopularDTO getTvBasicDTO(List<UserShow> userShows, TVBasic tv) {
-    TvPopularDTO result = new TvPopularDTO();
-    result.setTitle(tv.getName().replaceAll("Marvel's ", ""));
-    result.setTmdbId(tv.getId());
-    result.setReleaseDateString(tv.getFirstAirDate());
-    result.setFavorite(userShows.stream().anyMatch(us -> us.getTmdbId() == tv.getId()));
-    try {
-      result.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return result;
+  public void createUserShow(UserShow userShow) {
+    userShowRepository.save(userShow);
   }
 
-  public Optional<UserShow> createUserShow(UserShow userShow) {
-    try {
-      OmdbVideoBasic search = omdbApi.getInfo(new OmdbBuilder().setTitle(userShow.getTitle()).setTypeSeries().build());
-      userShow.setImdbId(search.getImdbID());
-      return Optional.of(userShowRepository.save(userShow));
-    } catch (OMDBException e) {
-      e.printStackTrace();
-    }
-    return Optional.empty();
-  }
-
-  public void deleteUserShow(String userLogin, Long tmdbId) {
-    userShowRepository.deleteByUserLoginAndTmdbId(userLogin, tmdbId);
+  public void deleteUserShow(String userLogin, String imdbId) {
+    userShowRepository.deleteByUserLoginAndImdbId(userLogin, imdbId);
   }
 
 }

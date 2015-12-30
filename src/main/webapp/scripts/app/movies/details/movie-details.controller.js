@@ -18,7 +18,7 @@
 
     function activate() {
       vm.castItemLimit = vm.defaultCastItemLimit;
-      MovieDetails.get({'tmdbId': $stateParams.tmdbId}, function (result) {
+      MovieDetails.get({'imdbId': $stateParams.imdbId}, function (result) {
         vm.movie = result;
       });
     }

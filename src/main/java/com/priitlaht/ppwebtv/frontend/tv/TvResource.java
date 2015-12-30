@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,9 +36,9 @@ public class TvResource {
 
   @Timed
   @RequestMapping(value = "popular", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvPopularDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<MediaBasicDTO>> findPopularTv(Pageable pageable) throws URISyntaxException {
     log.debug("REST request to get a page of popular tv");
-    Page<TvPopularDTO> page = tvService.findPopularTv(pageable);
+    Page<MediaBasicDTO> page = tvService.findPopularTv(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/popular");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
@@ -52,34 +51,25 @@ public class TvResource {
   }
 
   @Timed
-  @RequestMapping(value = "search/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TvPopularDTO>> searchTv(@PathVariable String title, Pageable pageable) throws URISyntaxException {
-    log.debug("REST request to search tv by title: {}", title);
-    Page<TvPopularDTO> page = tvService.searchTv(title, pageable);
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tv/search/" + title);
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-  }
-
-  @Timed
   @RequestMapping(value = "user-show", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> insertUserShow(@RequestBody UserShow userShow) {
-    log.debug("REST request to insert UserShow: {}", userShow.getTitle());
+  public ResponseEntity<Void> insertUserShow(@RequestBody UserShow userShow) {
+    log.debug("REST request to insert UserShow: {}", userShow.getImdbId());
     if (!Objects.equals(userShow.getUserLogin(), SecurityUtil.getCurrentUserLogin())) {
       return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tv", "invalid_user", "invalid user")).body(null);
     }
-    return tvService.createUserShow(userShow)
-      .map(user -> new ResponseEntity<String>(HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    tvService.createUserShow(userShow);
+    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.created", userShow.getImdbId())).build();
   }
 
   @Timed
   @RequestMapping(value = "user-show", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> deleteUserShow(@RequestParam String userLogin, @RequestParam Long tmdbId) {
-    log.debug("REST request to delete UserShow: {}", tmdbId);
+  public ResponseEntity<Void> deleteUserShow(@RequestParam String userLogin, @RequestParam String imdbId) {
+    log.debug("REST request to delete UserShow: {}", imdbId);
     if (!Objects.equals(userLogin, SecurityUtil.getCurrentUserLogin())) {
       return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tv", "invalid_user", "invalid user")).body(null);
     }
-    tvService.deleteUserShow(userLogin, tmdbId);
-    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.deleted", tmdbId.toString())).build();
+    tvService.deleteUserShow(userLogin, imdbId);
+    return ResponseEntity.ok().headers(HeaderUtil.createAlert("tv.deleted", imdbId)).build();
   }
 
 }

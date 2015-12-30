@@ -7,23 +7,22 @@
 
   function tvSearchConfig($stateProvider) {
     $stateProvider
-      .state('tv-search', {
+      .state('media-search', {
         parent: 'site',
-        url: '/tv/search/:title',
+        url: '/search/:title',
         data: {
           authorities: ['ROLE_USER'],
-          pageTitle: 'global.menu.tv.search'
+          pageTitle: 'global.search.main'
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/app/tv/search/tv-search.html',
-            controller: 'TvSearchController',
+            templateUrl: 'scripts/app/search/media-search.html',
+            controller: 'MediaSearchController',
             controllerAs: 'vm'
           }
         },
         resolve: {
           mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-            $translatePartialLoader.addPart('tv');
             return $translate.refresh();
           }]
         }

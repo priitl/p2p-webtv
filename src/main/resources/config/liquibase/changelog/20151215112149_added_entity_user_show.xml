@@ -21,13 +21,7 @@
       <column name="user_login" type="varchar(100)">
         <constraints nullable="false"/>
       </column>
-      <column name="tmdb_id" type="integer">
-        <constraints nullable="false"/>
-      </column>
       <column name="imdb_id" type="varchar(10)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="title" type="varchar(255)">
         <constraints nullable="false"/>
       </column>
     </createTable>
@@ -38,22 +32,10 @@
       <column name="user_login" type="varchar(100)"/>
     </createIndex>
 
-    <createIndex indexName="idx_user_show_tmdb_id"
-                 tableName="user_show"
-                 unique="false">
-      <column name="tmdb_id" type="integer"/>
-    </createIndex>
-
     <createIndex indexName="idx_user_show_imdb_id"
                  tableName="user_show"
                  unique="false">
       <column name="imdb_id" type="varchar(10)"/>
-    </createIndex>
-
-    <createIndex indexName="idx_user_show_title"
-                 tableName="user_show"
-                 unique="false">
-      <column name="title" type="varchar(255)"/>
     </createIndex>
 
     <addForeignKeyConstraint baseColumnNames="user_login"
@@ -63,7 +45,7 @@
                              referencedTableName="user_account"
                              onDelete="CASCADE"/>
 
-    <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, tmdb_id" tableName="user_show"/>
+    <addPrimaryKey constraintName="pk_user_show" columnNames="user_login, imdb_id" tableName="user_show"/>
 
   </changeSet>
 </databaseChangeLog>

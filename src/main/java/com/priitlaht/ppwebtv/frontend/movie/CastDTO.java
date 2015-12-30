@@ -9,5 +9,5 @@ import lombok.Data;
 public class CastDTO {
   private String name;
   private String character;
-  private String fullArtworkPath;
+  private String avatarPath;
 }

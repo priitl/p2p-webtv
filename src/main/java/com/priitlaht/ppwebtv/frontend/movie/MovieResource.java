@@ -3,6 +3,7 @@ package com.priitlaht.ppwebtv.frontend.movie;
 import com.codahale.metrics.annotation.Timed;
 import com.priitlaht.ppwebtv.backend.service.MovieService;
 import com.priitlaht.ppwebtv.frontend.common.util.PaginationUtil;
+import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,18 +32,18 @@ public class MovieResource {
 
   @Timed
   @RequestMapping(value = "popular", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<MoviePopularDTO>> findPopularMovies(Pageable pageable) throws URISyntaxException {
+  public ResponseEntity<List<MediaBasicDTO>> findPopularMovies(Pageable pageable) throws URISyntaxException {
     log.debug("REST request to get a page of popular movies");
-    Page<MoviePopularDTO> page = movieService.findPopularMovies(pageable);
+    Page<MediaBasicDTO> page = movieService.findPopularMovies(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/movies/popular");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
 
   @Timed
-  @RequestMapping(value = "{tmdbId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<MovieDetailsDTO> getMovieDetails(@PathVariable int tmdbId) throws URISyntaxException {
-    log.debug("REST request get movie details: {}", tmdbId);
-    return movieService.getMovieDetails(tmdbId)
+  @RequestMapping(value = "{imdbId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<MovieDetailsDTO> getMovieDetails(@PathVariable String imdbId) throws URISyntaxException {
+    log.debug("REST request get movie details: {}", imdbId);
+    return movieService.getMovieDetails(imdbId)
       .map(movie -> new ResponseEntity<>(movie, HttpStatus.OK))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }

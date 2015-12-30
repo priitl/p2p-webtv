@@ -9,7 +9,7 @@
     $stateProvider
       .state('movie-details', {
         parent: 'site',
-        url: '/movies/:tmdbId',
+        url: '/movies/:imdbId',
         data: {
           authorities: ['ROLE_USER'],
           pageTitle: 'global.menu.movies.details'

@@ -1,11 +1,11 @@
 <div class="row white-bg border-bottom">
-  <section id="backdrop-wrapper" style="background-image: url({{vm.movie.fullBackdropPath}})">
+  <section id="backdrop-wrapper" style="background-image: url({{vm.movie.backdropPath}})">
     <div class="container summary">
       <div class="container">
         <div class="row">
           <div class="mobile-poster">
             <div class="poster">
-              <img class="img img-responsive" src="{{vm.movie.fullPosterPath}}">
+              <img class="img img-responsive" src="{{vm.movie.posterPath}}">
             </div>
           </div>
           <div class="col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3 mobile-title">
@@ -25,22 +25,16 @@
           <h5 translate="movies.details.generalInfo"></h5>
         </div>
         <div class="ibox-content">
-          <p ng-if="vm.movie.status"><strong translate="movies.details.status"></strong>{{vm.movie.status}}</p>
-          <p ng-if="vm.movie.releaseDateString"><strong translate="movies.details.releaseDate"></strong>{{vm.movie.releaseDateString
-            | date}}</p>
+          <p ng-if="vm.movie.releaseDate"><strong translate="movies.details.releaseDate"></strong>{{vm.movie.releaseDate |
+            date}}</p>
           <p ng-if="vm.movie.rating"><strong translate="movies.details.rating"></strong>{{vm.movie.rating | number:1}}/10</p>
           <p ng-if="vm.movie.tagline"><strong translate="movies.details.tagline"></strong>{{vm.movie.tagline}}</p>
           <p ng-if="vm.movie.genre"><strong translate="movies.details.genre"></strong>{{vm.movie.genre}}</p>
           <p ng-if="vm.movie.runtime"><strong translate="movies.details.runtime"></strong>{{vm.movie.runtime}} <span
             translate="movies.details.minutes"></span></p>
-          <p ng-if="vm.movie.originalLanguage"><strong translate="movies.details.originalLanguage"></strong>{{vm.movie.originalLanguage
-            | findLanguageFromKey}}</p>
+          <p ng-if="vm.movie.language"><strong translate="movies.details.originalLanguage"></strong>{{vm.movie.language | findLanguageFromKey}}</p>
           <p ng-if="vm.movie.director"><strong translate="movies.details.director"></strong>{{vm.movie.director}}</p>
           <p ng-if="vm.movie.writer"><strong translate="movies.details.writer"></strong>{{vm.movie.writer}}</p>
-          <p ng-if="vm.movie.budget"><strong translate="movies.details.budget"></strong>{{vm.movie.budget | currency:'$'}}
-          </p>
-          <p ng-if="vm.movie.revenue"><strong translate="movies.details.revenue"></strong>{{vm.movie.revenue | currency:'$'}}
-          </p>
           <div ng-if="vm.movie.magnetUri" class="text-center movie-link">
             <a ng-href="{{vm.movie.magnetUri}}" title="{{'movies.details.magnet' | translate }}"><i class="fa fa-magnet"></i></a>&nbsp;&nbsp;&nbsp;
             <a ui-sref="movie-details.watch" title="{{'movies.details.playInBrowser' | translate }}"><i
@@ -59,52 +53,20 @@
           <br/><br/>
           <div class="row">
             <div class="col-lg-2" ng-repeat="cast in vm.movie.cast | limitTo: vm.castItemLimit">
-              <div class="tv-show-box cast">
-                <div class="poster-wrapper">
-                  <div class="poster-inner cast text-center">
-                    <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{cast.fullArtworkPath}}">
-                  </div>
-                </div>
+              <div class="cast">
                 <div class="m-t-xs font-bold ellipses">{{cast.name}}</div>
                 <div class="m-t-xs ellipses">
                   <span ng-if="!cast.character">&nbsp;</span>
                   <span ng-if="cast.character">{{'movies.details.as' | translate}} {{cast.character}}</span>
                 </div>
                 <div class="clearfix"></div>
-              </div>
+              </div><br/>
             </div>
             <div ng-if="vm.movie.cast.length > 6" class="col-sm-12">
               <button class="btn btn-sm btn-white" ng-click="vm.toggleFullCast()">
                 <span ng-if="vm.castItemLimit === vm.defaultCastItemLimit" translate="movies.details.showFullCast"></span>
                 <span ng-if="vm.castItemLimit !== vm.defaultCastItemLimit" translate="movies.details.hideFullCast"></span>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div ng-if="vm.movie.similarMovies" class="row">
-    <div class="col-lg-12">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5 translate="movies.details.similarMovies"></h5>
-        </div>
-        <div class="ibox-content">
-          <div class="row">
-            <div class="col-md-2" ng-repeat="movie in vm.movie.similarMovies track by $index">
-              <div class="tv-show-box">
-                <a ui-sref="movie-details({tmdbId:movie.tmdbId})">
-                  <div class="poster-wrapper">
-                    <div class="poster-inner text-center">
-                      <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{movie.fullPosterPath}}">
-                    </div>
-                  </div>
-                  <div class="m-t-xs font-bold ellipses">{{movie.title}}</div>
-                  <div class="m-t-xs">{{movie.releaseDateString | date}}</div>
-                  <div class="clearfix"></div>
-                </a>
-              </div>
             </div>
           </div>
         </div>

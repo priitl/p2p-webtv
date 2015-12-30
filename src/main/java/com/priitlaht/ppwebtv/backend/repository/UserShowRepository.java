@@ -14,5 +14,5 @@ public interface UserShowRepository extends JpaRepository<UserShow, UserShowId> 
 
   List<UserShow> findAllByUserLogin(String userLogin);
 
-  void deleteByUserLoginAndTmdbId(String userLogin, Long tmdbId);
+  void deleteByUserLoginAndImdbId(String userLogin, String imdbId);
 }

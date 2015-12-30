@@ -18,10 +18,6 @@
         "uploadSpeed": "Vitesse d'upload"
       }
     },
-    "search": {
-      "title": "Résultats pour [<strong>{{title}}</strong>]",
-      "noResults": "Oh! Malheureusement, aucun résultat n'a été trouvé..."
-    },
     "favorite": {
       "added": "a été ajoutée aux favoris",
       "removed": "a été enlevé de favoris"

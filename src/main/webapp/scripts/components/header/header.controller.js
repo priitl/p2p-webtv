@@ -16,7 +16,7 @@
 
     $scope.searchTv = function () {
       if($scope.search) {
-        $state.go('tv-search', {'title': $scope.search});
+        $state.go('media-search', {'title': $scope.search});
         $scope.search = undefined;
       }
     };

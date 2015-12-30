@@ -21,11 +21,11 @@
         <a ui-sref="tv-details">
           <div class="poster-wrapper">
             <div class="poster-inner text-center">
-              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.fullPosterPath}}">
+              <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.posterPath}}">
             </div>
           </div>
           <div class="m-t-xs font-bold ellipses">{{show.title}}</div>
-          <div class="m-t-xs">{{show.releaseDateString | date}}
+          <div class="m-t-xs">{{show.year}}<span ng-if="!show.year">&nbsp;</span>
             <a ng-click="vm.setFavorite(show, true)" ng-show="!show.favorite">
               <i class="fa fa-heart-o pull-right"></i>
             </a>

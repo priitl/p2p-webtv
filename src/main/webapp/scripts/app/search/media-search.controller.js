@@ -3,12 +3,12 @@
 
   angular
     .module('wtvApp')
-    .controller('TvSearchController', TvSearchController);
+    .controller('MediaSearchController', MediaSearchController);
 
-  function TvSearchController(TvSearch, UserShow, Principal, ParseLinks, toastr, $translate, $stateParams) {
+  function MediaSearchController(MediaSearch, UserShow, Principal, ParseLinks, toastr, $translate, $stateParams) {
     var vm = this;
 
-    vm.shows = [];
+    vm.results = [];
     vm.loadAll = loadAll;
     vm.loadPage = loadPage;
     vm.page = 0;
@@ -24,10 +24,10 @@
     }
 
     function loadAll() {
-      TvSearch.query({page: vm.page, size: 20, title: vm.searchTitle}, function (result, headers) {
+      MediaSearch.query({page: vm.page, size: 20, title: vm.searchTitle}, function (result, headers) {
         vm.links = ParseLinks.parse(headers('link'));
         for (var i = 0; i < result.length; i++) {
-          vm.shows.push(result[i]);
+          vm.results.push(result[i]);
         }
       });
     }
@@ -45,7 +45,7 @@
 
     function setFavorite(show, isFavorite) {
       show.favorite = isFavorite;
-      var userShow = {userLogin: vm.account.login, tmdbId: show.tmdbId, title: show.title};
+      var userShow = {userLogin: vm.account.login, imdbId: show.imdbId};
       if (isFavorite) {
         toastr.success($translate.instant("tv.favorite.added"), show.title);
         UserShow.save(userShow);

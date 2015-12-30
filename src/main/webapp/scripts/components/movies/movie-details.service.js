@@ -6,7 +6,7 @@
     .factory('MovieDetails', MovieDetails);
 
   function MovieDetails($resource) {
-    return $resource('api/movies/:tmdbId', {}, {
+    return $resource('api/movies/:imdbId', {}, {
       'get': {
         method: 'GET',
         transformResponse: function (data) {

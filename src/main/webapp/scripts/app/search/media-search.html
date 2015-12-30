@@ -1,0 +1,47 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2 translate="global.search.title" translate-values="{title: '{{vm.searchTitle}}'}">Search results</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a translate="global.search.media">Media</a>
+      </li>
+      <li class="active">
+        <strong><a ui-sref="media-search" href="#/search/" translate="global.search.main">Search</a></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div ng-if="!vm.results.length" class="ibox-content forum-container">
+      <h2 translate="global.search.noResults">Oh! Unfortunately, no results were found...</h2>
+    </div>
+
+    <div class="row" infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.links['last'] == vm.page"
+         infinite-scroll-distance="1">
+      <div class="col-md-2" ng-repeat="result in vm.results track by $index">
+        <div class="tv-show-box">
+          <a ui-sref="{{result.movie ? 'movie-details({imdbId:show.imdbId})' : 'tv-details'}}">
+            <div class="poster-wrapper">
+              <div class="poster-inner text-center">
+                <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{result.posterPath}}">
+              </div>
+            </div>
+            <div class="m-t-xs font-bold ellipses">{{result.title}}</div>
+            <div class="m-t-xs">{{result.year}}<span ng-if="!result.year">&nbsp;</span>
+              <a ng-class='{"invisible": result.movie}' ng-click="vm.setFavorite(result, true)" ng-show="!result.favorite">
+                <i class="fa fa-heart-o pull-right"></i>
+              </a>
+              <a ng-class='{"invisible": result.movie}' ng-click="vm.setFavorite(result, false)" ng-show="result.favorite">
+                <i class="fa fa-heart pull-right"></i>
+              </a>
+            </div>
+            <div class="clearfix"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

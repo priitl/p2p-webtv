@@ -44,7 +44,7 @@
 
     function setFavorite(show, isFavorite) {
       show.favorite = isFavorite;
-      var userShow = {userLogin: vm.account.login, tmdbId: show.tmdbId, title: show.title};
+      var userShow = {userLogin: vm.account.login, imdbId: show.imdbId};
       if (isFavorite) {
         toastr.success($translate.instant("tv.favorite.added"), show.title);
         UserShow.save(userShow);
