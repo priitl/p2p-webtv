@@ -1,13 +1,10 @@
 package com.priitlaht.ppwebtv.backend.service;
 
-import com.omertron.themoviedbapi.MovieDbException;
-import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.AbstractIdName;
 import com.omertron.themoviedbapi.model.credits.MediaCredit;
 import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
 import com.omertron.themoviedbapi.results.ResultList;
-import com.priitlaht.ppwebtv.common.ApplicationProperties;
 import com.priitlaht.ppwebtv.frontend.movie.CastDTO;
 import com.priitlaht.ppwebtv.frontend.movie.MovieDetailsDTO;
 import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
@@ -25,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromMovie;
@@ -37,36 +33,20 @@ import static java.lang.String.join;
 @Service
 @Transactional
 public class MovieService {
-  private TheMovieDbApi movieDbApi;
-
   @Inject
-  private ApplicationProperties applicationProperties;
-
-  @PostConstruct
-  private void init() throws MovieDbException {
-    movieDbApi = new TheMovieDbApi(applicationProperties.getMovieDatabase().getApiKey());
-  }
+  private TmdbService tmdbService;
 
   public Page<MediaBasicDTO> findPopularMovies(Pageable pageable) {
     List<MediaBasicDTO> movieResult = new ArrayList<>();
-    ResultList<MovieInfo> popularMovies = new ResultList<>();
-    try {
-      popularMovies = movieDbApi.getPopularMovieList(pageable.getPageNumber(), null);
-      popularMovies.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(movie -> movieResult.add(createFromMovie(movie, movieDbApi)));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    ResultList<MovieInfo> popularMovies = tmdbService.getPopularMovies(pageable.getPageNumber());
+    popularMovies.getResults().stream().filter(movie -> movie.getPosterPath() != null).forEach(
+      movie -> movieResult.add(createFromMovie(movie, tmdbService.getFullImageUrl(movie.getPosterPath(), "w342"))));
     return new PageImpl<>(movieResult, pageable, popularMovies.getTotalResults());
   }
 
   public Optional<MovieDetailsDTO> getMovieDetails(int tmdbId) {
-    try {
-      MovieInfo movieInfo = movieDbApi.getMovieInfo(tmdbId, null, "credits", "similar");
-      return movieInfo == null ? Optional.empty() : Optional.of(getMovieDetailsDTO(movieInfo));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
-    return Optional.empty();
+    MovieInfo movieInfo = tmdbService.getMovieInfo(tmdbId, "credits", "similar");
+    return Optional.of(getMovieDetailsDTO(movieInfo));
   }
 
   private MovieDetailsDTO getMovieDetailsDTO(MovieInfo movie) {
@@ -83,13 +63,10 @@ public class MovieService {
     result.setCast(createCastList(movie));
     result.setDirector(getCrewByDepartment(movie, "directing"));
     result.setWriter(getCrewByDepartment(movie, "writing"));
-    movie.getSimilarMovies().stream().filter(sm -> sm.getPosterPath() != null).limit(6).forEach(sm -> result.addSimilarMovie(createFromMovie(sm, movieDbApi)));
-    BeanUtils.copyProperties(createFromMovie(movie, movieDbApi), result);
-    try {
-      result.setFullBackdropPath(movieDbApi.createImageUrl(movie.getBackdropPath(), "original").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    result.setFullBackdropPath(tmdbService.getFullImageUrl(movie.getBackdropPath(), "original"));
+    movie.getSimilarMovies().stream().filter(sm -> sm.getPosterPath() != null).limit(6).forEach(
+      sm -> result.addSimilarMovie(createFromMovie(sm, tmdbService.getFullImageUrl(sm.getPosterPath(), "w342"))));
+    BeanUtils.copyProperties(createFromMovie(movie, tmdbService.getFullImageUrl(movie.getPosterPath(), "w342")), result);
     return result;
   }
 
@@ -108,11 +85,7 @@ public class MovieService {
     CastDTO castDTO = new CastDTO();
     castDTO.setName(cast.getName());
     castDTO.setCharacter(cast.getCharacter());
-    try {
-      castDTO.setFullArtworkPath(movieDbApi.createImageUrl(cast.getArtworkPath(), "h632").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    castDTO.setFullArtworkPath(tmdbService.getFullImageUrl(cast.getArtworkPath(), "h632"));
     return castDTO;
   }
 

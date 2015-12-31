@@ -1,12 +1,7 @@
 package com.priitlaht.ppwebtv.backend.service;
 
-import com.omertron.omdbapi.OMDBException;
-import com.omertron.omdbapi.OmdbApi;
-import com.omertron.omdbapi.model.OmdbVideoBasic;
-import com.omertron.omdbapi.tools.OmdbBuilder;
-import com.omertron.themoviedbapi.MovieDbException;
-import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.tv.TVBasic;
+import com.omertron.themoviedbapi.model.tv.TVInfo;
 import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.eztvapi.EztvApi;
 import com.priitlaht.eztvapi.model.Episode;
@@ -14,7 +9,6 @@ import com.priitlaht.eztvapi.model.Torrents;
 import com.priitlaht.eztvapi.model.TvShowDetails;
 import com.priitlaht.ppwebtv.backend.domain.UserShow;
 import com.priitlaht.ppwebtv.backend.repository.UserShowRepository;
-import com.priitlaht.ppwebtv.common.ApplicationProperties;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
 import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
 import com.priitlaht.ppwebtv.frontend.tv.TvFeedDTO;
@@ -33,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromTv;
@@ -44,30 +37,17 @@ import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromTv;
 @Service
 @Transactional
 public class TvService {
-  private TheMovieDbApi movieDbApi;
-  private OmdbApi omdbApi;
-
-  @Inject
-  private ApplicationProperties applicationProperties;
   @Inject
   private UserShowRepository userShowRepository;
-
-  @PostConstruct
-  private void init() throws MovieDbException {
-    movieDbApi = new TheMovieDbApi(applicationProperties.getMovieDatabase().getApiKey());
-    omdbApi = new OmdbApi();
-  }
+  @Inject
+  private TmdbService tmdbService;
 
   public Page<MediaBasicDTO> findPopularTv(Pageable pageable) {
     List<MediaBasicDTO> tvResult = new ArrayList<>();
-    ResultList<TVBasic> popularTv = new ResultList<>();
     List<UserShow> userShows = userShowRepository.findAllByUserLogin(SecurityUtil.getCurrentUserLogin());
-    try {
-      popularTv = movieDbApi.getTVPopular(pageable.getPageNumber(), null);
-      popularTv.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(tv -> tvResult.add(createFromTv(userShows, tv, movieDbApi)));
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    ResultList<TVBasic> popularTv = tmdbService.getPopularTV(pageable.getPageNumber());
+    popularTv.getResults().stream().filter(tv -> tv.getPosterPath() != null).forEach(
+      tv -> tvResult.add(createFromTv(userShows, tv, tmdbService.getFullImageUrl(tv.getPosterPath(), "w342"))));
     return new PageImpl<>(tvResult, pageable, popularTv.getTotalResults());
   }
 
@@ -119,14 +99,9 @@ public class TvService {
   }
 
   public Optional<UserShow> createUserShow(UserShow userShow) {
-    try {
-      OmdbVideoBasic search = omdbApi.getInfo(new OmdbBuilder().setTitle(userShow.getTitle()).setTypeSeries().build());
-      userShow.setImdbId(search.getImdbID());
-      return Optional.of(userShowRepository.save(userShow));
-    } catch (OMDBException e) {
-      e.printStackTrace();
-    }
-    return Optional.empty();
+    TVInfo tvInfo = tmdbService.getTVInfo(userShow.getTmdbId().intValue(), "external_ids");
+    userShow.setImdbId(tvInfo.getExternalIDs().getImdbId());
+    return Optional.of(userShowRepository.save(userShow));
   }
 
   public void deleteUserShow(String userLogin, Long tmdbId) {

@@ -1,8 +1,6 @@
 package com.priitlaht.ppwebtv.frontend.tv;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.omertron.themoviedbapi.MovieDbException;
-import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
 import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.priitlaht.ppwebtv.backend.domain.UserShow;
@@ -26,32 +24,24 @@ public class MediaBasicDTO {
   private boolean movie;
 
   @JsonIgnore
-  public static MediaBasicDTO createFromTv(List<UserShow> userShows, TVBasic tv, TheMovieDbApi movieDbApi) {
+  public static MediaBasicDTO createFromTv(List<UserShow> userShows, TVBasic tv, String fullPosterPath) {
     MediaBasicDTO result = new MediaBasicDTO();
-    result.setTitle(tv.getName().replaceAll("Marvel's ", ""));
+    result.setTitle(tv.getName());
     result.setTmdbId(tv.getId());
     result.setReleaseDateString(tv.getFirstAirDate());
     result.setFavorite(userShows.stream().anyMatch(us -> us.getTmdbId() == tv.getId()));
-    try {
-      result.setFullPosterPath(movieDbApi.createImageUrl(tv.getPosterPath(), "w342").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    result.setFullPosterPath(fullPosterPath);
     return result;
   }
 
   @JsonIgnore
-  public static MediaBasicDTO createFromMovie(MovieInfo movie, TheMovieDbApi movieDbApi) {
+  public static MediaBasicDTO createFromMovie(MovieInfo movie, String fullPosterPath) {
     MediaBasicDTO result = new MediaBasicDTO();
     result.setTitle(movie.getTitle());
     result.setTmdbId(movie.getId());
     result.setReleaseDateString(movie.getReleaseDate());
     result.setMovie(true);
-    try {
-      result.setFullPosterPath(movieDbApi.createImageUrl(movie.getPosterPath(), "w342").toString());
-    } catch (MovieDbException e) {
-      e.printStackTrace();
-    }
+    result.setFullPosterPath(fullPosterPath);
     return result;
   }
 }
