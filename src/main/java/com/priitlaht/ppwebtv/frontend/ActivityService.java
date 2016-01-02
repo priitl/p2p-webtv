@@ -1,5 +1,6 @@
-package com.priitlaht.ppwebtv.frontend.activity;
+package com.priitlaht.ppwebtv.frontend;
 
+import com.priitlaht.ppwebtv.backend.dto.ActivityDTO;
 import com.priitlaht.ppwebtv.common.ApplicationConstants;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
 

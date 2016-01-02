@@ -1,5 +1,7 @@
 package com.priitlaht.ppwebtv.frontend.common.errors;
 
+import com.priitlaht.ppwebtv.backend.dto.error.ParameterizedErrorDTO;
+
 public class CustomParameterizedException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 

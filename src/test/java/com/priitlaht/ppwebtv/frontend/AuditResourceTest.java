@@ -5,7 +5,6 @@ import com.priitlaht.ppwebtv.backend.domain.PersistentAuditEvent;
 import com.priitlaht.ppwebtv.backend.repository.PersistenceAuditEventRepository;
 import com.priitlaht.ppwebtv.backend.service.AuditEventService;
 import com.priitlaht.ppwebtv.common.config.audit.AuditEventConverter;
-import com.priitlaht.ppwebtv.frontend.audit.AuditResource;
 
 import org.junit.Before;
 import org.junit.Test;

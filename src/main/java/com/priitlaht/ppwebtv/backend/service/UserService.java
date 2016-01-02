@@ -7,7 +7,7 @@ import com.priitlaht.ppwebtv.backend.repository.PersistentTokenRepository;
 import com.priitlaht.ppwebtv.backend.repository.UserRepository;
 import com.priitlaht.ppwebtv.common.util.random.RandomUtil;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
-import com.priitlaht.ppwebtv.frontend.user.ManagedUserDTO;
+import com.priitlaht.ppwebtv.backend.dto.user.ManagedUserDTO;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;

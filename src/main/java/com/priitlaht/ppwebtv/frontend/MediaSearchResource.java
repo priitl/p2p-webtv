@@ -1,9 +1,9 @@
-package com.priitlaht.ppwebtv.frontend.mediasearch;
+package com.priitlaht.ppwebtv.frontend;
 
 import com.codahale.metrics.annotation.Timed;
 import com.priitlaht.ppwebtv.backend.service.MediaSearchService;
 import com.priitlaht.ppwebtv.frontend.common.util.PaginationUtil;
-import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
+import com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

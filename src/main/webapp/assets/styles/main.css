@@ -2643,6 +2643,10 @@ label.error {
   margin-left: 50px
 }
 
+.forum-item-hidden-icon {
+  visibility: hidden;
+}
+
 .forum-title {
   margin: 15px 0
 }
@@ -3285,7 +3289,7 @@ body.body-small .footer.fixed {
   -moz-border-top-colors: none;
   background: 0 0;
   border-color: #ddd #ddd rgba(0, 0, 0, 0);
-  border-bottom: #f3f3f4;
+  border-bottom: #fff;
   -o-border-image: none;
   border-image: none;
   border-style: solid;
@@ -3683,6 +3687,10 @@ table.table-mail tr td {
 
 .text-navy {
   color: #1ab394
+}
+
+.text-grey {
+  color: #999
 }
 
 .text-primary {

@@ -6,7 +6,7 @@ import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.ppwebtv.backend.domain.UserShow;
 import com.priitlaht.ppwebtv.backend.repository.UserShowRepository;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
-import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
+import com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,8 +19,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromMovie;
-import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromTv;
+import static com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO.createFromMovie;
+import static com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO.createFromTv;
 
 /**
  * @author Priit Laht

@@ -8,8 +8,7 @@ import com.priitlaht.ppwebtv.backend.repository.UserRepository;
 import com.priitlaht.ppwebtv.backend.service.MailService;
 import com.priitlaht.ppwebtv.backend.service.UserService;
 import com.priitlaht.ppwebtv.common.AuthoritiesConstants;
-import com.priitlaht.ppwebtv.frontend.account.AccountResource;
-import com.priitlaht.ppwebtv.frontend.user.UserDTO;
+import com.priitlaht.ppwebtv.backend.dto.user.UserDTO;
 
 import org.junit.Before;
 import org.junit.Test;

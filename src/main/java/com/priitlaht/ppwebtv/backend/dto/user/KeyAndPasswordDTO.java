@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.account;
+package com.priitlaht.ppwebtv.backend.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

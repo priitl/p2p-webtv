@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.activity;
+package com.priitlaht.ppwebtv.backend.dto;
 
 import lombok.Data;
 

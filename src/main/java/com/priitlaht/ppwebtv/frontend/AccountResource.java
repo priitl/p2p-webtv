@@ -1,16 +1,17 @@
-package com.priitlaht.ppwebtv.frontend.account;
+package com.priitlaht.ppwebtv.frontend;
 
 import com.codahale.metrics.annotation.Timed;
 import com.priitlaht.eztvapi.EztvApi;
 import com.priitlaht.ppwebtv.backend.domain.PersistentToken;
 import com.priitlaht.ppwebtv.backend.domain.User;
+import com.priitlaht.ppwebtv.backend.dto.user.KeyAndPasswordDTO;
 import com.priitlaht.ppwebtv.backend.repository.PersistentTokenRepository;
 import com.priitlaht.ppwebtv.backend.repository.UserRepository;
 import com.priitlaht.ppwebtv.backend.service.MailService;
 import com.priitlaht.ppwebtv.backend.service.UserService;
 import com.priitlaht.ppwebtv.common.util.security.SecurityUtil;
 import com.priitlaht.ppwebtv.frontend.common.util.HeaderUtil;
-import com.priitlaht.ppwebtv.frontend.user.UserDTO;
+import com.priitlaht.ppwebtv.backend.dto.user.UserDTO;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;

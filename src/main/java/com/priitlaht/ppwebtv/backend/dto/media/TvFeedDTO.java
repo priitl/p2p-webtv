@@ -1,6 +1,6 @@
-package com.priitlaht.ppwebtv.frontend.tv;
+package com.priitlaht.ppwebtv.backend.dto.media;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +20,5 @@ public class TvFeedDTO {
   private String tvdbId;
   private Integer seeds;
   private Integer leeches;
-  private Date airDate;
+  private LocalDate airDate;
 }

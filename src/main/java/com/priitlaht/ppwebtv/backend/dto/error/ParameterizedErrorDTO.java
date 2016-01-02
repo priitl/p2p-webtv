@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.common.errors;
+package com.priitlaht.ppwebtv.backend.dto.error;
 
 import java.io.Serializable;
 

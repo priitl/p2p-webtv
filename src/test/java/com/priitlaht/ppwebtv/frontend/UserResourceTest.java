@@ -3,7 +3,6 @@ package com.priitlaht.ppwebtv.frontend;
 import com.priitlaht.ppwebtv.Application;
 import com.priitlaht.ppwebtv.backend.repository.UserRepository;
 import com.priitlaht.ppwebtv.backend.service.UserService;
-import com.priitlaht.ppwebtv.frontend.user.UserResource;
 
 import org.junit.Before;
 import org.junit.Test;

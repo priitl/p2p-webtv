@@ -1,6 +1,7 @@
-package com.priitlaht.ppwebtv.frontend.logs;
+package com.priitlaht.ppwebtv.frontend;
 
 import com.codahale.metrics.annotation.Timed;
+import com.priitlaht.ppwebtv.backend.dto.LoggerDTO;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

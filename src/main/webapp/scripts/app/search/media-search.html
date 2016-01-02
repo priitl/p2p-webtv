@@ -23,7 +23,7 @@
        infinite-scroll-distance="1">
     <div class="col-md-2" ng-repeat="result in vm.results track by $index">
       <div class="tv-show-box">
-        <a ui-sref="{{result.movie ? 'movie-details({tmdbId:result.tmdbId})' : 'tv-details'}}">
+        <a ui-sref="{{result.movie ? 'movie-details({tmdbId:result.tmdbId})' : 'tv-details({tmdbId:result.tmdbId})'}}">
           <div class="poster-wrapper">
             <div class="poster-inner text-center">
               <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{result.fullPosterPath}}">

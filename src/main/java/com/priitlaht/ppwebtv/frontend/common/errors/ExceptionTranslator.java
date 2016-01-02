@@ -1,5 +1,8 @@
 package com.priitlaht.ppwebtv.frontend.common.errors;
 
+import com.priitlaht.ppwebtv.backend.dto.error.ErrorDTO;
+import com.priitlaht.ppwebtv.backend.dto.error.ParameterizedErrorDTO;
+
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

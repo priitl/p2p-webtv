@@ -1,8 +1,9 @@
-package com.priitlaht.ppwebtv.frontend.user;
+package com.priitlaht.ppwebtv.frontend;
 
 import com.codahale.metrics.annotation.Timed;
 import com.priitlaht.ppwebtv.backend.domain.Authority;
 import com.priitlaht.ppwebtv.backend.domain.User;
+import com.priitlaht.ppwebtv.backend.dto.user.ManagedUserDTO;
 import com.priitlaht.ppwebtv.backend.repository.AuthorityRepository;
 import com.priitlaht.ppwebtv.backend.repository.UserRepository;
 import com.priitlaht.ppwebtv.backend.service.MailService;

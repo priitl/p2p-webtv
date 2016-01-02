@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.logs;
+package com.priitlaht.ppwebtv.backend.dto;
 
 import ch.qos.logback.classic.Logger;
 import lombok.Data;

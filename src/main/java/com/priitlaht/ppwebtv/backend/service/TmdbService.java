@@ -5,6 +5,7 @@ import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
 import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.omertron.themoviedbapi.model.tv.TVInfo;
+import com.omertron.themoviedbapi.model.tv.TVSeasonInfo;
 import com.omertron.themoviedbapi.results.ResultList;
 import com.priitlaht.ppwebtv.common.ApplicationProperties;
 
@@ -62,6 +63,15 @@ public class TmdbService {
       e.printStackTrace();
     }
     return new TVInfo();
+  }
+
+  public TVSeasonInfo getTvSeasonInfo(int tmdbId, int seasonNumber) {
+    try {
+      return movieDbApi.getSeasonInfo(tmdbId, seasonNumber, null);
+    } catch (MovieDbException e) {
+      e.printStackTrace();
+    }
+    return new TVSeasonInfo();
   }
 
   public ResultList<MovieInfo> getPopularMovies(int pageNumber) {

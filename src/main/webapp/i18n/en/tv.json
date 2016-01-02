@@ -18,6 +18,29 @@
         "uploadSpeed": "Upload speed"
       }
     },
+    "details": {
+      "generalInfo": "General Information",
+      "overviewAndCast": "Overview and Cast",
+      "similarMovies": "Similar Movies",
+      "showFullCast": "Show full cast",
+      "hideFullCast": "Hide full cast",
+      "magnet": "Open magnet link",
+      "playInBrowser": "Play in browser",
+      "releaseDate": "Release date: ",
+      "as": "as",
+      "minutes": "minutes",
+      "budget": "Budget: ",
+      "revenue": "Revenue: ",
+      "runtime": "Episode runtime: ",
+      "status": "Status: ",
+      "tagline": "Tagline: ",
+      "rating": "User rating: ",
+      "genre": "Genre: ",
+      "director": "Director: ",
+      "writer": "Writer: ",
+      "originalLanguage": "Language: ",
+      "seasons": "Seasons"
+    },
     "favorite": {
       "added": "was added to favorites",
       "removed": "was removed from favorites"

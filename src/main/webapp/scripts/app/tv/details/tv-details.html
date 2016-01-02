@@ -1,0 +1,169 @@
+<div class="row white-bg border-bottom">
+  <section id="backdrop-wrapper" style="background-image: url({{vm.show.fullBackdropPath}})">
+    <div class="container summary">
+      <div class="container">
+        <div class="row">
+          <div class="mobile-poster">
+            <div class="poster">
+              <img class="img img-responsive" src="{{vm.show.fullPosterPath}}">
+            </div>
+          </div>
+          <div class="col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3 mobile-title">
+            <h1>{{vm.show.title}}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5 translate="tv.details.generalInfo"></h5>
+        </div>
+        <div class="ibox-content">
+          <p ng-if="vm.show.status"><strong translate="tv.details.status"></strong>{{vm.show.status}}</p>
+          <p ng-if="vm.show.releaseDateString"><strong translate="tv.details.releaseDate"></strong>{{vm.show.releaseDateString
+            | date}}</p>
+          <p ng-if="vm.show.rating"><strong translate="tv.details.rating"></strong>{{vm.show.rating | number:1}}/10</p>
+          <p ng-if="vm.show.genre"><strong translate="tv.details.genre"></strong>{{vm.show.genre}}</p>
+          <p ng-if="vm.show.runtime"><strong translate="tv.details.runtime"></strong>{{vm.show.runtime}} <span
+            translate="tv.details.minutes"></span></p>
+          <p ng-if="vm.show.originalLanguage"><strong translate="tv.details.originalLanguage"></strong>{{vm.show.originalLanguage
+            | findLanguageFromKey}}</p>
+          <p ng-if="vm.show.director"><strong translate="tv.details.director"></strong>{{vm.show.director}}</p>
+          <p ng-if="vm.show.writer"><strong translate="tv.details.writer"></strong>{{vm.show.writer}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5 translate="tv.details.overviewAndCast"></h5>
+        </div>
+        <div class="ibox-content">
+          {{vm.show.overview}}
+          <br/><br/>
+          <div class="row">
+            <div class="col-lg-2" ng-repeat="cast in vm.show.cast | limitTo: vm.castItemLimit">
+              <div class="tv-show-box cast">
+                <div class="poster-wrapper">
+                  <div class="poster-inner cast text-center">
+                    <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{cast.fullArtworkPath}}">
+                  </div>
+                </div>
+                <div class="m-t-xs font-bold ellipses">{{cast.name}}</div>
+                <div class="m-t-xs ellipses">
+                  <span ng-if="!cast.character">&nbsp;</span>
+                  <span ng-if="cast.character">{{'tv.details.as' | translate}} {{cast.character}}</span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div ng-if="vm.show.cast.length > 6" class="col-sm-12">
+              <button class="btn btn-sm btn-white" ng-click="vm.toggleFullCast()">
+                <span ng-if="vm.castItemLimit === vm.defaultCastItemLimit" translate="tv.details.showFullCast"></span>
+                <span ng-if="vm.castItemLimit !== vm.defaultCastItemLimit" translate="tv.details.hideFullCast"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="vm.show.numberOfSeasons" class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5 translate="tv.details.seasons"></h5>
+        </div>
+        <div class="ibox-content forum-container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="tabs-container">
+                <uib-tabset>
+                  <uib-tab ng-repeat="n in vm.getSeasons() track by $index" heading="{{$index + 1}}"
+                           select="vm.changeSeason($index + 1)">
+                    <div class="panel-body forum-item active">
+                      <strong>{{vm.season.overview}}</strong>
+                      <hr ng-if="vm.season.overview">
+                      <div class="forum-item active" ng-repeat="episode in vm.season.episodes track by $index"
+                           ng-class='{"no-borders": $last}'>
+                        <div class="row">
+                          <div class="col-md-9">
+                            <div class="forum-icon" ng-if="episode.magnetUri || vm.isTorrentItemMargined()"
+                                 ng-class='{"forum-item-hidden-icon": vm.isTorrentItemMargined() && !episode.magnetUri}'>
+                              <a ng-href="{{episode.magnetUri}}"><i
+                                class="fa fa-magnet"></i></a><br/>
+                            </div>
+                            <a href="" class="forum-item-title">
+                              S{{episode.seasonNumber}}E{{episode.episodeNumber}} {{episode.episodeTitle}}</a>
+
+                            <div ng-class='{"forum-sub-title": vm.isTorrentItemMargined()}' class="text-grey">
+                              {{episode.overview}}
+                            </div>
+                          </div>
+                          <div ng-class='{"invisible": !episode.magnetUri}' class="col-md-1 forum-info">
+                            <span class="views-number"> {{episode.seeds}}</span>
+
+                            <div>
+                              <small translate="tv.feed.seeds">seeds</small>
+                            </div>
+                          </div>
+                          <div ng-class='{"invisible": !episode.magnetUri}' class="col-md-1 forum-info">
+                            <span class="views-number">{{episode.leeches}}</span>
+
+                            <div>
+                              <small translate="tv.feed.leeches">leeches</small>
+                            </div>
+                          </div>
+                          <div class="col-md-1 forum-info">
+                            <span class="views-number">{{episode.airDate | date:'dd MMM'}}</span>
+
+                            <div>
+                              <small>{{episode.airDate | date:'yyyy'}}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="vm.show.similarShows" class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5 translate="tv.details.similarMovies"></h5>
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-2" ng-repeat="show in vm.show.similarShows track by $index">
+              <div class="tv-show-box">
+                <a ui-sref="movie-details({tmdbId:movie.tmdbId})">
+                  <div class="poster-wrapper">
+                    <div class="poster-inner text-center">
+                      <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.fullPosterPath}}">
+                    </div>
+                  </div>
+                  <div class="m-t-xs font-bold ellipses">{{show.title}}</div>
+                  <div class="m-t-xs">{{show.releaseDateString | date}}</div>
+                  <div class="clearfix"></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

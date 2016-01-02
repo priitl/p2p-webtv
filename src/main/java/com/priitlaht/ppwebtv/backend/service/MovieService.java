@@ -2,12 +2,10 @@ package com.priitlaht.ppwebtv.backend.service;
 
 import com.omertron.themoviedbapi.model.AbstractIdName;
 import com.omertron.themoviedbapi.model.credits.MediaCredit;
-import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
 import com.omertron.themoviedbapi.results.ResultList;
-import com.priitlaht.ppwebtv.frontend.movie.CastDTO;
-import com.priitlaht.ppwebtv.frontend.movie.MovieDetailsDTO;
-import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
+import com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO;
+import com.priitlaht.ppwebtv.backend.dto.media.MovieDetailsDTO;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -24,7 +22,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import static com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO.createFromMovie;
+import static com.priitlaht.ppwebtv.backend.dto.media.CastDTO.createCastListFromMovie;
+import static com.priitlaht.ppwebtv.backend.dto.media.MediaBasicDTO.createFromMovie;
 import static java.lang.String.join;
 
 /**
@@ -60,7 +59,7 @@ public class MovieService {
     result.setGenre(join(" / ", movie.getGenres().stream().limit(3).map(AbstractIdName::getName).collect(Collectors.toList())));
     result.setOriginalLanguage(movie.getOriginalLanguage());
     result.setRating(BigDecimal.valueOf(movie.getVoteAverage()));
-    result.setCast(createCastList(movie));
+    result.setCast(createCastListFromMovie(movie, tmdbService));
     result.setDirector(getCrewByDepartment(movie, "directing"));
     result.setWriter(getCrewByDepartment(movie, "writing"));
     result.setFullBackdropPath(tmdbService.getFullImageUrl(movie.getBackdropPath(), "original"));
@@ -73,20 +72,6 @@ public class MovieService {
   private String getCrewByDepartment(MovieInfo movie, String department) {
     return join(" / ", movie.getCrew().stream().filter(crew -> crew.getDepartment().equalsIgnoreCase(department))
       .limit(3).map(MediaCredit::getName).collect(Collectors.toList()));
-  }
-
-  private List<CastDTO> createCastList(MovieInfo movie) {
-    List<CastDTO> result = new ArrayList<>();
-    movie.getCast().stream().filter(cast -> cast.getArtworkPath() != null).forEach(cast -> result.add(getCastDTO(cast)));
-    return result;
-  }
-
-  private CastDTO getCastDTO(MediaCreditCast cast) {
-    CastDTO castDTO = new CastDTO();
-    castDTO.setName(cast.getName());
-    castDTO.setCharacter(cast.getCharacter());
-    castDTO.setFullArtworkPath(tmdbService.getFullImageUrl(cast.getArtworkPath(), "h632"));
-    return castDTO;
   }
 
 }

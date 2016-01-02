@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.tv;
+package com.priitlaht.ppwebtv.backend.dto.media;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;

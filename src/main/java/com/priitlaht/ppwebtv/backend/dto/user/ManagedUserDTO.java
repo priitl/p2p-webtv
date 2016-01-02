@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.user;
+package com.priitlaht.ppwebtv.backend.dto.user;
 
 import com.priitlaht.ppwebtv.backend.domain.User;
 

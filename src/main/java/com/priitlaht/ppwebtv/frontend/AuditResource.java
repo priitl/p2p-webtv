@@ -1,4 +1,4 @@
-package com.priitlaht.ppwebtv.frontend.audit;
+package com.priitlaht.ppwebtv.frontend;
 
 import com.priitlaht.ppwebtv.backend.service.AuditEventService;
 

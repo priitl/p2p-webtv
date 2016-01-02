@@ -18,7 +18,7 @@
        infinite-scroll-distance="1">
     <div class="col-md-2" ng-repeat="show in vm.shows track by $index">
       <div class="tv-show-box">
-        <a ui-sref="tv-details">
+        <a ui-sref="tv-details({tmdbId:show.tmdbId})">
           <div class="poster-wrapper">
             <div class="poster-inner text-center">
               <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.fullPosterPath}}">

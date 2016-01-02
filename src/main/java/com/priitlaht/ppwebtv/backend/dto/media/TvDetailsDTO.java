@@ -1,6 +1,6 @@
-package com.priitlaht.ppwebtv.frontend.movie;
+package com.priitlaht.ppwebtv.backend.dto.media;
 
-import com.priitlaht.ppwebtv.frontend.tv.MediaBasicDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,28 +14,25 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MovieDetailsDTO extends MediaBasicDTO {
+public class TvDetailsDTO extends MediaBasicDTO {
   private String overview;
-  private Integer runtime;
-  private String tagline;
+  private String runtime;
   private String status;
   private String originalLanguage;
   private String genre;
-  private BigDecimal budget;
-  private BigDecimal revenue;
   private BigDecimal rating;
   private String fullBackdropPath;
   private List<CastDTO> cast;
   private String director;
   private String writer;
-  private List<MediaBasicDTO> similarMovies;
+  private Integer numberOfSeasons;
+  private List<MediaBasicDTO> similarShows;
 
-  public void addSimilarMovie(MediaBasicDTO movie) {
-    if (similarMovies == null) {
-      similarMovies = new ArrayList<>();
+  @JsonIgnore
+  public void addSimilarTv(MediaBasicDTO tv) {
+    if (similarShows == null) {
+      similarShows = new ArrayList<>();
     }
-    similarMovies.add(movie);
+    similarShows.add(tv);
   }
 }
-
-
