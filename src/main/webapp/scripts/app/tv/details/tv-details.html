@@ -149,7 +149,7 @@
           <div class="row">
             <div class="col-md-2" ng-repeat="show in vm.show.similarShows track by $index">
               <div class="tv-show-box">
-                <a ui-sref="movie-details({tmdbId:movie.tmdbId})">
+                <a ui-sref="tv-details({tmdbId:show.tmdbId})">
                   <div class="poster-wrapper">
                     <div class="poster-inner text-center">
                       <img alt="image" class="img m-t-xs img-responsive poster" ng-src="{{show.fullPosterPath}}">
