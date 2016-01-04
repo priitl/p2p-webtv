@@ -36,6 +36,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -51,6 +57,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Service
 @Transactional
 public class TvService {
+  public static final int TORRENT_API_TIMEOUT_IN_SECONDS = 2;
   @Inject
   private UserShowRepository userShowRepository;
   @Inject
@@ -102,7 +109,7 @@ public class TvService {
 
   private List<TvFeedDTO> findTvFeedByShow(UserShow userShow, String apiUrl) {
     List<TvFeedDTO> result = new ArrayList<>();
-    TvShowDetails tvShow = EztvApi.getTvShowDetails(apiUrl, userShow.getImdbId());
+    TvShowDetails tvShow = getTorrentDetails(apiUrl, userShow.getImdbId());
     if (tvShow != null) {
       tvShow.getEpisodes().forEach(e -> result.add(createFeedDTO(tvShow.getTitle(), e)));
     }
@@ -156,7 +163,8 @@ public class TvService {
     List<Episode> torrentEpisodes = new ArrayList<>();
     if (isNotBlank(apiUrl)) {
       TVInfo tvInfo = tmdbService.getTVInfo(tmdbId, "external_ids");
-      TvShowDetails torrentDetails = EztvApi.getTvShowDetails(apiUrl, tvInfo.getExternalIDs().getImdbId());
+
+      TvShowDetails torrentDetails = getTorrentDetails(apiUrl, tvInfo.getExternalIDs().getImdbId());
       if (torrentDetails != null) {
         torrentEpisodes.addAll(torrentDetails.getEpisodes());
       }
@@ -173,6 +181,16 @@ public class TvService {
       result.add(torrentEpisode.isPresent() ? createFeedDTO(null, torrentEpisode.get()) : createFeedDTO(episode));
     }
     return result;
+  }
+
+  private TvShowDetails getTorrentDetails(String apiUrl, String imdbId) {
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    Future<TvShowDetails> task = executorService.submit(() -> EztvApi.getTvShowDetails(apiUrl, imdbId));
+    try {
+      return task.get(TORRENT_API_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      return null;
+    }
   }
 
   private TvFeedDTO createFeedDTO(TVEpisodeInfo episode) {
